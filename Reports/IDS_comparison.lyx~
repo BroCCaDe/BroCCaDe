@@ -1,0 +1,795 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command bibtex
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style abbrv
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+
+\series bold
+Initial Report on IDS Suitability for the Project (Comparison)
+\end_layout
+
+\begin_layout Author
+Hendra Gunadi (
+\begin_inset CommandInset href
+LatexCommand href
+name "Hendra.Gunadi@murdoch.edu.au"
+target "Hendra.Gunadi@murdoch.edu.au"
+type "mailto:"
+
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Section
+Project Description
+\end_layout
+
+\begin_layout Standard
+The goal of the project is to extend an open source Intrusion Detection
+ System (IDS) to detect network-based covert channels.
+ At the moment there are a lot of academic literatures for proposed techniques
+ to do covert channels and how to detect them, but there is no integrated
+ approach to detect covert channel yet.
+ This is due to the vast possibilities of covert channel which means that
+ it is not feasible to address each covert channel separately (huge overhead).
+ The project is then proposed to bridge this gap between academic and public
+ space by exploring the idea of a flexible and extensible framework inside
+ an IDS and provide a proof of concept implementation to show the framework's
+ usability.
+ In addition, we will also explore the idea of generalizing covert channel
+ techniques based on patterns which further boosts the flexibility.
+ 
+\end_layout
+
+\begin_layout Section
+Intrusion Detection System (IDS)
+\end_layout
+
+\begin_layout Standard
+IDS is a security mechanism in which the priority is to be able to detect
+ intrusions and deal with them accordingly.
+ Generally, IDS is categorized as Network IDS (NIDS) or Host IDS (HIDS)
+ which differs from each other in terms of the focus of the system.
+ HIDS is primarily dealing with the intrusion against host system, e.g.
+ file integrity, while NIDS is primarily dealing with intrusion in the network
+ traffic.
+ To some degree, HIDS may be more powerful than NIDS as HIDS reporting is
+ more comprehensive than NIDS (it also detect anomaly in the resulting activity).
+ Even though HIDS may monitor network traffic like NIDS, but there are several
+ reason why we focus our attention to NIDS instead of HIDS:
+\end_layout
+
+\begin_layout Itemize
+HIDS may be more easily compromised as host security can depends on end
+ user using/maintaining the host vs NIDS runs on machine managed by professional
+ staff.
+\end_layout
+
+\begin_layout Itemize
+There are now more and more low-power/low-performance devices like smart
+ phones and all sorts of embedded devices (TVs, CCTV cameras, DVRs etc.)
+ which may not be able to run a HIDS, so a NIDS has to be used to protect
+ them.
+\end_layout
+
+\begin_layout Itemize
+There are quite a number of operating systems, which means for the implementatio
+n we would either have to focus on a particular subset OS or spend extra
+ time on porting code 
+\end_layout
+
+\begin_layout Itemize
+Covert channel may happen in a communication to and from the host, but not
+ involving the host itself, e.g.
+ the case where the covert channel sender / recipient is the immediate node
+ from the host.
+\end_layout
+
+\begin_layout Standard
+In the following we compare some of the NIDS tools that are widely used.
+ For a more comprehensive comparison between the tools, the reader is referred
+ to 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Snort_Suricata_Bro_features"
+
+\end_inset
+
+ (and to 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Snort_Suricata_Bro_performances"
+
+\end_inset
+
+ for a more detailed performance comparison).
+\end_layout
+
+\begin_layout Subsection
+
+\series bold
+Snort
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Snort"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Snort is one of the most popular open source NIDS which has been there since
+ 1998.
+ It works by sniffing the packet from the network, decode the packet, and
+ then take action based on the rules specified.
+ Snort is extensible in a sense that people can contribute to the rules
+ easily.
+ However, adding new mechanism to analyze network traffic is not so straightforw
+ard.
+ If we want to add covert channel detection, then we have to incorporate
+ the detection mechanism into the core of Snort and recompile the whole
+ package (patches).
+ Snort is still actively developed, with Snort 3.0 underway 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "SnortMultiThreaded"
+
+\end_inset
+
+.
+ It's mailing lists also have recent activities 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "SnortUserML,SnortDevML,SnortSigML"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+
+\series bold
+Suricata
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Suricata"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Suricata is the direct competitor of Snort.
+ It is a relatively new NIDS compared to Snort, works in a similar way to
+ Snort (focusing on the rule matching), with the difference that Suricata
+ is multi-threaded, as opposed to Snort that is currently single-threaded
+ (Snort developers are planning for the multi-threaded version 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "SnortMultiThreaded"
+
+\end_inset
+
+).
+ There is a more detailed comparison between Snort and Suricata in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Snort_Suricata"
+
+\end_inset
+
+.
+ Since it is similar to Snort, it is also not that easy to extend the NIDS
+ with covert channel detection mechanism.
+ Suricata is still actively developed
+\begin_inset CommandInset citation
+LatexCommand cite
+key "SuricataActivity"
+
+\end_inset
+
+, it also has its own conference
+\begin_inset CommandInset citation
+LatexCommand cite
+key "SuricataCon"
+
+\end_inset
+
+, and the mailing list also has recent activities 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "SuricataML"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+
+\series bold
+Bro
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Bro"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Bro is another open source NIDS that takes on different angle than Snort
+ and Suricata.
+ As opposed to matching packets against rules, it passively observe what
+ is happening in the network and reports whatever it sees.
+ Although Bro also works as an IDS, it does so by adding the detection /
+ analyze plugin based on the network traffic report.
+ With this infrastructure, the task of extending Bro is then a matter of
+ creating another analyze plugin which will be based on the covert channel
+ detection technique we implemented and the events generated by Bro.
+ Bro is still actively developed 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "BroRepository"
+
+\end_inset
+
+, it also has its own conference
+\begin_inset CommandInset citation
+LatexCommand cite
+key "BroCon17"
+
+\end_inset
+
+, and the mailing list also has recent activities 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "BroML"
+
+\end_inset
+
+.
+ Initially, Bro is developed as an academic tools, so prior to version 2.0
+ the usability is quite low.
+ However, since version 2.0, Bro switches gear and hired dedicated software
+ engineers to bridge the gap between academic use and operational use 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "BroUsability"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+
+\series bold
+Comparison and Conclusion
+\end_layout
+
+\begin_layout Standard
+Below I propose a summary of the features comparison between Snort, Suricata,
+ and Bro.
+ 
+\end_layout
+
+\begin_layout Itemize
+Type of IDS describes the detection mechanism of the IDS.
+ Snort and Suricata matches traffic against signature / rules, and then
+ report the event should there be a violation of policy.
+ Bro, on the other hand, works by analyzing the events reported.
+ Depending on the detection plugin, it can be anomaly based or rule based
+ (Bro has a signature framework), or even based upon statistical analysis
+ of the events.
+ This make Bro a flexible tool.
+\end_layout
+
+\begin_layout Itemize
+Extensibility describes what involves in extending the IDS with a new covert
+ channel detection mechanism.
+ Since Snort and Suricata already have a fixed detection mechanism, to incorpora
+te a new detection mechanism it means we have to add a new mechanism to
+ the core IDS.
+ To be more precise, Snort also has a mechanism to add new detection plugin
+ but it is limited to add new keywords for the rule matching and which part
+ of the packet to inspect.
+ For Bro, we just need to add a new plugin which makes use of the events
+ reported to determine whether there is a covert channel in the communication.
+ Note that at this moment we are relying on the reporting mechanism in Bro,
+ so if Bro doesn't have the events that we are interested, then it also
+ involves adding new events to report in Bro.
+\end_layout
+
+\begin_layout Itemize
+Capacity per instance describes the suggested bandwith that can be handled
+ by each instance of the NIDS.
+ Even though Bro has lower bandwith than Snort and Suricata, but in a common
+ 4-cores CPU Bro can reach a reasonable bandwith of 1 Gbps.
+\end_layout
+
+\begin_layout Itemize
+Scalability describes whether the IDS is easily deployed to handle big network
+ traffic.
+ Snort is going for multi-threaded version in Snort 3.0 , but the released
+ version 2.9 is still a single-threaded program.
+ Suricata has been a multi-threaded program so it is easier to scale and
+ making use of multi core CPU compared to Snort (although it doesn't necessarily
+ mean Suricata is more superior).
+ Bro is in itself a single threaded program.
+ Nevertheless, Bro can be designed as a cluster of Bros that can communicate
+ with other instance of Bro.
+ This feature of Bro makes it scalable even when the implementation of covert
+ channel detection is computationally heavy.
+\end_layout
+
+\begin_layout Itemize
+User base indicates that Snort is the most popular and widely used NIDS
+ at the moment.
+ That said, both Suricata and Bro also have their own user base in their
+ respective conferences.
+\end_layout
+
+\begin_layout Itemize
+Active development describes whether there is a recent development and /
+ or mailing list activity.
+\end_layout
+
+\begin_layout Itemize
+All of the NIDS use free license.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="8" columns="4">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Feature
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Snort
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Suricata
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\series bold
+Bro
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Type of IDS
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Signature
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Signature
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Flexible
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Extensibility
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+New mechanism
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+New mechanism
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+New plugin
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Capacity per Instance
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+> 1 Gbps
+\begin_inset CommandInset citation
+LatexCommand cite
+key "SnortPerformance"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+> 1 Gbps
+\begin_inset CommandInset citation
+LatexCommand cite
+key "SuricataPerformance"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+250 Mbps
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Bro"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Scalability
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Single-Threading
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Multi-Threading
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Hybrid
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+User Base
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+++
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
++
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
++
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Active Development
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="1" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Yes
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell multicolumn="2" alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+License
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+GPL v.2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+GPL v.2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+BSD
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace 0.5cm
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Based on the comparison, Snort and Suricata do not really align with our
+ project's goal as they already have a fixed set of detection mechanism
+ (rules matching) while we want to add a mechanism to detect covert channel
+ (which may not necessarily be a rules matching).
+ In contrast, Bro mainly deals with reporting events and the detection mechanism
+ is built on top of these comprehensive reporting, which we may also tweak
+ to include a mechanism to detect covert channel.
+ Bro also has reasonable bandwith, and decent user base.
+ Therefore, I propose that we use Bro as the open source target IDS that
+ we extend.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "IDS_comparison"
+options "plain"
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
