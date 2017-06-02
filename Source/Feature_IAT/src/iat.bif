@@ -1,0 +1,14 @@
+module IAT;
+
+%%{ #include "Plugin.h"
+typedef plugin::FeatureExtraction_IAT::Plugin plugin_t;
+static plugin_t *plugin_ref = &plugin::FeatureExtraction_IAT::plugin;
+%%}
+
+function ExtractFeature%(UID : string, duration : interval%): bool
+	%{
+	  	plugin_ref->ExtractFeature(UID, duration);
+		return new Val(1, TYPE_BOOL);
+	%}
+
+event feature_event%(UID : string, feature: double%);

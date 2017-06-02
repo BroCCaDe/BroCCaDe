@@ -1,0 +1,22 @@
+[
+{
+  "directory": "/home/hendra/Experiment/Feature_IAT/build",
+  "command": "/usr/bin/c++   -DBRO_PLUGIN_INTERNAL_BUILD=false -DFeatureExtraction_IAT_linux_x86_64_EXPORTS -I/home/hendra/Experiment/Feature_IAT/src -I/home/hendra/Experiment/Feature_IAT -I/home/hendra/Experiment/Feature_IAT/build/src -I/home/hendra/Experiment/Feature_IAT/build -I/home/hendra/Bro/build/aux/binpac/lib -I/home/hendra/Bro/build/src -I/home/hendra/Bro/build -I/home/hendra/Bro/aux/binpac/lib -I/home/hendra/Bro/src   -std=c++11 -Wall -Wno-unused  -Wall -Wno-unused -O2 -g -DNDEBUG -fPIC   -o CMakeFiles/FeatureExtraction-IAT.linux-x86_64.dir/src/Plugin.cc.o -c /home/hendra/Experiment/Feature_IAT/src/Plugin.cc",
+  "file": "/home/hendra/Experiment/Feature_IAT/src/Plugin.cc"
+},
+{
+  "directory": "/home/hendra/Experiment/Feature_IAT/build",
+  "command": "/usr/bin/c++   -DBRO_PLUGIN_INTERNAL_BUILD=false -DFeatureExtraction_IAT_linux_x86_64_EXPORTS -I/home/hendra/Experiment/Feature_IAT/src -I/home/hendra/Experiment/Feature_IAT -I/home/hendra/Experiment/Feature_IAT/build/src -I/home/hendra/Experiment/Feature_IAT/build -I/home/hendra/Bro/build/aux/binpac/lib -I/home/hendra/Bro/build/src -I/home/hendra/Bro/build -I/home/hendra/Bro/aux/binpac/lib -I/home/hendra/Bro/src   -std=c++11 -Wall -Wno-unused  -Wall -Wno-unused -O2 -g -DNDEBUG -fPIC   -o CMakeFiles/FeatureExtraction-IAT.linux-x86_64.dir/iat.bif.cc.o -c /home/hendra/Experiment/Feature_IAT/build/iat.bif.cc",
+  "file": "/home/hendra/Experiment/Feature_IAT/build/iat.bif.cc"
+},
+{
+  "directory": "/home/hendra/Experiment/Feature_IAT/build",
+  "command": "/usr/bin/c++   -DBRO_PLUGIN_INTERNAL_BUILD=false -DFeatureExtraction_IAT_linux_x86_64_EXPORTS -I/home/hendra/Experiment/Feature_IAT/src -I/home/hendra/Experiment/Feature_IAT -I/home/hendra/Experiment/Feature_IAT/build/src -I/home/hendra/Experiment/Feature_IAT/build -I/home/hendra/Bro/build/aux/binpac/lib -I/home/hendra/Bro/build/src -I/home/hendra/Bro/build -I/home/hendra/Bro/aux/binpac/lib -I/home/hendra/Bro/src   -std=c++11 -Wall -Wno-unused  -Wall -Wno-unused -O2 -g -DNDEBUG -fPIC   -o CMakeFiles/FeatureExtraction-IAT.linux-x86_64.dir/iat.bif.init.cc.o -c /home/hendra/Experiment/Feature_IAT/build/iat.bif.init.cc",
+  "file": "/home/hendra/Experiment/Feature_IAT/build/iat.bif.init.cc"
+},
+{
+  "directory": "/home/hendra/Experiment/Feature_IAT/build",
+  "command": "/usr/bin/c++   -DBRO_PLUGIN_INTERNAL_BUILD=false -DFeatureExtraction_IAT_linux_x86_64_EXPORTS -I/home/hendra/Experiment/Feature_IAT/src -I/home/hendra/Experiment/Feature_IAT -I/home/hendra/Experiment/Feature_IAT/build/src -I/home/hendra/Experiment/Feature_IAT/build -I/home/hendra/Bro/build/aux/binpac/lib -I/home/hendra/Bro/build/src -I/home/hendra/Bro/build -I/home/hendra/Bro/aux/binpac/lib -I/home/hendra/Bro/src   -std=c++11 -Wall -Wno-unused  -Wall -Wno-unused -O2 -g -DNDEBUG -fPIC   -o CMakeFiles/FeatureExtraction-IAT.linux-x86_64.dir/iat.bif.register.cc.o -c /home/hendra/Experiment/Feature_IAT/build/iat.bif.register.cc",
+  "file": "/home/hendra/Experiment/Feature_IAT/build/iat.bif.register.cc"
+}
+]

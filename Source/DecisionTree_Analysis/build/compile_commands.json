@@ -1,0 +1,27 @@
+[
+{
+  "directory": "/home/hendra/Experiment/DecisionTree_Analysis/build",
+  "command": "/usr/bin/c++   -DAnalysis_DecisionTree_linux_x86_64_EXPORTS -DBRO_PLUGIN_INTERNAL_BUILD=false -I/home/hendra/Experiment/DecisionTree_Analysis/src -I/home/hendra/Experiment/DecisionTree_Analysis -I/home/hendra/Experiment/DecisionTree_Analysis/build/src -I/home/hendra/Experiment/DecisionTree_Analysis/build -I/home/hendra/Bro/build/aux/binpac/lib -I/home/hendra/Bro/build/src -I/home/hendra/Bro/build -I/home/hendra/Bro/aux/binpac/lib -I/home/hendra/Bro/src   -std=c++11 -Wall -Wno-unused  -Wall -Wno-unused -O2 -g -DNDEBUG -fPIC   -o CMakeFiles/Analysis-DecisionTree.linux-x86_64.dir/src/Plugin.cc.o -c /home/hendra/Experiment/DecisionTree_Analysis/src/Plugin.cc",
+  "file": "/home/hendra/Experiment/DecisionTree_Analysis/src/Plugin.cc"
+},
+{
+  "directory": "/home/hendra/Experiment/DecisionTree_Analysis/build",
+  "command": "/usr/bin/c++   -DAnalysis_DecisionTree_linux_x86_64_EXPORTS -DBRO_PLUGIN_INTERNAL_BUILD=false -I/home/hendra/Experiment/DecisionTree_Analysis/src -I/home/hendra/Experiment/DecisionTree_Analysis -I/home/hendra/Experiment/DecisionTree_Analysis/build/src -I/home/hendra/Experiment/DecisionTree_Analysis/build -I/home/hendra/Bro/build/aux/binpac/lib -I/home/hendra/Bro/build/src -I/home/hendra/Bro/build -I/home/hendra/Bro/aux/binpac/lib -I/home/hendra/Bro/src   -std=c++11 -Wall -Wno-unused  -Wall -Wno-unused -O2 -g -DNDEBUG -fPIC   -o CMakeFiles/Analysis-DecisionTree.linux-x86_64.dir/src/classifier_c45.cc.o -c /home/hendra/Experiment/DecisionTree_Analysis/src/classifier_c45.cc",
+  "file": "/home/hendra/Experiment/DecisionTree_Analysis/src/classifier_c45.cc"
+},
+{
+  "directory": "/home/hendra/Experiment/DecisionTree_Analysis/build",
+  "command": "/usr/bin/c++   -DAnalysis_DecisionTree_linux_x86_64_EXPORTS -DBRO_PLUGIN_INTERNAL_BUILD=false -I/home/hendra/Experiment/DecisionTree_Analysis/src -I/home/hendra/Experiment/DecisionTree_Analysis -I/home/hendra/Experiment/DecisionTree_Analysis/build/src -I/home/hendra/Experiment/DecisionTree_Analysis/build -I/home/hendra/Bro/build/aux/binpac/lib -I/home/hendra/Bro/build/src -I/home/hendra/Bro/build -I/home/hendra/Bro/aux/binpac/lib -I/home/hendra/Bro/src   -std=c++11 -Wall -Wno-unused  -Wall -Wno-unused -O2 -g -DNDEBUG -fPIC   -o CMakeFiles/Analysis-DecisionTree.linux-x86_64.dir/decisiontree.bif.cc.o -c /home/hendra/Experiment/DecisionTree_Analysis/build/decisiontree.bif.cc",
+  "file": "/home/hendra/Experiment/DecisionTree_Analysis/build/decisiontree.bif.cc"
+},
+{
+  "directory": "/home/hendra/Experiment/DecisionTree_Analysis/build",
+  "command": "/usr/bin/c++   -DAnalysis_DecisionTree_linux_x86_64_EXPORTS -DBRO_PLUGIN_INTERNAL_BUILD=false -I/home/hendra/Experiment/DecisionTree_Analysis/src -I/home/hendra/Experiment/DecisionTree_Analysis -I/home/hendra/Experiment/DecisionTree_Analysis/build/src -I/home/hendra/Experiment/DecisionTree_Analysis/build -I/home/hendra/Bro/build/aux/binpac/lib -I/home/hendra/Bro/build/src -I/home/hendra/Bro/build -I/home/hendra/Bro/aux/binpac/lib -I/home/hendra/Bro/src   -std=c++11 -Wall -Wno-unused  -Wall -Wno-unused -O2 -g -DNDEBUG -fPIC   -o CMakeFiles/Analysis-DecisionTree.linux-x86_64.dir/decisiontree.bif.init.cc.o -c /home/hendra/Experiment/DecisionTree_Analysis/build/decisiontree.bif.init.cc",
+  "file": "/home/hendra/Experiment/DecisionTree_Analysis/build/decisiontree.bif.init.cc"
+},
+{
+  "directory": "/home/hendra/Experiment/DecisionTree_Analysis/build",
+  "command": "/usr/bin/c++   -DAnalysis_DecisionTree_linux_x86_64_EXPORTS -DBRO_PLUGIN_INTERNAL_BUILD=false -I/home/hendra/Experiment/DecisionTree_Analysis/src -I/home/hendra/Experiment/DecisionTree_Analysis -I/home/hendra/Experiment/DecisionTree_Analysis/build/src -I/home/hendra/Experiment/DecisionTree_Analysis/build -I/home/hendra/Bro/build/aux/binpac/lib -I/home/hendra/Bro/build/src -I/home/hendra/Bro/build -I/home/hendra/Bro/aux/binpac/lib -I/home/hendra/Bro/src   -std=c++11 -Wall -Wno-unused  -Wall -Wno-unused -O2 -g -DNDEBUG -fPIC   -o CMakeFiles/Analysis-DecisionTree.linux-x86_64.dir/decisiontree.bif.register.cc.o -c /home/hendra/Experiment/DecisionTree_Analysis/build/decisiontree.bif.register.cc",
+  "file": "/home/hendra/Experiment/DecisionTree_Analysis/build/decisiontree.bif.register.cc"
+}
+]

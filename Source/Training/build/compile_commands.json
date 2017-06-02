@@ -1,0 +1,27 @@
+[
+{
+  "directory": "/home/hendra/Experiment/Training/build",
+  "command": "/usr/bin/c++   -DBRO_PLUGIN_INTERNAL_BUILD=false -DTraining_Bin_linux_x86_64_EXPORTS -I/home/hendra/Experiment/Training/src -I/home/hendra/Experiment/Training -I/home/hendra/Experiment/Training/build/src -I/home/hendra/Experiment/Training/build -I/home/hendra/Bro/build/aux/binpac/lib -I/home/hendra/Bro/build/src -I/home/hendra/Bro/build -I/home/hendra/Bro/aux/binpac/lib -I/home/hendra/Bro/src   -std=c++11 -Wall -Wno-unused  -Wall -Wno-unused -O2 -g -DNDEBUG -fPIC   -o CMakeFiles/Training-Bin.linux-x86_64.dir/src/Bin_Training.cc.o -c /home/hendra/Experiment/Training/src/Bin_Training.cc",
+  "file": "/home/hendra/Experiment/Training/src/Bin_Training.cc"
+},
+{
+  "directory": "/home/hendra/Experiment/Training/build",
+  "command": "/usr/bin/c++   -DBRO_PLUGIN_INTERNAL_BUILD=false -DTraining_Bin_linux_x86_64_EXPORTS -I/home/hendra/Experiment/Training/src -I/home/hendra/Experiment/Training -I/home/hendra/Experiment/Training/build/src -I/home/hendra/Experiment/Training/build -I/home/hendra/Bro/build/aux/binpac/lib -I/home/hendra/Bro/build/src -I/home/hendra/Bro/build -I/home/hendra/Bro/aux/binpac/lib -I/home/hendra/Bro/src   -std=c++11 -Wall -Wno-unused  -Wall -Wno-unused -O2 -g -DNDEBUG -fPIC   -o CMakeFiles/Training-Bin.linux-x86_64.dir/src/Plugin.cc.o -c /home/hendra/Experiment/Training/src/Plugin.cc",
+  "file": "/home/hendra/Experiment/Training/src/Plugin.cc"
+},
+{
+  "directory": "/home/hendra/Experiment/Training/build",
+  "command": "/usr/bin/c++   -DBRO_PLUGIN_INTERNAL_BUILD=false -DTraining_Bin_linux_x86_64_EXPORTS -I/home/hendra/Experiment/Training/src -I/home/hendra/Experiment/Training -I/home/hendra/Experiment/Training/build/src -I/home/hendra/Experiment/Training/build -I/home/hendra/Bro/build/aux/binpac/lib -I/home/hendra/Bro/build/src -I/home/hendra/Bro/build -I/home/hendra/Bro/aux/binpac/lib -I/home/hendra/Bro/src   -std=c++11 -Wall -Wno-unused  -Wall -Wno-unused -O2 -g -DNDEBUG -fPIC   -o CMakeFiles/Training-Bin.linux-x86_64.dir/bin.bif.cc.o -c /home/hendra/Experiment/Training/build/bin.bif.cc",
+  "file": "/home/hendra/Experiment/Training/build/bin.bif.cc"
+},
+{
+  "directory": "/home/hendra/Experiment/Training/build",
+  "command": "/usr/bin/c++   -DBRO_PLUGIN_INTERNAL_BUILD=false -DTraining_Bin_linux_x86_64_EXPORTS -I/home/hendra/Experiment/Training/src -I/home/hendra/Experiment/Training -I/home/hendra/Experiment/Training/build/src -I/home/hendra/Experiment/Training/build -I/home/hendra/Bro/build/aux/binpac/lib -I/home/hendra/Bro/build/src -I/home/hendra/Bro/build -I/home/hendra/Bro/aux/binpac/lib -I/home/hendra/Bro/src   -std=c++11 -Wall -Wno-unused  -Wall -Wno-unused -O2 -g -DNDEBUG -fPIC   -o CMakeFiles/Training-Bin.linux-x86_64.dir/bin.bif.init.cc.o -c /home/hendra/Experiment/Training/build/bin.bif.init.cc",
+  "file": "/home/hendra/Experiment/Training/build/bin.bif.init.cc"
+},
+{
+  "directory": "/home/hendra/Experiment/Training/build",
+  "command": "/usr/bin/c++   -DBRO_PLUGIN_INTERNAL_BUILD=false -DTraining_Bin_linux_x86_64_EXPORTS -I/home/hendra/Experiment/Training/src -I/home/hendra/Experiment/Training -I/home/hendra/Experiment/Training/build/src -I/home/hendra/Experiment/Training/build -I/home/hendra/Bro/build/aux/binpac/lib -I/home/hendra/Bro/build/src -I/home/hendra/Bro/build -I/home/hendra/Bro/aux/binpac/lib -I/home/hendra/Bro/src   -std=c++11 -Wall -Wno-unused  -Wall -Wno-unused -O2 -g -DNDEBUG -fPIC   -o CMakeFiles/Training-Bin.linux-x86_64.dir/bin.bif.register.cc.o -c /home/hendra/Experiment/Training/build/bin.bif.register.cc",
+  "file": "/home/hendra/Experiment/Training/build/bin.bif.register.cc"
+}
+]

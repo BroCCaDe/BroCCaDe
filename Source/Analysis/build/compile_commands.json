@@ -1,0 +1,77 @@
+[
+{
+  "directory": "/home/hendra/Experiment/IAT_Analysis/build",
+  "command": "/usr/bin/c++   -DAnalysis_FeatureAnalysis_linux_x86_64_EXPORTS -DBRO_PLUGIN_INTERNAL_BUILD=false -I/home/hendra/Experiment/IAT_Analysis/src -I/home/hendra/Experiment/IAT_Analysis -I/home/hendra/Experiment/IAT_Analysis/build/src -I/home/hendra/Experiment/IAT_Analysis/build -I/home/hendra/Bro/build/aux/binpac/lib -I/home/hendra/Bro/build/src -I/home/hendra/Bro/build -I/home/hendra/Bro/aux/binpac/lib -I/home/hendra/Bro/src   -std=c++11 -Wall -Wno-unused  -Wall -Wno-unused -O2 -g -DNDEBUG -fPIC   -o CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Plugin.cc.o -c /home/hendra/Experiment/IAT_Analysis/src/Plugin.cc",
+  "file": "/home/hendra/Experiment/IAT_Analysis/src/Plugin.cc"
+},
+{
+  "directory": "/home/hendra/Experiment/IAT_Analysis/build",
+  "command": "/usr/bin/c++   -DAnalysis_FeatureAnalysis_linux_x86_64_EXPORTS -DBRO_PLUGIN_INTERNAL_BUILD=false -I/home/hendra/Experiment/IAT_Analysis/src -I/home/hendra/Experiment/IAT_Analysis -I/home/hendra/Experiment/IAT_Analysis/build/src -I/home/hendra/Experiment/IAT_Analysis/build -I/home/hendra/Bro/build/aux/binpac/lib -I/home/hendra/Bro/build/src -I/home/hendra/Bro/build -I/home/hendra/Bro/aux/binpac/lib -I/home/hendra/Bro/src   -std=c++11 -Wall -Wno-unused  -Wall -Wno-unused -O2 -g -DNDEBUG -fPIC   -o CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Flow.cc.o -c /home/hendra/Experiment/IAT_Analysis/src/Flow.cc",
+  "file": "/home/hendra/Experiment/IAT_Analysis/src/Flow.cc"
+},
+{
+  "directory": "/home/hendra/Experiment/IAT_Analysis/build",
+  "command": "/usr/bin/c++   -DAnalysis_FeatureAnalysis_linux_x86_64_EXPORTS -DBRO_PLUGIN_INTERNAL_BUILD=false -I/home/hendra/Experiment/IAT_Analysis/src -I/home/hendra/Experiment/IAT_Analysis -I/home/hendra/Experiment/IAT_Analysis/build/src -I/home/hendra/Experiment/IAT_Analysis/build -I/home/hendra/Bro/build/aux/binpac/lib -I/home/hendra/Bro/build/src -I/home/hendra/Bro/build -I/home/hendra/Bro/aux/binpac/lib -I/home/hendra/Bro/src   -std=c++11 -Wall -Wno-unused  -Wall -Wno-unused -O2 -g -DNDEBUG -fPIC   -o CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/KS_Flow.cc.o -c /home/hendra/Experiment/IAT_Analysis/src/KS_Flow.cc",
+  "file": "/home/hendra/Experiment/IAT_Analysis/src/KS_Flow.cc"
+},
+{
+  "directory": "/home/hendra/Experiment/IAT_Analysis/build",
+  "command": "/usr/bin/c++   -DAnalysis_FeatureAnalysis_linux_x86_64_EXPORTS -DBRO_PLUGIN_INTERNAL_BUILD=false -I/home/hendra/Experiment/IAT_Analysis/src -I/home/hendra/Experiment/IAT_Analysis -I/home/hendra/Experiment/IAT_Analysis/build/src -I/home/hendra/Experiment/IAT_Analysis/build -I/home/hendra/Bro/build/aux/binpac/lib -I/home/hendra/Bro/build/src -I/home/hendra/Bro/build -I/home/hendra/Bro/aux/binpac/lib -I/home/hendra/Bro/src   -std=c++11 -Wall -Wno-unused  -Wall -Wno-unused -O2 -g -DNDEBUG -fPIC   -o CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Data_Container.cc.o -c /home/hendra/Experiment/IAT_Analysis/src/Data_Container.cc",
+  "file": "/home/hendra/Experiment/IAT_Analysis/src/Data_Container.cc"
+},
+{
+  "directory": "/home/hendra/Experiment/IAT_Analysis/build",
+  "command": "/usr/bin/c++   -DAnalysis_FeatureAnalysis_linux_x86_64_EXPORTS -DBRO_PLUGIN_INTERNAL_BUILD=false -I/home/hendra/Experiment/IAT_Analysis/src -I/home/hendra/Experiment/IAT_Analysis -I/home/hendra/Experiment/IAT_Analysis/build/src -I/home/hendra/Experiment/IAT_Analysis/build -I/home/hendra/Bro/build/aux/binpac/lib -I/home/hendra/Bro/build/src -I/home/hendra/Bro/build -I/home/hendra/Bro/aux/binpac/lib -I/home/hendra/Bro/src   -std=c++11 -Wall -Wno-unused  -Wall -Wno-unused -O2 -g -DNDEBUG -fPIC   -o CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Bin_Strategy_Interval.cc.o -c /home/hendra/Experiment/IAT_Analysis/src/Bin_Strategy_Interval.cc",
+  "file": "/home/hendra/Experiment/IAT_Analysis/src/Bin_Strategy_Interval.cc"
+},
+{
+  "directory": "/home/hendra/Experiment/IAT_Analysis/build",
+  "command": "/usr/bin/c++   -DAnalysis_FeatureAnalysis_linux_x86_64_EXPORTS -DBRO_PLUGIN_INTERNAL_BUILD=false -I/home/hendra/Experiment/IAT_Analysis/src -I/home/hendra/Experiment/IAT_Analysis -I/home/hendra/Experiment/IAT_Analysis/build/src -I/home/hendra/Experiment/IAT_Analysis/build -I/home/hendra/Bro/build/aux/binpac/lib -I/home/hendra/Bro/build/src -I/home/hendra/Bro/build -I/home/hendra/Bro/aux/binpac/lib -I/home/hendra/Bro/src   -std=c++11 -Wall -Wno-unused  -Wall -Wno-unused -O2 -g -DNDEBUG -fPIC   -o CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Entropy_Flow.cc.o -c /home/hendra/Experiment/IAT_Analysis/src/Entropy_Flow.cc",
+  "file": "/home/hendra/Experiment/IAT_Analysis/src/Entropy_Flow.cc"
+},
+{
+  "directory": "/home/hendra/Experiment/IAT_Analysis/build",
+  "command": "/usr/bin/c++   -DAnalysis_FeatureAnalysis_linux_x86_64_EXPORTS -DBRO_PLUGIN_INTERNAL_BUILD=false -I/home/hendra/Experiment/IAT_Analysis/src -I/home/hendra/Experiment/IAT_Analysis -I/home/hendra/Experiment/IAT_Analysis/build/src -I/home/hendra/Experiment/IAT_Analysis/build -I/home/hendra/Bro/build/aux/binpac/lib -I/home/hendra/Bro/build/src -I/home/hendra/Bro/build -I/home/hendra/Bro/aux/binpac/lib -I/home/hendra/Bro/src   -std=c++11 -Wall -Wno-unused  -Wall -Wno-unused -O2 -g -DNDEBUG -fPIC   -o CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Histogram.cc.o -c /home/hendra/Experiment/IAT_Analysis/src/Histogram.cc",
+  "file": "/home/hendra/Experiment/IAT_Analysis/src/Histogram.cc"
+},
+{
+  "directory": "/home/hendra/Experiment/IAT_Analysis/build",
+  "command": "/usr/bin/c++   -DAnalysis_FeatureAnalysis_linux_x86_64_EXPORTS -DBRO_PLUGIN_INTERNAL_BUILD=false -I/home/hendra/Experiment/IAT_Analysis/src -I/home/hendra/Experiment/IAT_Analysis -I/home/hendra/Experiment/IAT_Analysis/build/src -I/home/hendra/Experiment/IAT_Analysis/build -I/home/hendra/Bro/build/aux/binpac/lib -I/home/hendra/Bro/build/src -I/home/hendra/Bro/build -I/home/hendra/Bro/aux/binpac/lib -I/home/hendra/Bro/src   -std=c++11 -Wall -Wno-unused  -Wall -Wno-unused -O2 -g -DNDEBUG -fPIC   -o CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/CCE_Flow.cc.o -c /home/hendra/Experiment/IAT_Analysis/src/CCE_Flow.cc",
+  "file": "/home/hendra/Experiment/IAT_Analysis/src/CCE_Flow.cc"
+},
+{
+  "directory": "/home/hendra/Experiment/IAT_Analysis/build",
+  "command": "/usr/bin/c++   -DAnalysis_FeatureAnalysis_linux_x86_64_EXPORTS -DBRO_PLUGIN_INTERNAL_BUILD=false -I/home/hendra/Experiment/IAT_Analysis/src -I/home/hendra/Experiment/IAT_Analysis -I/home/hendra/Experiment/IAT_Analysis/build/src -I/home/hendra/Experiment/IAT_Analysis/build -I/home/hendra/Bro/build/aux/binpac/lib -I/home/hendra/Bro/build/src -I/home/hendra/Bro/build -I/home/hendra/Bro/aux/binpac/lib -I/home/hendra/Bro/src   -std=c++11 -Wall -Wno-unused  -Wall -Wno-unused -O2 -g -DNDEBUG -fPIC   -o CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Pattern_Data_Container.cc.o -c /home/hendra/Experiment/IAT_Analysis/src/Pattern_Data_Container.cc",
+  "file": "/home/hendra/Experiment/IAT_Analysis/src/Pattern_Data_Container.cc"
+},
+{
+  "directory": "/home/hendra/Experiment/IAT_Analysis/build",
+  "command": "/usr/bin/c++   -DAnalysis_FeatureAnalysis_linux_x86_64_EXPORTS -DBRO_PLUGIN_INTERNAL_BUILD=false -I/home/hendra/Experiment/IAT_Analysis/src -I/home/hendra/Experiment/IAT_Analysis -I/home/hendra/Experiment/IAT_Analysis/build/src -I/home/hendra/Experiment/IAT_Analysis/build -I/home/hendra/Bro/build/aux/binpac/lib -I/home/hendra/Bro/build/src -I/home/hendra/Bro/build -I/home/hendra/Bro/aux/binpac/lib -I/home/hendra/Bro/src   -std=c++11 -Wall -Wno-unused  -Wall -Wno-unused -O2 -g -DNDEBUG -fPIC   -o CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Tree.cc.o -c /home/hendra/Experiment/IAT_Analysis/src/Tree.cc",
+  "file": "/home/hendra/Experiment/IAT_Analysis/src/Tree.cc"
+},
+{
+  "directory": "/home/hendra/Experiment/IAT_Analysis/build",
+  "command": "/usr/bin/c++   -DAnalysis_FeatureAnalysis_linux_x86_64_EXPORTS -DBRO_PLUGIN_INTERNAL_BUILD=false -I/home/hendra/Experiment/IAT_Analysis/src -I/home/hendra/Experiment/IAT_Analysis -I/home/hendra/Experiment/IAT_Analysis/build/src -I/home/hendra/Experiment/IAT_Analysis/build -I/home/hendra/Bro/build/aux/binpac/lib -I/home/hendra/Bro/build/src -I/home/hendra/Bro/build -I/home/hendra/Bro/aux/binpac/lib -I/home/hendra/Bro/src   -std=c++11 -Wall -Wno-unused  -Wall -Wno-unused -O2 -g -DNDEBUG -fPIC   -o CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/MultiModal_Flow.cc.o -c /home/hendra/Experiment/IAT_Analysis/src/MultiModal_Flow.cc",
+  "file": "/home/hendra/Experiment/IAT_Analysis/src/MultiModal_Flow.cc"
+},
+{
+  "directory": "/home/hendra/Experiment/IAT_Analysis/build",
+  "command": "/usr/bin/c++   -DAnalysis_FeatureAnalysis_linux_x86_64_EXPORTS -DBRO_PLUGIN_INTERNAL_BUILD=false -I/home/hendra/Experiment/IAT_Analysis/src -I/home/hendra/Experiment/IAT_Analysis -I/home/hendra/Experiment/IAT_Analysis/build/src -I/home/hendra/Experiment/IAT_Analysis/build -I/home/hendra/Bro/build/aux/binpac/lib -I/home/hendra/Bro/build/src -I/home/hendra/Bro/build -I/home/hendra/Bro/aux/binpac/lib -I/home/hendra/Bro/src   -std=c++11 -Wall -Wno-unused  -Wall -Wno-unused -O2 -g -DNDEBUG -fPIC   -o CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Autocorrelation_Flow.cc.o -c /home/hendra/Experiment/IAT_Analysis/src/Autocorrelation_Flow.cc",
+  "file": "/home/hendra/Experiment/IAT_Analysis/src/Autocorrelation_Flow.cc"
+},
+{
+  "directory": "/home/hendra/Experiment/IAT_Analysis/build",
+  "command": "/usr/bin/c++   -DAnalysis_FeatureAnalysis_linux_x86_64_EXPORTS -DBRO_PLUGIN_INTERNAL_BUILD=false -I/home/hendra/Experiment/IAT_Analysis/src -I/home/hendra/Experiment/IAT_Analysis -I/home/hendra/Experiment/IAT_Analysis/build/src -I/home/hendra/Experiment/IAT_Analysis/build -I/home/hendra/Bro/build/aux/binpac/lib -I/home/hendra/Bro/build/src -I/home/hendra/Bro/build -I/home/hendra/Bro/aux/binpac/lib -I/home/hendra/Bro/src   -std=c++11 -Wall -Wno-unused  -Wall -Wno-unused -O2 -g -DNDEBUG -fPIC   -o CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/analysis.bif.cc.o -c /home/hendra/Experiment/IAT_Analysis/build/analysis.bif.cc",
+  "file": "/home/hendra/Experiment/IAT_Analysis/build/analysis.bif.cc"
+},
+{
+  "directory": "/home/hendra/Experiment/IAT_Analysis/build",
+  "command": "/usr/bin/c++   -DAnalysis_FeatureAnalysis_linux_x86_64_EXPORTS -DBRO_PLUGIN_INTERNAL_BUILD=false -I/home/hendra/Experiment/IAT_Analysis/src -I/home/hendra/Experiment/IAT_Analysis -I/home/hendra/Experiment/IAT_Analysis/build/src -I/home/hendra/Experiment/IAT_Analysis/build -I/home/hendra/Bro/build/aux/binpac/lib -I/home/hendra/Bro/build/src -I/home/hendra/Bro/build -I/home/hendra/Bro/aux/binpac/lib -I/home/hendra/Bro/src   -std=c++11 -Wall -Wno-unused  -Wall -Wno-unused -O2 -g -DNDEBUG -fPIC   -o CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/analysis.bif.init.cc.o -c /home/hendra/Experiment/IAT_Analysis/build/analysis.bif.init.cc",
+  "file": "/home/hendra/Experiment/IAT_Analysis/build/analysis.bif.init.cc"
+},
+{
+  "directory": "/home/hendra/Experiment/IAT_Analysis/build",
+  "command": "/usr/bin/c++   -DAnalysis_FeatureAnalysis_linux_x86_64_EXPORTS -DBRO_PLUGIN_INTERNAL_BUILD=false -I/home/hendra/Experiment/IAT_Analysis/src -I/home/hendra/Experiment/IAT_Analysis -I/home/hendra/Experiment/IAT_Analysis/build/src -I/home/hendra/Experiment/IAT_Analysis/build -I/home/hendra/Bro/build/aux/binpac/lib -I/home/hendra/Bro/build/src -I/home/hendra/Bro/build -I/home/hendra/Bro/aux/binpac/lib -I/home/hendra/Bro/src   -std=c++11 -Wall -Wno-unused  -Wall -Wno-unused -O2 -g -DNDEBUG -fPIC   -o CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/analysis.bif.register.cc.o -c /home/hendra/Experiment/IAT_Analysis/build/analysis.bif.register.cc",
+  "file": "/home/hendra/Experiment/IAT_Analysis/build/analysis.bif.register.cc"
+}
+]

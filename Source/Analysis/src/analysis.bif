@@ -1,0 +1,57 @@
+module FeatureAnalysis;
+
+enum Analysis_ID %{
+	KS_ANALYSIS = 0,
+	ENTROPY_ANALYSIS = 1,
+	CCE_ANALYSIS = 2,
+	NULL_ANALYSIS = 3,
+	MULTIMODAL_ANALYSIS = 4,
+	AUTOCORRELATION_ANALYSIS = 5,
+	REGULARITY_ANALYSIS = 6,
+%}
+
+%%{ #include "Plugin.h"
+#include <cfloat>
+typedef plugin::Analysis_FeatureAnalysis::Plugin plugin_t;
+static plugin_t *plugin_ref = &plugin::Analysis_FeatureAnalysis::plugin;
+%%}
+
+function Extract%(v : result_vector, aid : Analysis_ID, tag : analysis_tag%): double
+	%{
+		return plugin_ref->Extract(v, aid, tag);
+	%}
+
+function Extract_vector%(v : result_vector%): FeatureAnalysis::feature_vector
+	%{
+		return plugin_ref->ExtractVector(v);
+	%}
+
+
+function SetStepSize%(step_size : count%): bool
+	%{
+		plugin_ref->SetStepSize(step_size);
+		return new Val(1, TYPE_BOOL);
+	%}
+
+function RemoveConn%(UID : string%): bool
+	%{
+		plugin_ref->RemoveConnection(UID);
+		return new Val(1, TYPE_BOOL);
+	%}
+
+function RegisterAnalysis%(UID : string, feature: double, 
+		aid: Analysis_ID, tag: analysis_tag%): bool
+	%{
+		plugin_ref->RegisterAnalysis(UID, feature, aid, tag);
+		return new Val(1, TYPE_BOOL);
+	%}
+
+function CalculateMetric %(id : set_ID %): bool
+	%{
+	  	//plugin::PTunnel_Analysis::CalculateMetric(features);
+		//plugin_ref->CalculateMetric(UID, features, aid, tag);
+		plugin_ref->CalculateMetric(id);
+		return new Val(1, TYPE_BOOL);
+	%}
+
+event metric_event%(id : set_ID, v : result_vector%);

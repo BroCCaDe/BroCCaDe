@@ -1,0 +1,40 @@
+module DecisionTree;
+
+%%{ #include "Plugin.h"
+typedef plugin::Analysis_DecisionTree::Plugin plugin_t;
+static plugin_t *plugin_ref = &plugin::Analysis_DecisionTree::plugin;
+%%}
+
+function Init%(n : count%): bool
+	%{
+		plugin_ref->Init(n);
+		return new Val(1, TYPE_BOOL);
+	%}
+
+function LoadModel%(ID : FeatureAnalysis::set_ID, model_name : string%): bool
+	%{
+		plugin_ref->LoadModel(ID, model_name);
+		return new Val(1, TYPE_BOOL);
+	%}
+
+function Classify%(ID : FeatureAnalysis::set_ID, features: FeatureAnalysis::feature_vector%): bool
+	%{
+		plugin_ref->Classify(ID, features);
+		return new Val(1, TYPE_BOOL);
+	%}
+
+function Classify_with_strings%(ID : FeatureAnalysis::set_ID, features: FeatureAnalysis::feature_vector, 
+		features_str: string_vec%): bool
+	%{
+		plugin_ref->Classify_with_strings(ID, features, features_str);
+		return new Val(1, TYPE_BOOL);
+	%}
+
+function Classify_record%(ID : FeatureAnalysis::set_ID, features: any%): bool
+	%{
+		plugin_ref->Classify_record(ID, features);
+		return new Val(1, TYPE_BOOL);
+	%}
+
+event class_result_event%(c:int%);
+#event classify_event%(features: FeatureAnalysis::feature_vector%);

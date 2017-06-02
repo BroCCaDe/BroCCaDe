@@ -1,0 +1,18 @@
+module BinTraining;
+
+%%{ #include "Plugin.h"
+typedef plugin::Training_Bin::Plugin plugin_t;
+static plugin_t *plugin_ref = &plugin::Training_Bin::plugin;
+%%}
+
+function RemoveConn%(UID : string%): bool
+	%{
+		plugin_ref->RemoveConnection(UID);
+		return new Val(1, TYPE_BOOL);
+	%}
+
+function add_feature%(UID : string, feature: double, tag: analysis_tag%): bool
+	%{
+		plugin_ref->add_feature(UID, feature, tag);
+		return new Val(1, TYPE_BOOL);
+	%}
