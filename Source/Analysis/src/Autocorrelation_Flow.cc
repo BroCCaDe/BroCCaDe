@@ -6,11 +6,13 @@
 
 using namespace CCD;
 
+/*
 // Just initialize the data container (raw) as required by the super class
 Autocorrelation::Autocorrelation(unsigned int step_size, unsigned int window_size) :
 	FlowAnalyzer(std::unique_ptr<Raw_Data>(new Raw_Data(window_size, step_size)), step_size)
 {
 }
+*/
 
 //===========================================================================
 //=  Function to compute mean for a series X                                =
@@ -87,13 +89,13 @@ double Autocorrelation::calculate_metric()
 
 	// check if there are no lags, add the default value
 	// bounded by the size of the data
-	if (_lag.size() == 0) _lag.push_back((DEFAULT_NUM_LAG > contained_data.size()) ? 
+	if (_lag->size() == 0) _lag->push_back((DEFAULT_NUM_LAG > contained_data.size()) ? 
 		contained_data.size() : DEFAULT_NUM_LAG);
 
 	// sum the autocorrelation for all possible lag values
-	for (i = 0; i < _lag.size(); i++)
+	for (i = 0; i < _lag->size(); i++)
 	{
-		sum += abs(ac_compute.compute_autoc(_lag[i])); // autocorrelation for a particular lag
+		sum += abs(ac_compute.compute_autoc((*_lag)[i])); // autocorrelation for a particular lag
 	}
-	return sum / _lag.size(); // 1/N * sum(autocorrelation for all lags)
+	return sum / _lag->size(); // 1/N * sum(autocorrelation for all lags)
 }

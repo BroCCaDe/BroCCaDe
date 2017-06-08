@@ -29,7 +29,10 @@ public:
 	Raw_Data (unsigned int window_size, unsigned int step_size);
 	virtual ~Raw_Data() {}
 
-	virtual void add_feature(double feature) {_data.push_back(feature);}
+	virtual void add_feature(double feature) {
+//		printf("Raw_Data::add_feature got here\n");
+		_data.push_back(feature);
+	}
 
 	// reset the number of data points in the window down to (window_size - step_size)
 	void reset_window();
@@ -63,6 +66,22 @@ private:
 	unsigned int _window_size; 	// the window size of the number of data
 	unsigned int _step_size; 	// indicate the interval of window size, i.e. the
 					// number of data to empty each calculation triggered
+};
+
+// Simple data container which just store one value
+class Null_Data : public Data_Container
+{
+public:
+	Null_Data() : _value(0) {}
+	virtual ~Null_Data() {}
+	
+	virtual void add_feature(double feature) {
+//		printf("Null_Data::add_feature got here\n");
+		_value = feature;
+	}
+	double get_data() {return _value;}
+private:
+	double _value;
 };
 
 }

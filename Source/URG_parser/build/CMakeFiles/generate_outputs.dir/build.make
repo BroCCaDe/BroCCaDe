@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/hendra/Experiment/URG_parser
+CMAKE_SOURCE_DIR = /home/hendra/CCD/Source/URG_parser
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/hendra/Experiment/URG_parser/build
+CMAKE_BINARY_DIR = /home/hendra/CCD/Source/URG_parser/build
 
 # Utility rule file for generate_outputs.
 
@@ -67,6 +67,6 @@ CMakeFiles/generate_outputs.dir/clean:
 .PHONY : CMakeFiles/generate_outputs.dir/clean
 
 CMakeFiles/generate_outputs.dir/depend:
-	cd /home/hendra/Experiment/URG_parser/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hendra/Experiment/URG_parser /home/hendra/Experiment/URG_parser /home/hendra/Experiment/URG_parser/build /home/hendra/Experiment/URG_parser/build /home/hendra/Experiment/URG_parser/build/CMakeFiles/generate_outputs.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/hendra/CCD/Source/URG_parser/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hendra/CCD/Source/URG_parser /home/hendra/CCD/Source/URG_parser /home/hendra/CCD/Source/URG_parser/build /home/hendra/CCD/Source/URG_parser/build /home/hendra/CCD/Source/URG_parser/build/CMakeFiles/generate_outputs.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/generate_outputs.dir/depend
 

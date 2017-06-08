@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/hendra/Experiment/IAT_Analysis
+CMAKE_SOURCE_DIR = /home/hendra/CCD/Source/Analysis
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/hendra/Experiment/IAT_Analysis/build
+CMAKE_BINARY_DIR = /home/hendra/CCD/Source/Analysis/build
 
 # Utility rule file for bif-plugin-Analysis_FeatureAnalysis-analysis.bif.
 
@@ -60,9 +60,9 @@ CMakeFiles/bif-plugin-Analysis_FeatureAnalysis-analysis.bif: analysis.bif.regist
 
 
 analysis.bif.h: ../src/analysis.bif
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/hendra/Experiment/IAT_Analysis/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "[BIFCL] Processing src/analysis.bif"
-	/home/hendra/Bro/build/src/bifcl -p Analysis::FeatureAnalysis /home/hendra/Experiment/IAT_Analysis/src/analysis.bif || ( rm -f analysis.bif.h analysis.bif.cc analysis.bif.init.cc analysis.bif.register.cc && exit 1 )
-	/usr/bin/cmake -E copy analysis.bif.bro /home/hendra/Experiment/IAT_Analysis/build/lib/bif/analysis.bif.bro
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/hendra/CCD/Source/Analysis/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "[BIFCL] Processing src/analysis.bif"
+	/home/hendra/Bro/build/src/bifcl -p Analysis::FeatureAnalysis /home/hendra/CCD/Source/Analysis/src/analysis.bif || ( rm -f analysis.bif.h analysis.bif.cc analysis.bif.init.cc analysis.bif.register.cc && exit 1 )
+	/usr/bin/cmake -E copy analysis.bif.bro /home/hendra/CCD/Source/Analysis/build/lib/bif/analysis.bif.bro
 	/usr/bin/cmake -E remove -f analysis.bif.bro
 
 analysis.bif.cc: analysis.bif.h
@@ -97,6 +97,6 @@ CMakeFiles/bif-plugin-Analysis_FeatureAnalysis-analysis.bif.dir/clean:
 .PHONY : CMakeFiles/bif-plugin-Analysis_FeatureAnalysis-analysis.bif.dir/clean
 
 CMakeFiles/bif-plugin-Analysis_FeatureAnalysis-analysis.bif.dir/depend:
-	cd /home/hendra/Experiment/IAT_Analysis/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hendra/Experiment/IAT_Analysis /home/hendra/Experiment/IAT_Analysis /home/hendra/Experiment/IAT_Analysis/build /home/hendra/Experiment/IAT_Analysis/build /home/hendra/Experiment/IAT_Analysis/build/CMakeFiles/bif-plugin-Analysis_FeatureAnalysis-analysis.bif.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/hendra/CCD/Source/Analysis/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hendra/CCD/Source/Analysis /home/hendra/CCD/Source/Analysis /home/hendra/CCD/Source/Analysis/build /home/hendra/CCD/Source/Analysis/build /home/hendra/CCD/Source/Analysis/build/CMakeFiles/bif-plugin-Analysis_FeatureAnalysis-analysis.bif.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/bif-plugin-Analysis_FeatureAnalysis-analysis.bif.dir/depend
 

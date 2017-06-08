@@ -2,13 +2,15 @@
 #define AUX_PLUGINS_AUTOCORRELATION_FLOW_H
 
 #include <vector>		// contains vector
-#include "Flow.h"		// the superclass (flow analyzer)
-
-#define DEFAULT_NUM_LAG 100
+#include <memory>
+#include "Analysis.h"		// the superclass (flow analyzer)
 
 namespace CCD {
 
-// Compute autocorrelation for various laggs
+#define DEFAULT_NUM_LAG 1
+
+/*
+// Compute autocorrelation for various lags
 class Autocorrelation : public FlowAnalyzer {
 public:
 	// Constructor: specify the window size and step size for the data series
@@ -24,6 +26,23 @@ protected:
 	virtual double calculate_metric();
 private:
 	std::vector<unsigned int> _lag;	// array of lag values
+};*/
+
+class Autocorrelation : public FeatureAnalyzer {
+public:
+	// Constructor: specify the window size and step size for the data series
+	// If there are no lags specified, it contains 
+	// the sole DEFAULT_NUM_LAG
+	Autocorrelation(std::shared_ptr<Raw_Data> data, 
+		std::shared_ptr<std::vector<unsigned int>> lag) :
+		FeatureAnalyzer(data), _lag(lag) {}
+	virtual ~Autocorrelation() {};
+
+	// Calculate the metric by constructing the class to compute autocorrelation,
+	// calculate the mean, the variance, and autocorrelation for various lags.
+	virtual double calculate_metric();
+private:
+	std::shared_ptr<std::vector<unsigned int>> _lag;	// array of lag values
 };
 
 // This class is adapted from auto.c by Kenneth J. Christensen, University of South Florida.

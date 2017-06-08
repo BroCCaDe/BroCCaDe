@@ -289,7 +289,6 @@ CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Autocorrelation_Flow.cc
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Autocorrelation_Flow.cc.o: ../src/Autocorrelation_Flow.cc
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Autocorrelation_Flow.cc.o: ../src/Autocorrelation_Flow.h
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Autocorrelation_Flow.cc.o: ../src/Data_Container.h
-CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Autocorrelation_Flow.cc.o: ../src/Flow.h
 
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Bin_Strategy_Interval.cc.o: ../src/Bin_Strategy.h
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Bin_Strategy_Interval.cc.o: ../src/Bin_Strategy_Interval.cc
@@ -300,7 +299,6 @@ CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/CCE_Flow.cc.o: ../src/B
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/CCE_Flow.cc.o: ../src/CCE_Flow.cc
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/CCE_Flow.cc.o: ../src/CCE_Flow.h
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/CCE_Flow.cc.o: ../src/Data_Container.h
-CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/CCE_Flow.cc.o: ../src/Flow.h
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/CCE_Flow.cc.o: ../src/Pattern_Data_Container.h
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/CCE_Flow.cc.o: ../src/Tree.h
 
@@ -312,13 +310,23 @@ CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Entropy_Flow.cc.o: ../s
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Entropy_Flow.cc.o: ../src/Data_Container.h
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Entropy_Flow.cc.o: ../src/Entropy_Flow.cc
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Entropy_Flow.cc.o: ../src/Entropy_Flow.h
-CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Entropy_Flow.cc.o: ../src/Flow.h
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Entropy_Flow.cc.o: ../src/Histogram.h
 
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Flow.cc.o: ../src/Analysis.h
+CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Flow.cc.o: ../src/Autocorrelation_Flow.h
+CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Flow.cc.o: ../src/Bin_Strategy.h
+CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Flow.cc.o: ../src/CCE_Flow.h
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Flow.cc.o: ../src/Data_Container.h
+CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Flow.cc.o: ../src/Entropy_Flow.h
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Flow.cc.o: ../src/Flow.cc
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Flow.cc.o: ../src/Flow.h
+CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Flow.cc.o: ../src/Histogram.h
+CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Flow.cc.o: ../src/KS_Flow.h
+CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Flow.cc.o: ../src/MultiModal_Flow.h
+CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Flow.cc.o: ../src/Pattern_Data_Container.h
+CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Flow.cc.o: ../src/Regularity_Data_Container.h
+CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Flow.cc.o: ../src/Regularity_Flow.h
+CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Flow.cc.o: ../src/Tree.h
 
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Histogram.cc.o: ../src/Bin_Strategy.h
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Histogram.cc.o: ../src/Data_Container.h
@@ -327,14 +335,12 @@ CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Histogram.cc.o: ../src/
 
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/KS_Flow.cc.o: ../src/Analysis.h
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/KS_Flow.cc.o: ../src/Data_Container.h
-CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/KS_Flow.cc.o: ../src/Flow.h
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/KS_Flow.cc.o: ../src/KS_Flow.cc
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/KS_Flow.cc.o: ../src/KS_Flow.h
 
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/MultiModal_Flow.cc.o: ../src/Analysis.h
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/MultiModal_Flow.cc.o: ../src/Bin_Strategy.h
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/MultiModal_Flow.cc.o: ../src/Data_Container.h
-CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/MultiModal_Flow.cc.o: ../src/Flow.h
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/MultiModal_Flow.cc.o: ../src/Histogram.h
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/MultiModal_Flow.cc.o: ../src/MultiModal_Flow.cc
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/MultiModal_Flow.cc.o: ../src/MultiModal_Flow.h
@@ -460,11 +466,24 @@ CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Plugin.cc.o: ../src/CCE
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Plugin.cc.o: ../src/Data_Container.h
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Plugin.cc.o: ../src/Entropy_Flow.h
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Plugin.cc.o: ../src/Flow.h
+CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Plugin.cc.o: ../src/Histogram.h
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Plugin.cc.o: ../src/KS_Flow.h
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Plugin.cc.o: ../src/MultiModal_Flow.h
+CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Plugin.cc.o: ../src/Pattern_Data_Container.h
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Plugin.cc.o: ../src/Plugin.cc
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Plugin.cc.o: ../src/Plugin.h
+CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Plugin.cc.o: ../src/Tree.h
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Plugin.cc.o: analysis.bif.h
+
+CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Regularity_Data_Container.cc.o: ../src/Data_Container.h
+CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Regularity_Data_Container.cc.o: ../src/Regularity_Data_Container.cc
+CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Regularity_Data_Container.cc.o: ../src/Regularity_Data_Container.h
+
+CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Regularity_Flow.cc.o: ../src/Analysis.h
+CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Regularity_Flow.cc.o: ../src/Data_Container.h
+CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Regularity_Flow.cc.o: ../src/Regularity_Data_Container.h
+CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Regularity_Flow.cc.o: ../src/Regularity_Flow.cc
+CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Regularity_Flow.cc.o: ../src/Regularity_Flow.h
 
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Tree.cc.o: ../src/Bin_Strategy.h
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Tree.cc.o: ../src/Tree.cc

@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/hendra/Experiment/URG_parser
+CMAKE_SOURCE_DIR = /home/hendra/CCD/Source/URG_parser
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/hendra/Experiment/URG_parser/build
+CMAKE_BINARY_DIR = /home/hendra/CCD/Source/URG_parser/build
 
 # Utility rule file for copy-scripts-FeatureExtraction_UrgentPointer.
 
@@ -54,7 +54,7 @@ CMAKE_BINARY_DIR = /home/hendra/Experiment/URG_parser/build
 include CMakeFiles/copy-scripts-FeatureExtraction_UrgentPointer.dir/progress.make
 
 CMakeFiles/copy-scripts-FeatureExtraction_UrgentPointer:
-	test -d /home/hendra/Experiment/URG_parser/scripts && rm -f /home/hendra/Experiment/URG_parser/build/scripts && ln -s /home/hendra/Experiment/URG_parser/scripts /home/hendra/Experiment/URG_parser/build/scripts || true
+	test -d /home/hendra/CCD/Source/URG_parser/scripts && rm -f /home/hendra/CCD/Source/URG_parser/build/scripts && ln -s /home/hendra/CCD/Source/URG_parser/scripts /home/hendra/CCD/Source/URG_parser/build/scripts || true
 
 copy-scripts-FeatureExtraction_UrgentPointer: CMakeFiles/copy-scripts-FeatureExtraction_UrgentPointer
 copy-scripts-FeatureExtraction_UrgentPointer: CMakeFiles/copy-scripts-FeatureExtraction_UrgentPointer.dir/build.make
@@ -71,6 +71,6 @@ CMakeFiles/copy-scripts-FeatureExtraction_UrgentPointer.dir/clean:
 .PHONY : CMakeFiles/copy-scripts-FeatureExtraction_UrgentPointer.dir/clean
 
 CMakeFiles/copy-scripts-FeatureExtraction_UrgentPointer.dir/depend:
-	cd /home/hendra/Experiment/URG_parser/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hendra/Experiment/URG_parser /home/hendra/Experiment/URG_parser /home/hendra/Experiment/URG_parser/build /home/hendra/Experiment/URG_parser/build /home/hendra/Experiment/URG_parser/build/CMakeFiles/copy-scripts-FeatureExtraction_UrgentPointer.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/hendra/CCD/Source/URG_parser/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hendra/CCD/Source/URG_parser /home/hendra/CCD/Source/URG_parser /home/hendra/CCD/Source/URG_parser/build /home/hendra/CCD/Source/URG_parser/build /home/hendra/CCD/Source/URG_parser/build/CMakeFiles/copy-scripts-FeatureExtraction_UrgentPointer.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/copy-scripts-FeatureExtraction_UrgentPointer.dir/depend
 

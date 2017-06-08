@@ -19,6 +19,7 @@ Histogram::Histogram(std::shared_ptr<Bin_Strategy> binner)
 
 void Histogram::add_feature(double feature)
 {
+//	printf("Histogram::add_feature got here\n");
 	// classify the input feature into a bin
 	unsigned short bin_number = _binner->get_bin_number(feature);
 	// if the bin number is outside of the boundary, print an error and return

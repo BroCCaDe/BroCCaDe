@@ -30,9 +30,9 @@ void Plugin::RemoveConnection(StringVal* UID)
 	_flow_dict->erase(UID_str);
 }
 
-void Plugin::ExtractFeature(StringVal* UID, double duration) {
+void Plugin::ExtractFeature(StringVal* UID, Val* id, double duration) {
 	if (UID == NULL) {printf("UID is null\n"); return;}
-	//BroString* newStr = new BroString(*(UID->AsString()));
+
 	std::string UID_str((const char*) UID->Bytes());
 	std::unordered_map<std::string, double>::iterator got = 
 		_flow_dict->find(UID_str);
@@ -45,14 +45,17 @@ void Plugin::ExtractFeature(StringVal* UID, double duration) {
 	}
 	else
 	{ 
+		// send the event : [ UID, id, feature ]
 		val_list* vl = new val_list;
 		BroString* newStr = new BroString(*(UID->AsString()));
-		vl->append(new StringVal(newStr));
-		//VectorVal* v = new VectorVal(new VectorType(base_type(TYPE_DOUBLE)));
-		//v->Assign(0u, new Val(duration - got->second, TYPE_DOUBLE));
+		vl->append(new StringVal(newStr));	// Bro unique UID
+		vl->append(id->Clone());		// 4 tuple network ID
+		// IAT is counted as the difference of the current flow's duration
+		// and the flow's duration when the last packet was received
 		vl->append(new Val(duration - got->second, TYPE_DOUBLE));
-		got->second = duration;
-		//vl->append(v);
 		mgr.QueueEvent(IAT::feature_event, vl);
+
+		// remember the last packet's flow's duration
+		got->second = duration;			
 	}
 }

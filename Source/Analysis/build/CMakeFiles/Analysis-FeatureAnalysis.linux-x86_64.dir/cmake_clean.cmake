@@ -17,6 +17,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Tree.cc.o"
   "CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/MultiModal_Flow.cc.o"
   "CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Autocorrelation_Flow.cc.o"
+  "CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Regularity_Flow.cc.o"
+  "CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Regularity_Data_Container.cc.o"
   "CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/analysis.bif.cc.o"
   "CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/analysis.bif.init.cc.o"
   "CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/analysis.bif.register.cc.o"

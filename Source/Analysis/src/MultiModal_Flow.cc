@@ -5,8 +5,10 @@
 
 using namespace CCD;
 
+/*
 MultiModal::MultiModal(unsigned int step_size, std::shared_ptr<Bin_Strategy> binner) :
 	FlowAnalyzer(std::unique_ptr<Histogram> (new Histogram(binner)), step_size) {}
+*/
 
 double MultiModal::calculate_metric()
 {

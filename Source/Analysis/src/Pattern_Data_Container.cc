@@ -4,20 +4,24 @@
 #include "stdio.h"
 #include <memory>
 
+//#define DEBUG_H
+
 using namespace CCD;
 
-Pattern_Data_Container::Pattern_Data_Container(unsigned short pattern_length, 
+Pattern_Data::Pattern_Data(unsigned short pattern_length, 
 		std::shared_ptr<Bin_Strategy> binner)
 	: Data_Container()
 {
+//	printf("Pattern_Data::Pattern_Data got here\n");
 	_binner = binner;
 	std::shared_ptr<CountingTree> tmp_root(new CountingTree(binner->get_bin_count(), 0));
 	_root.swap(tmp_root);
 	_pattern_length = pattern_length;
 }
 
-void Pattern_Data_Container::add_feature(double feature)
+void Pattern_Data::add_feature(double feature)
 {
+//	printf("Pattern_Data::add_feature got here\n");
 	unsigned short bin_number = _binner->get_bin_number(feature);
 	unsigned short bin_count = _binner->get_bin_count();
 	// sanity check: if the bin number is out of bounds

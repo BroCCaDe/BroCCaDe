@@ -9,10 +9,12 @@
 
 using namespace CCD;
 
+/*
 Entropy::Entropy(unsigned int step_size, std::shared_ptr<Bin_Strategy> binner) :
 	FlowAnalyzer(std::unique_ptr<Data_Container> (new Histogram(binner)), step_size)
 {
 }
+*/
 
 double Entropy::calculate_metric()
 {

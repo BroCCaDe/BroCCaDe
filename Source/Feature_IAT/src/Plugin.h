@@ -11,13 +11,17 @@ namespace FeatureExtraction_IAT {
 class Plugin : public ::plugin::Plugin
 {
 public:
-	void ExtractFeature(StringVal* UID, double duration);
+	// calculate the inter arrival time. This inherently implies
+	// that the first packet will not generate an event
+	void ExtractFeature(StringVal* UID, Val* id, double duration);
+	// whenever Bro removes a flow, we also remove the floe
 	void RemoveConnection(StringVal* UID);
 protected:
 	// Overridden from plugin::Plugin.
 	virtual plugin::Configuration Configure();
 private:
-	std::unordered_map<std::string, double>* _flow_dict;
+	// maintain the last duration of each flow
+	std::unordered_map<std::string, double>* _flow_dict;	
 };
 
 extern Plugin plugin;

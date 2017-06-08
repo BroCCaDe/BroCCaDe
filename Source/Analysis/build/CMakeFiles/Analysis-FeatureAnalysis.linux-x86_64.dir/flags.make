@@ -6,5 +6,5 @@ CXX_FLAGS =  -std=c++11 -Wall -Wno-unused  -Wall -Wno-unused -O2 -g -DNDEBUG -fP
 
 CXX_DEFINES = -DAnalysis_FeatureAnalysis_linux_x86_64_EXPORTS -DBRO_PLUGIN_INTERNAL_BUILD=false
 
-CXX_INCLUDES = -I/home/hendra/Experiment/IAT_Analysis/src -I/home/hendra/Experiment/IAT_Analysis -I/home/hendra/Experiment/IAT_Analysis/build/src -I/home/hendra/Experiment/IAT_Analysis/build -I/home/hendra/Bro/build/aux/binpac/lib -I/home/hendra/Bro/build/src -I/home/hendra/Bro/build -I/home/hendra/Bro/aux/binpac/lib -I/home/hendra/Bro/src 
+CXX_INCLUDES = -I/home/hendra/CCD/Source/Analysis/src -I/home/hendra/CCD/Source/Analysis -I/home/hendra/CCD/Source/Analysis/build/src -I/home/hendra/CCD/Source/Analysis/build -I/home/hendra/Bro/build/aux/binpac/lib -I/home/hendra/Bro/build/src -I/home/hendra/Bro/build -I/home/hendra/Bro/aux/binpac/lib -I/home/hendra/Bro/src 
 

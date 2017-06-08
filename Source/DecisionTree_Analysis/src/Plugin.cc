@@ -3,11 +3,30 @@
 #include "Event.h"
 #include "decisiontree.bif.h"
 
+// Macro to check the boundary, i.e. the ID against the existing classifiers
 #define CHECK_BOUND(ID) \
-	if ((unsigned int) ID > _count) { \
-		printf("Plugin::DecisionTree : Invalid ID %d (larger than %d)\n", ID, _count); \
-		return; \
-	}
+	if ((unsigned int) ID > _classifiers.size()) { \
+		printf("Plugin::DecisionTree : Invalid ID %d (larger than %lu)\n", ID, _classifiers.size()); \
+		return; }
+
+// Check whether a model specified by the ID has / has not been loaded
+#define CHECK_MODEL(ID, op, fmt) \
+	if (_classifiers[ID].get() op NULL) { \
+		printf(fmt, ID); \
+		return; }
+
+// Send the actual event
+#define SEND_EVENT(c) \
+	val_list* vl = new val_list; \
+	vl->append(new Val(c, TYPE_INT)); \
+	mgr.QueueEvent(DecisionTree::class_result_event, vl);
+
+// Sanity check for length that has to be equal
+#define LENGTH_CHECK(length1, length2, err) \
+	if (length1 != length2) { \
+		printf(err); \
+		return; }
+
 
 namespace plugin { namespace Analysis_DecisionTree { Plugin plugin; } }
 
@@ -26,90 +45,63 @@ plugin::Configuration Plugin::Configure()
 
 void plugin::Analysis_DecisionTree::Plugin::Init(unsigned int n)
 {
-	if (_init) {printf("Plugin::DecisionTree : already initialized\n"); return;}
-
-	_count = n;
+	_classifiers.clear();
 	_classifiers.resize(n);
-	_model_loaded.resize(n, false);
-	_init = true;
 }
 
 void plugin::Analysis_DecisionTree::Plugin::LoadModel(Val* ID_val, StringVal* model_name)
 {
 	int ID = ID_val->AsEnum();
 	CHECK_BOUND(ID);
-
-	if (_model_loaded[ID])
-	{
-		printf("Plugin::DecisionTree : Model (%d) has been loaded\n", ID);
-		return;
-	}
+	CHECK_MODEL(ID, !=, "Plugin::DecisionTree : Model (%d) has been loaded\n");
 
 	const char* model_file = (const char*) model_name->Bytes();
+#ifdef DEBUG_H
 	printf("model str : %s\n", model_file);
-
+#endif
+	
+	// load the classifier and move the reference
 	std::unique_ptr<c45_classifier> temp_classifier(new c45_classifier(model_file));
 	_classifiers[ID].swap(temp_classifier);
-
-	_model_loaded[ID] = true;
 }
 
 void plugin::Analysis_DecisionTree::Plugin::Classify(Val* ID_val, Val* features)
 {
 	int ID = ID_val->AsEnum();
+	printf("DecisionTree::Classify ID:%d\n", ID);
 	CHECK_BOUND(ID);
+	CHECK_MODEL(ID, ==, "Plugin::DecisionTree : Model (%d) has not been loaded\n");
 
-	if (!_model_loaded[ID])
-	{
-		printf("Plugin::DecisionTree : Model (%d) has not been loaded\n", ID);
-		return;
-	}
-
-	unsigned int i;
 	vector<Val*> features_vec = *(features->AsVector());
-	unsigned int fcnt = features_vec.size();
-	std::vector<double> features_double(fcnt);
+	LENGTH_CHECK(features_vec.size(), _classifiers[ID]->get_feature_length(),
+		"Plugin::DecisionTree : the length of the features are not the same\n"); 
 
-	for (i = 0; i < fcnt; i++)
+	// construct the vector of double as the classifier input
+	std::vector<double> features_double(_classifiers[ID]->get_feature_length());
+	for (unsigned int i = 0; i < _classifiers[ID]->get_feature_length(); i++)
 		features_double[i] = features_vec[i]->AsDouble();
 
-	int pred_class = _classifiers[ID]->c45_classify(features_double);
-
-	val_list* vl = new val_list;
-	vl->append(new Val(pred_class, TYPE_INT));
-	mgr.QueueEvent(DecisionTree::class_result_event, vl);
+	SEND_EVENT(_classifiers[ID]->c45_classify(features_double));
 }
 
 void plugin::Analysis_DecisionTree::Plugin::Classify_with_strings(Val* ID_val, Val* features, Val* features_str)
 {
 	int ID = ID_val->AsEnum();
 	CHECK_BOUND(ID);
+	CHECK_MODEL(ID, ==, "Plugin::DecisionTree : Model (%d) has not been loaded\n");
 
-	if (!_model_loaded[ID])
-	{
-		printf("Plugin::DecisionTree : Model (%d) has not been loaded\n", ID);
-		return;
-	}
-
-	unsigned int i, j;
-	unsigned int fcnt = _classifiers[ID]->get_feature_length();
 	vector<Val*> features_vec = *(features->AsVector());
-	unsigned int features_len = features_vec.size();
 	vector<Val*> features_str_vec = *(features_str->AsVector());
-	unsigned int features_str_len = features_str_vec.size();
-	// sanity check
-	if (features_len != features_str_len)
-	{
-		printf("Plugin::DecisionTree : the length of the vectors are not the same\n");
-		return;
-	}
+	LENGTH_CHECK(features_vec.size(), features_str_vec.size(), 
+		"Plugin::DecisionTree : the length of the vectors are not the same\n");
 
-	std::vector<double> features_double(fcnt);
-	// naive searching, matching the feature strings
-	for (i = 0; i < fcnt; i++)
+	// construct the vector of double as the classifier input
+	std::vector<double> features_double(_classifiers[ID]->get_feature_length());
+	// naive searching, matching the required features against the feature strings
+	for (unsigned int i = 0, j; i < _classifiers[ID]->get_feature_length(); i++)
 	{
 		std::string str = _classifiers[ID]->get_feature_str(i);
-		for (j = 0; j < features_str_len; j++)
+		for (j = 0; j < features_str_vec.size(); j++)
 		{
 			if (str.compare((const char*) features_str_vec[j]->AsStringVal()->Bytes()))
 			{
@@ -117,45 +109,32 @@ void plugin::Analysis_DecisionTree::Plugin::Classify_with_strings(Val* ID_val, V
 				break;
 			}
 		}
-		if (j == features_str_len) // if the string is not found
+		if (j == features_str_vec.size()) // if the string is not found, then abort
 		{
 			printf("Plugin::DecisionTree : feature string is not found \"%s\"\n", str.c_str());
 			return;
 		}
 	}
 
-	int pred_class = _classifiers[ID]->c45_classify(features_double);
-
-	val_list* vl = new val_list;
-	vl->append(new Val(pred_class, TYPE_INT));
-	mgr.QueueEvent(DecisionTree::class_result_event, vl);
+	SEND_EVENT(_classifiers[ID]->c45_classify(features_double));
 }
 
 void plugin::Analysis_DecisionTree::Plugin::Classify_record(Val* ID_val, Val* features)
 {
 	int ID = ID_val->AsEnum();
 	CHECK_BOUND(ID);
+	CHECK_MODEL(ID, ==, "Plugin::DecisionTree : Model (%d) has not been loaded\n");
 
-	if (!_model_loaded[ID])
-	{
-		printf("Plugin::DecisionTree : Model (%d) has not been loaded\n", ID);
-		return;
-	}
-
-	unsigned int i;
-	unsigned int fcnt = _classifiers[ID]->get_feature_length();
 	RecordVal* features_record = features->AsRecordVal();
-	std::vector<double> features_double(fcnt);
-	for (i = 0; i < fcnt; i++)
+
+	// construct the vector of double as the classifier input
+	std::vector<double> features_double(_classifiers[ID]->get_feature_length());
+	for (unsigned int i = 0; i < _classifiers[ID]->get_feature_length(); i++)
 	{
 		// if the string is not found in the record, then the program abort
 		features_double[i] = features_record->Lookup(
 			_classifiers[ID]->get_feature_str(i).c_str())->AsDouble();
 	}
 
-	int pred_class = _classifiers[ID]->c45_classify(features_double);
-
-	val_list* vl = new val_list;
-	vl->append(new Val(pred_class, TYPE_INT));
-	mgr.QueueEvent(DecisionTree::class_result_event, vl);
+	SEND_EVENT(_classifiers[ID]->c45_classify(features_double));
 }

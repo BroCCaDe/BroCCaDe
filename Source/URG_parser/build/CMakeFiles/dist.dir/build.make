@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/hendra/Experiment/URG_parser
+CMAKE_SOURCE_DIR = /home/hendra/CCD/Source/URG_parser
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/hendra/Experiment/URG_parser/build
+CMAKE_BINARY_DIR = /home/hendra/CCD/Source/URG_parser/build
 
 # Utility rule file for dist.
 
@@ -57,7 +57,7 @@ CMakeFiles/dist: FeatureExtraction_UrgentPointer.tar.gz
 
 
 FeatureExtraction_UrgentPointer.tar.gz: lib/FeatureExtraction-UrgentPointer.linux-x86_64.so
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/hendra/Experiment/URG_parser/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building binary plugin package: FeatureExtraction_UrgentPointer.tar.gz"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/hendra/CCD/Source/URG_parser/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building binary plugin package: FeatureExtraction_UrgentPointer.tar.gz"
 	/home/hendra/Bro/cmake/bro-plugin-create-package.sh FeatureExtraction_UrgentPointer README CHANGES COPYING VERSION
 
 dist: CMakeFiles/dist
@@ -76,6 +76,6 @@ CMakeFiles/dist.dir/clean:
 .PHONY : CMakeFiles/dist.dir/clean
 
 CMakeFiles/dist.dir/depend:
-	cd /home/hendra/Experiment/URG_parser/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hendra/Experiment/URG_parser /home/hendra/Experiment/URG_parser /home/hendra/Experiment/URG_parser/build /home/hendra/Experiment/URG_parser/build /home/hendra/Experiment/URG_parser/build/CMakeFiles/dist.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/hendra/CCD/Source/URG_parser/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hendra/CCD/Source/URG_parser /home/hendra/CCD/Source/URG_parser /home/hendra/CCD/Source/URG_parser/build /home/hendra/CCD/Source/URG_parser/build /home/hendra/CCD/Source/URG_parser/build/CMakeFiles/dist.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/dist.dir/depend
 

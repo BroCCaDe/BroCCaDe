@@ -24,19 +24,17 @@ plugin::Configuration Plugin::Configure()
 
 void Plugin::HookSetupAnalyzerTree(Connection *conn)
 {
-	if (conn==0) {//printf("\tConnection is null\n"); 
-		return;}
+	// only take care of TCP packet
 	if ( conn->ConnTransport() != TRANSPORT_TCP )
 		return;
 
-	//analyzer::tcp::TCP_Analyzer* tcp = 0;
 	analyzer::TransportLayerAnalyzer* root = 0;
 	root = conn->GetRootAnalyzer();
-	if (root==0) {printf("\tRoot analyzer is null\n"); return;}
 
+	// create the packet analyzer
 	URG_parser* urg_parser = new URG_parser(conn);
-	if (urg_parser==0) {printf("\tInitializing new parser is null\n"); return;}
 
+	// attach the packet analyzer to the analyzer tree
 	((analyzer::tcp::TCP_Analyzer *) root)->AddChildPacketAnalyzer(urg_parser);
 	
 	urg_parser->Init();

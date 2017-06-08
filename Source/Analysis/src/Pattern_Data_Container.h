@@ -9,12 +9,12 @@
 
 namespace CCD {
 
-class Pattern_Data_Container : public Data_Container
+class Pattern_Data : public Data_Container
 {
 public:
-	Pattern_Data_Container(unsigned short pattern_length, 
+	Pattern_Data(unsigned short pattern_length, 
 		std::shared_ptr<Bin_Strategy> binner);
-	virtual ~Pattern_Data_Container() {_pattern.clear();}
+	virtual ~Pattern_Data() {_pattern.clear();}
 
 	// return a boolean indicating whether the calculation is triggered
 	virtual void add_feature(double feature);
@@ -23,6 +23,9 @@ public:
 private:
 	unsigned short _pattern_length;		
 	unsigned short _bin_count;
+
+	// The internal of the data container is represented as a tree of depth equal to the
+	// pattern length. On each node, possible children are possible bin values.
 	std::shared_ptr<CountingTree> _root;	// the root of the tree data structure
 	std::list<unsigned short> _pattern;	// moving window of pattern
 	std::shared_ptr<Bin_Strategy> _binner;	// bin allocator

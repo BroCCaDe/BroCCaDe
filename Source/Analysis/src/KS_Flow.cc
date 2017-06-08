@@ -7,6 +7,7 @@
 
 using namespace CCD;
 
+/*
 // We expect that the normal data is sorted
 KS::KS(unsigned int window_size, unsigned int step_size,
 		std::shared_ptr<std::vector<double>> normal_data) :
@@ -17,6 +18,7 @@ KS::KS(unsigned int window_size, unsigned int step_size,
 	std::sort(_normal_data->begin(), _normal_data->end());
 }
 
+
 // Set the step size of the data container and the step_size contained 
 // in the superclass
 void KS::set_step_size(unsigned int step_size)
@@ -24,6 +26,7 @@ void KS::set_step_size(unsigned int step_size)
 	FlowAnalyzer::set_step_size(step_size);
 	((Raw_Data*)_data.get())->set_step_size(step_size);
 }
+*/
 
 double KS::calculate_metric()
 {

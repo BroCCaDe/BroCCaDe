@@ -7,11 +7,13 @@
 
 using namespace CCD;
 
+/*
 CCE::CCE(unsigned short step_size, unsigned short pattern_size, 
 		std::shared_ptr<Bin_Strategy> binner)
 	: FlowAnalyzer(std::unique_ptr<Pattern_Data_Container> 
 		(new Pattern_Data_Container(pattern_size, binner)), step_size)
 {}
+*/
 
 // do a Breadth First Traversal from the root of the tree, this way we know that 
 // the next child should be on the same level or one level below (simpler to check)
@@ -30,7 +32,7 @@ double CCE::calculate_metric()
 	std::list<std::shared_ptr<CountingTree>> queue, children;
 
 	// get the root of the tree
-	root = (static_cast<Pattern_Data_Container*>(_data.get()))->get_root();	
+	root = (static_cast<Pattern_Data*>(_data.get()))->get_root();	
 	total_pattern = root->get_count();
 
 	// count the first entropy EN(X1) by iterating over nodes of level 1

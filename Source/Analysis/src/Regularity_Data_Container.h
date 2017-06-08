@@ -6,12 +6,12 @@
 
 namespace CCD {
 
-class Regularity_Data_Container : public Data_Container
+class Regularity_Data : public Data_Container
 {
 public:
-	Regularity_Data_Container(unsigned short window_number, 
+	Regularity_Data(unsigned short window_number, 
 		unsigned short window_size);
-	virtual ~Regularity_Data_Container() {_stdev.clear();}
+	virtual ~Regularity_Data() {_stdev.clear();}
 
 	// return a boolean indicating whether the calculation is triggered
 	virtual void add_feature(double feature);

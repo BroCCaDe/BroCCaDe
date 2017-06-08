@@ -1,5 +1,6 @@
 #include "Regularity_Data_Container.h"
 #include <memory>
+#include <math.h>
 
 #ifdef DEBUG_H
 #include "stdio.h"
@@ -7,7 +8,8 @@
 
 using namespace CCD;
 
-Regularity_Data_Container::Regularity_Data_Container(unsigned short window_number,
+
+Regularity_Data::Regularity_Data(unsigned short window_number,
 		unsigned short window_size)
 	: Data_Container(), _window_number(window_number), _window_size(window_size)
 {
@@ -15,24 +17,25 @@ Regularity_Data_Container::Regularity_Data_Container(unsigned short window_numbe
 	reset_current_window();
 }
 
-void Regularity_Data_Container::add_feature(double feature)
+void Regularity_Data::add_feature(double feature)
 {
+//	printf("Regularity_Data::add_feature got here\n");
 	_current_data++;
 	rapid_stdev_calculation(feature);
-	if (current_data >= window_size)
+	if (_current_data >= _window_size)
 	{
 		add_stdev();
 		reset_current_window();
 	}	
 }
 
-void rapid_stdev_calculation(double feature)
+void Regularity_Data::rapid_stdev_calculation(double feature)
 {
 	_current_sum += feature;
 	_current_sum_square += (feature * feature);
 }
 
-void add_stdev()
+void Regularity_Data::add_stdev()
 {
 	// calculate the standard deviation
 	// sqrt(N s2 - s1^2) / N
@@ -50,7 +53,7 @@ void add_stdev()
 	}
 }
 
-void reset_current_window()
+void Regularity_Data::reset_current_window()
 {
 	_current_data = 0;
 	_current_sum_square = 0.0;

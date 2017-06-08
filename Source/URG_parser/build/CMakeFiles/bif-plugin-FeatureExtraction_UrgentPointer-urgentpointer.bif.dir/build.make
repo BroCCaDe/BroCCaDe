@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/hendra/Experiment/URG_parser
+CMAKE_SOURCE_DIR = /home/hendra/CCD/Source/URG_parser
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/hendra/Experiment/URG_parser/build
+CMAKE_BINARY_DIR = /home/hendra/CCD/Source/URG_parser/build
 
 # Utility rule file for bif-plugin-FeatureExtraction_UrgentPointer-urgentpointer.bif.
 
@@ -60,9 +60,9 @@ CMakeFiles/bif-plugin-FeatureExtraction_UrgentPointer-urgentpointer.bif: urgentp
 
 
 urgentpointer.bif.h: ../src/urgentpointer.bif
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/hendra/Experiment/URG_parser/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "[BIFCL] Processing src/urgentpointer.bif"
-	/home/hendra/Bro/build/src/bifcl -p FeatureExtraction::UrgentPointer /home/hendra/Experiment/URG_parser/src/urgentpointer.bif || ( rm -f urgentpointer.bif.h urgentpointer.bif.cc urgentpointer.bif.init.cc urgentpointer.bif.register.cc && exit 1 )
-	/usr/bin/cmake -E copy urgentpointer.bif.bro /home/hendra/Experiment/URG_parser/build/lib/bif/urgentpointer.bif.bro
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/hendra/CCD/Source/URG_parser/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "[BIFCL] Processing src/urgentpointer.bif"
+	/home/hendra/Bro/build/src/bifcl -p FeatureExtraction::UrgentPointer /home/hendra/CCD/Source/URG_parser/src/urgentpointer.bif || ( rm -f urgentpointer.bif.h urgentpointer.bif.cc urgentpointer.bif.init.cc urgentpointer.bif.register.cc && exit 1 )
+	/usr/bin/cmake -E copy urgentpointer.bif.bro /home/hendra/CCD/Source/URG_parser/build/lib/bif/urgentpointer.bif.bro
 	/usr/bin/cmake -E remove -f urgentpointer.bif.bro
 
 urgentpointer.bif.cc: urgentpointer.bif.h
@@ -97,6 +97,6 @@ CMakeFiles/bif-plugin-FeatureExtraction_UrgentPointer-urgentpointer.bif.dir/clea
 .PHONY : CMakeFiles/bif-plugin-FeatureExtraction_UrgentPointer-urgentpointer.bif.dir/clean
 
 CMakeFiles/bif-plugin-FeatureExtraction_UrgentPointer-urgentpointer.bif.dir/depend:
-	cd /home/hendra/Experiment/URG_parser/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hendra/Experiment/URG_parser /home/hendra/Experiment/URG_parser /home/hendra/Experiment/URG_parser/build /home/hendra/Experiment/URG_parser/build /home/hendra/Experiment/URG_parser/build/CMakeFiles/bif-plugin-FeatureExtraction_UrgentPointer-urgentpointer.bif.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/hendra/CCD/Source/URG_parser/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hendra/CCD/Source/URG_parser /home/hendra/CCD/Source/URG_parser /home/hendra/CCD/Source/URG_parser/build /home/hendra/CCD/Source/URG_parser/build /home/hendra/CCD/Source/URG_parser/build/CMakeFiles/bif-plugin-FeatureExtraction_UrgentPointer-urgentpointer.bif.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/bif-plugin-FeatureExtraction_UrgentPointer-urgentpointer.bif.dir/depend
 

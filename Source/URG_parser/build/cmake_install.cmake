@@ -1,4 +1,4 @@
-# Install script for directory: /home/hendra/Experiment/URG_parser
+# Install script for directory: /home/hendra/CCD/Source/URG_parser
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -35,7 +35,7 @@ endif()
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
   execute_process(
         COMMAND /home/hendra/Bro/cmake/bro-plugin-install-package.sh FeatureExtraction_UrgentPointer $ENV{DESTDIR}//usr/local/bro/lib/bro/plugins
-        WORKING_DIRECTORY /home/hendra/Experiment/URG_parser/build
+        WORKING_DIRECTORY /home/hendra/CCD/Source/URG_parser/build
     )
 endif()
 
@@ -47,5 +47,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/hendra/Experiment/URG_parser/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home/hendra/CCD/Source/URG_parser/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

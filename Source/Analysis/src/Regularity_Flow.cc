@@ -9,12 +9,14 @@
 
 using namespace CCD;
 
+/*
 Regularity::Regularity(unsigned int step_size, unsigned short window_number, 
 		unsigned short window_size, int) :
 	FlowAnalyzer(std::unique_ptr<Data_Container> 
 	(new Regularity_Data_Container(window_number, window_size)), step_size)
 {
 }
+*/
 
 double Regularity::calculate_metric()
 {
@@ -22,10 +24,10 @@ double Regularity::calculate_metric()
 	int N;
 	double sum = 0.0;		// sum (|sigma_j - sigma_i| / sigma_i)
 	double sum_square = 0.0;	// sum ((|sigma_j - sigma_i| / sigma_j)^2)
-	Regularity_Data_Container* ptr = 
-		static_cast<Regularity_Data_Container*> (_data.get());
+	Regularity_Data* ptr = static_cast<Regularity_Data*> (_data.get());
 	
 	std::vector<double> stdev (ptr->get_stdev());
+	N = stdev.size();
 
 	for (j = 0; j < stdev.size(); j++) // forall j
 	{
@@ -39,5 +41,5 @@ double Regularity::calculate_metric()
 	}
 	
 	// stdev (|sigma_j - sigma_i| / sigma_i) for all j, i < j
-	return sqrt((N * sum_square) - (sum * sum)) / N 
+	return sqrt((N * sum_square) - (sum * sum)) / N;
 }

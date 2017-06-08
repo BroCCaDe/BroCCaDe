@@ -6,5 +6,5 @@ CXX_FLAGS =  -std=c++11 -Wall -Wno-unused  -Wall -Wno-unused -O2 -g -DNDEBUG -fP
 
 CXX_DEFINES = -DBRO_PLUGIN_INTERNAL_BUILD=false -DFeatureExtraction_UrgentPointer_linux_x86_64_EXPORTS
 
-CXX_INCLUDES = -I/home/hendra/Experiment/URG_parser/src -I/home/hendra/Experiment/URG_parser -I/home/hendra/Experiment/URG_parser/build/src -I/home/hendra/Experiment/URG_parser/build -I/home/hendra/Bro/build/aux/binpac/lib -I/home/hendra/Bro/build/src -I/home/hendra/Bro/build -I/home/hendra/Bro/aux/binpac/lib -I/home/hendra/Bro/src 
+CXX_INCLUDES = -I/home/hendra/CCD/Source/URG_parser/src -I/home/hendra/CCD/Source/URG_parser -I/home/hendra/CCD/Source/URG_parser/build/src -I/home/hendra/CCD/Source/URG_parser/build -I/home/hendra/Bro/build/aux/binpac/lib -I/home/hendra/Bro/build/src -I/home/hendra/Bro/build -I/home/hendra/Bro/aux/binpac/lib -I/home/hendra/Bro/src 
 

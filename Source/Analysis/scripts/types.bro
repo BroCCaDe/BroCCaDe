@@ -1,4 +1,4 @@
-type analysis_tag : enum {INTERARRIVAL_TIME, PACKET_LENGTH, URG_FLAG, URG_POINTER};
+type analysis_tag : enum {INTERARRIVAL_TIME, PACKET_LENGTH, URG_FLAG, URG_POINTER, ICMP_PAYLOAD_4_BYTES};
 
 #type analysis_id : IAT::Analysis_ID;
 
@@ -15,7 +15,7 @@ export
 {
 	module FeatureAnalysis;
 
-	type set_ID : enum {URGENT_SET, IAT_SET, PTUNNEL_SET};
+	type set_ID : enum {URGENT_SET = 0, IAT_SET = 1, PTUNNEL_SET = 2};
 
 	type decision_tree_args : record
 	{

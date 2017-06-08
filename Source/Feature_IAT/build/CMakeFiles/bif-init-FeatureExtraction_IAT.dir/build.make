@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/hendra/Experiment/Feature_IAT
+CMAKE_SOURCE_DIR = /home/hendra/CCD/Source/Feature_IAT
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/hendra/Experiment/Feature_IAT/build
+CMAKE_BINARY_DIR = /home/hendra/CCD/Source/Feature_IAT/build
 
 # Utility rule file for bif-init-FeatureExtraction_IAT.
 
@@ -54,8 +54,8 @@ CMAKE_BINARY_DIR = /home/hendra/Experiment/Feature_IAT/build
 include CMakeFiles/bif-init-FeatureExtraction_IAT.dir/progress.make
 
 CMakeFiles/bif-init-FeatureExtraction_IAT:
-	cd /home/hendra/Experiment/Feature_IAT/build/lib/bif && sh -c "rm -f /home/hendra/Experiment/Feature_IAT/build/lib/bif/__load__.bro"
-	cd /home/hendra/Experiment/Feature_IAT/build/lib/bif && sh -c "for i in  iat.bif.bro; do echo @load ./\$$i >> /home/hendra/Experiment/Feature_IAT/build/lib/bif/__load__.bro; done"
+	cd /home/hendra/CCD/Source/Feature_IAT/build/lib/bif && sh -c "rm -f /home/hendra/CCD/Source/Feature_IAT/build/lib/bif/__load__.bro"
+	cd /home/hendra/CCD/Source/Feature_IAT/build/lib/bif && sh -c "for i in  iat.bif.bro; do echo @load ./\$$i >> /home/hendra/CCD/Source/Feature_IAT/build/lib/bif/__load__.bro; done"
 
 bif-init-FeatureExtraction_IAT: CMakeFiles/bif-init-FeatureExtraction_IAT
 bif-init-FeatureExtraction_IAT: CMakeFiles/bif-init-FeatureExtraction_IAT.dir/build.make
@@ -72,6 +72,6 @@ CMakeFiles/bif-init-FeatureExtraction_IAT.dir/clean:
 .PHONY : CMakeFiles/bif-init-FeatureExtraction_IAT.dir/clean
 
 CMakeFiles/bif-init-FeatureExtraction_IAT.dir/depend:
-	cd /home/hendra/Experiment/Feature_IAT/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hendra/Experiment/Feature_IAT /home/hendra/Experiment/Feature_IAT /home/hendra/Experiment/Feature_IAT/build /home/hendra/Experiment/Feature_IAT/build /home/hendra/Experiment/Feature_IAT/build/CMakeFiles/bif-init-FeatureExtraction_IAT.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/hendra/CCD/Source/Feature_IAT/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hendra/CCD/Source/Feature_IAT /home/hendra/CCD/Source/Feature_IAT /home/hendra/CCD/Source/Feature_IAT/build /home/hendra/CCD/Source/Feature_IAT/build /home/hendra/CCD/Source/Feature_IAT/build/CMakeFiles/bif-init-FeatureExtraction_IAT.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/bif-init-FeatureExtraction_IAT.dir/depend
 

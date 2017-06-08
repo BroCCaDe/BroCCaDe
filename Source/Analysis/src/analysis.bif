@@ -27,9 +27,9 @@ function Extract_vector%(v : result_vector%): FeatureAnalysis::feature_vector
 	%}
 
 
-function SetStepSize%(step_size : count%): bool
+function SetStepSize%(id : set_ID, step_size : count%): bool
 	%{
-		plugin_ref->SetStepSize(step_size);
+		plugin_ref->SetStepSize(id, step_size);
 		return new Val(1, TYPE_BOOL);
 	%}
 
@@ -39,18 +39,22 @@ function RemoveConn%(UID : string%): bool
 		return new Val(1, TYPE_BOOL);
 	%}
 
-function RegisterAnalysis%(UID : string, feature: double, 
-		aid: Analysis_ID, tag: analysis_tag%): bool
+function RegisterAnalysis%(UID : string, id : set_ID, conn_ID : conn_id %): bool
 	%{
-		plugin_ref->RegisterAnalysis(UID, feature, aid, tag);
+		plugin_ref->RegisterAnalysis(UID, id, conn_ID);
 		return new Val(1, TYPE_BOOL);
 	%}
 
-function CalculateMetric %(id : set_ID %): bool
+function AddFeature%(UID : string, feature: double, 
+		aid: Analysis_ID, tag: analysis_tag%): bool
 	%{
-	  	//plugin::PTunnel_Analysis::CalculateMetric(features);
-		//plugin_ref->CalculateMetric(UID, features, aid, tag);
-		plugin_ref->CalculateMetric(id);
+		plugin_ref->AddFeature(UID, feature, aid, tag);
+		return new Val(1, TYPE_BOOL);
+	%}
+
+function CalculateMetric %(%): bool
+	%{
+		plugin_ref->CalculateMetric();
 		return new Val(1, TYPE_BOOL);
 	%}
 

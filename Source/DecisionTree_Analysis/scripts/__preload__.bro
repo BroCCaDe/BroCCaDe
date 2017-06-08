@@ -8,6 +8,6 @@
 # 
 
 @load ./types.bro
-@load ../../IAT_Analysis/scripts/types.bro
+@load ../../Analysis/scripts/types.bro
 
 

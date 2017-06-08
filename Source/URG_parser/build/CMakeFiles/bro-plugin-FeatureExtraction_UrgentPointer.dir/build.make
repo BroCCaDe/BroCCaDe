@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/hendra/Experiment/URG_parser
+CMAKE_SOURCE_DIR = /home/hendra/CCD/Source/URG_parser
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/hendra/Experiment/URG_parser/build
+CMAKE_BINARY_DIR = /home/hendra/CCD/Source/URG_parser/build
 
 # Utility rule file for bro-plugin-FeatureExtraction_UrgentPointer.
 
@@ -54,8 +54,8 @@ CMAKE_BINARY_DIR = /home/hendra/Experiment/URG_parser/build
 include CMakeFiles/bro-plugin-FeatureExtraction_UrgentPointer.dir/progress.make
 
 CMakeFiles/bro-plugin-FeatureExtraction_UrgentPointer:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/hendra/Experiment/URG_parser/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Creating __bro_plugin__ for FeatureExtraction::UrgentPointer"
-	echo FeatureExtraction::UrgentPointer >/home/hendra/Experiment/URG_parser/build/__bro_plugin__
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/hendra/CCD/Source/URG_parser/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Creating __bro_plugin__ for FeatureExtraction::UrgentPointer"
+	echo FeatureExtraction::UrgentPointer >/home/hendra/CCD/Source/URG_parser/build/__bro_plugin__
 
 bro-plugin-FeatureExtraction_UrgentPointer: CMakeFiles/bro-plugin-FeatureExtraction_UrgentPointer
 bro-plugin-FeatureExtraction_UrgentPointer: CMakeFiles/bro-plugin-FeatureExtraction_UrgentPointer.dir/build.make
@@ -72,6 +72,6 @@ CMakeFiles/bro-plugin-FeatureExtraction_UrgentPointer.dir/clean:
 .PHONY : CMakeFiles/bro-plugin-FeatureExtraction_UrgentPointer.dir/clean
 
 CMakeFiles/bro-plugin-FeatureExtraction_UrgentPointer.dir/depend:
-	cd /home/hendra/Experiment/URG_parser/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hendra/Experiment/URG_parser /home/hendra/Experiment/URG_parser /home/hendra/Experiment/URG_parser/build /home/hendra/Experiment/URG_parser/build /home/hendra/Experiment/URG_parser/build/CMakeFiles/bro-plugin-FeatureExtraction_UrgentPointer.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/hendra/CCD/Source/URG_parser/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hendra/CCD/Source/URG_parser /home/hendra/CCD/Source/URG_parser /home/hendra/CCD/Source/URG_parser/build /home/hendra/CCD/Source/URG_parser/build /home/hendra/CCD/Source/URG_parser/build/CMakeFiles/bro-plugin-FeatureExtraction_UrgentPointer.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/bro-plugin-FeatureExtraction_UrgentPointer.dir/depend
 
