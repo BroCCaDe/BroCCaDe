@@ -5,15 +5,10 @@
 
 using namespace CCD;
 
-/*
-MultiModal::MultiModal(unsigned int step_size, std::shared_ptr<Bin_Strategy> binner) :
-	FlowAnalyzer(std::unique_ptr<Histogram> (new Histogram(binner)), step_size) {}
-*/
-
 double MultiModal::calculate_metric()
 {
 	Histogram* ptr = static_cast<Histogram*> (_data.get());
-	unsigned short bin_count = ptr->get_bin_count();
+	unsigned short bin_count = ptr->get_bin_count();		// get the number of bins
 	unsigned long max_i = 0;
 	unsigned long sum_square_i = 0;
 #ifdef DEBUG

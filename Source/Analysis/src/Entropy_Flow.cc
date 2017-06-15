@@ -1,7 +1,7 @@
 #include <vector>		// vector
 #include <math.h>		// log
 #include "Entropy_Flow.h"
-#include "Histogram.h"
+#include "Histogram.h"		// Histogram
 
 #ifdef DEBUG_H
 #include <stdio.h>		// printf
@@ -9,18 +9,11 @@
 
 using namespace CCD;
 
-/*
-Entropy::Entropy(unsigned int step_size, std::shared_ptr<Bin_Strategy> binner) :
-	FlowAnalyzer(std::unique_ptr<Data_Container> (new Histogram(binner)), step_size)
-{
-}
-*/
-
 double Entropy::calculate_metric()
 {
 	unsigned short i;
 	Histogram* ptr = static_cast<Histogram*> (_data.get());
-	unsigned short bin_count = ptr->get_bin_count();
+	unsigned short bin_count = ptr->get_bin_count();	// get the number of bins
 	double entropy = 0.0;
 #ifdef DEBUG_H
 	printf("Entropy: total data %lu\n", ptr->get_total_data());

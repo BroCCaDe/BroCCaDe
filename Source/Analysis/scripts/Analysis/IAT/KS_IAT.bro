@@ -1,14 +1,16 @@
 @load /opt/bro/lib/bro/plugins/FeatureExtraction/lib/bif
 @load /opt/bro/lib/bro/plugins/FeatureExtraction_URG/lib/bif
 @load /opt/bro/lib/bro/plugins/FeatureExtraction_PTunnel/lib/bif
+@load /opt/bro/lib/bro/plugins/FeatureExtraction_PTunnel/scripts/PTunnel/FeatureExtraction
 
 event bro_init()
 {
 	print("Loading Analysis Script");
-	DecisionTree::Init(3);
+	DecisionTree::Init(4);
 	DecisionTree::LoadModel(FeatureAnalysis::PTUNNEL_SET, "TreeModel-PingTunnel");
 	DecisionTree::LoadModel(FeatureAnalysis::URGENT_SET, "TreeModel-URG");
 	DecisionTree::LoadModel(FeatureAnalysis::IAT_SET, "TreeModel-IAT");
+	DecisionTree::LoadModel(FeatureAnalysis::PACKET_LENGTH_SET, "TreeModel-IAT");
 }
 
 event connection_state_remove (c: connection)
@@ -16,37 +18,82 @@ event connection_state_remove (c: connection)
 	FeatureAnalysis::RemoveConn(c$uid);
 }
 
+event PacketLength_feature_event(UID:string, id:conn_id, value: double) {
+#	print (fmt("LENGTH : %s", UID));
+	FeatureAnalysis::RegisterAnalysis(UID, FeatureAnalysis::PACKET_LENGTH_SET, id);
+
+	local aid : vector of FeatureAnalysis::Analysis_ID;
+	aid[0] = FeatureAnalysis::KS_ANALYSIS;
+	aid[1] = FeatureAnalysis::ENTROPY_ANALYSIS;
+	aid[2] = FeatureAnalysis::CCE_ANALYSIS;
+	aid[3] = FeatureAnalysis::MULTIMODAL_ANALYSIS;
+	aid[4] = FeatureAnalysis::AUTOCORRELATION_ANALYSIS;
+	aid[5] = FeatureAnalysis::REGULARITY_ANALYSIS;
+
+	FeatureAnalysis::AddFeature(UID, value, aid, PACKET_LENGTH);
+
+#	FeatureAnalysis::AddFeature(UID, value, FeatureAnalysis::KS_ANALYSIS, PACKET_LENGTH);
+#	FeatureAnalysis::AddFeature(UID, value, FeatureAnalysis::ENTROPY_ANALYSIS, PACKET_LENGTH);
+#	FeatureAnalysis::AddFeature(UID, value, FeatureAnalysis::CCE_ANALYSIS, PACKET_LENGTH);
+#	FeatureAnalysis::AddFeature(UID, value, FeatureAnalysis::MULTIMODAL_ANALYSIS, PACKET_LENGTH);
+#	FeatureAnalysis::AddFeature(UID, value, FeatureAnalysis::AUTOCORRELATION_ANALYSIS, PACKET_LENGTH);
+#	FeatureAnalysis::AddFeature(UID, value, FeatureAnalysis::REGULARITY_ANALYSIS, PACKET_LENGTH);
+	FeatureAnalysis::CalculateMetric();
+}
+
 event IAT::feature_event(UID:string, id:conn_id, value: double) {
-	print (fmt("IAT : %s", UID));
+#	print (fmt("IAT : %s", UID));
 	FeatureAnalysis::RegisterAnalysis(UID, FeatureAnalysis::IAT_SET, id);
-	FeatureAnalysis::AddFeature(UID, value, FeatureAnalysis::KS_ANALYSIS, INTERARRIVAL_TIME);
-	FeatureAnalysis::AddFeature(UID, value, FeatureAnalysis::ENTROPY_ANALYSIS, INTERARRIVAL_TIME);
-	FeatureAnalysis::AddFeature(UID, value, FeatureAnalysis::CCE_ANALYSIS, INTERARRIVAL_TIME);
-	FeatureAnalysis::AddFeature(UID, value, FeatureAnalysis::MULTIMODAL_ANALYSIS, INTERARRIVAL_TIME);
-	FeatureAnalysis::AddFeature(UID, value, FeatureAnalysis::AUTOCORRELATION_ANALYSIS, INTERARRIVAL_TIME);
-	FeatureAnalysis::AddFeature(UID, value, FeatureAnalysis::REGULARITY_ANALYSIS, INTERARRIVAL_TIME);
+
+	local aid : vector of FeatureAnalysis::Analysis_ID;
+	aid[0] = FeatureAnalysis::KS_ANALYSIS;
+	aid[1] = FeatureAnalysis::ENTROPY_ANALYSIS;
+	aid[2] = FeatureAnalysis::CCE_ANALYSIS;
+	aid[3] = FeatureAnalysis::MULTIMODAL_ANALYSIS;
+	aid[4] = FeatureAnalysis::AUTOCORRELATION_ANALYSIS;
+	aid[5] = FeatureAnalysis::REGULARITY_ANALYSIS;
+
+	FeatureAnalysis::AddFeature(UID, value, aid, INTERARRIVAL_TIME);
+
+#	FeatureAnalysis::AddFeature(UID, value, FeatureAnalysis::KS_ANALYSIS, INTERARRIVAL_TIME);
+#	FeatureAnalysis::AddFeature(UID, value, FeatureAnalysis::ENTROPY_ANALYSIS, INTERARRIVAL_TIME);
+#	FeatureAnalysis::AddFeature(UID, value, FeatureAnalysis::CCE_ANALYSIS, INTERARRIVAL_TIME);
+#	FeatureAnalysis::AddFeature(UID, value, FeatureAnalysis::MULTIMODAL_ANALYSIS, INTERARRIVAL_TIME);
+#	FeatureAnalysis::AddFeature(UID, value, FeatureAnalysis::AUTOCORRELATION_ANALYSIS, INTERARRIVAL_TIME);
+#	FeatureAnalysis::AddFeature(UID, value, FeatureAnalysis::REGULARITY_ANALYSIS, INTERARRIVAL_TIME);
 	FeatureAnalysis::CalculateMetric();
 }
 
 event FeatureExtraction::URG_feature_event(UID : string, id : conn_id, URG_flag : count, URG_ptr : count) {
-	print (fmt("URG : %s", UID));
-	#print(fmt ("%s - URG_flag : %d - URG_ptr : %d", UID, URG_flag, URG_ptr));
+#	print (fmt("URG : %s", UID));
+
+	local aid : vector of FeatureAnalysis::Analysis_ID;
+	aid[0] = FeatureAnalysis::NULL_ANALYSIS;
+
 	FeatureAnalysis::RegisterAnalysis(UID, FeatureAnalysis::URGENT_SET, id);
-	FeatureAnalysis::AddFeature(UID, URG_flag, FeatureAnalysis::NULL_ANALYSIS, URG_FLAG);
-	FeatureAnalysis::AddFeature(UID, URG_ptr, FeatureAnalysis::NULL_ANALYSIS, URG_POINTER);
+	FeatureAnalysis::AddFeature(UID, URG_flag, aid, URG_FLAG);
+	FeatureAnalysis::AddFeature(UID, URG_ptr, aid, URG_POINTER);
 	FeatureAnalysis::CalculateMetric();
 }
 
 event FeatureExtraction::PTunnel_feature_event(UID : string, id : conn_id, payload : double)
 {
-	print (fmt("PTUNNEL : %s", UID));
+#	print (fmt("PTUNNEL : %s", UID));
+
+	local aid : vector of FeatureAnalysis::Analysis_ID;
+	aid[0] = FeatureAnalysis::NULL_ANALYSIS;
+
 	FeatureAnalysis::RegisterAnalysis(UID, FeatureAnalysis::PTUNNEL_SET, id);
-	FeatureAnalysis::AddFeature(UID, payload, FeatureAnalysis::NULL_ANALYSIS, ICMP_PAYLOAD_4_BYTES);
+	FeatureAnalysis::AddFeature(UID, payload, aid, ICMP_PAYLOAD_4_BYTES);
 	FeatureAnalysis::CalculateMetric();
 }
 
 event FeatureAnalysis::metric_event(id : FeatureAnalysis::set_ID, v : result_vector)
 {
+#	print (fmt("ID is %d : ", id));
+#	print (v);
+	for (i in v)
+		if (v[i]$value > 0.5) print(v[i]$value);
 	DecisionTree::Classify(id, FeatureAnalysis::Extract_vector(v));
 }
 

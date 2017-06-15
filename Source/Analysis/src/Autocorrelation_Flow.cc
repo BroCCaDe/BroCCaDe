@@ -6,14 +6,6 @@
 
 using namespace CCD;
 
-/*
-// Just initialize the data container (raw) as required by the super class
-Autocorrelation::Autocorrelation(unsigned int step_size, unsigned int window_size) :
-	FlowAnalyzer(std::unique_ptr<Raw_Data>(new Raw_Data(window_size, step_size)), step_size)
-{
-}
-*/
-
 //===========================================================================
 //=  Function to compute mean for a series X                                =
 //===========================================================================

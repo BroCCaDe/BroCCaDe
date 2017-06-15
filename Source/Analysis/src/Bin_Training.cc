@@ -30,9 +30,9 @@ std::vector< std::pair<double, double> >
 	// {l3 - (l3 - r2) / 2, DBL_MAX}
 	for (unsigned int i = 1, idx=step; i < bin_number - 1; i++, idx+=step)
 	{
-		double right = _data[idx+1] - (_data[idx+1] - _data[idx]) / 2.0;
+		double right = (_data[idx+1] + _data[idx]) / 2.0;
 		// simple countermeasure when left = right, add a tiny value
-		if (right == left) right += DBL_MIN
+		if (right <= left) right = left + DBL_MIN
 		result.emplace_back(left, right);
 		left = right;
 	}

@@ -22,7 +22,6 @@ public:
 	std::shared_ptr<CountingTree> get_root() {return _root;}
 private:
 	unsigned short _pattern_length;		
-	unsigned short _bin_count;
 
 	// The internal of the data container is represented as a tree of depth equal to the
 	// pattern length. On each node, possible children are possible bin values.

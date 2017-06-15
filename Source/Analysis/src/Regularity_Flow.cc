@@ -9,15 +9,6 @@
 
 using namespace CCD;
 
-/*
-Regularity::Regularity(unsigned int step_size, unsigned short window_number, 
-		unsigned short window_size, int) :
-	FlowAnalyzer(std::unique_ptr<Data_Container> 
-	(new Regularity_Data_Container(window_number, window_size)), step_size)
-{
-}
-*/
-
 double Regularity::calculate_metric()
 {
 	unsigned short i, j;

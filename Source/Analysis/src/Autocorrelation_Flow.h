@@ -9,25 +9,7 @@ namespace CCD {
 
 #define DEFAULT_NUM_LAG 1
 
-/*
 // Compute autocorrelation for various lags
-class Autocorrelation : public FlowAnalyzer {
-public:
-	// Constructor: specify the window size and step size for the data series
-	Autocorrelation(unsigned int step_size, unsigned int window_size);
-	virtual ~Autocorrelation() {};
-
-	// Set the lags. If there are no lags specified, it contains 
-	// the sole DEFAULT_NUM_LAG
-	void set_lag(std::vector<unsigned int> lag) {_lag = std::move(lag);}
-protected:
-	// Calculate the metric by constructing the class to compute autocorrelation,
-	// calculate the mean, the variance, and autocorrelation for various lags.
-	virtual double calculate_metric();
-private:
-	std::vector<unsigned int> _lag;	// array of lag values
-};*/
-
 class Autocorrelation : public FeatureAnalyzer {
 public:
 	// Constructor: specify the window size and step size for the data series

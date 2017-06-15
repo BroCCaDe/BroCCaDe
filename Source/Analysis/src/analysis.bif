@@ -46,7 +46,7 @@ function RegisterAnalysis%(UID : string, id : set_ID, conn_ID : conn_id %): bool
 	%}
 
 function AddFeature%(UID : string, feature: double, 
-		aid: Analysis_ID, tag: analysis_tag%): bool
+		aid : any, tag : analysis_tag%): bool
 	%{
 		plugin_ref->AddFeature(UID, feature, aid, tag);
 		return new Val(1, TYPE_BOOL);

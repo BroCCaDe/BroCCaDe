@@ -33,7 +33,7 @@ global RemoveConn: function(UID: string ): bool ;
 global RegisterAnalysis: function(UID: string , id: set_ID , conn_ID: conn_id ): bool ;
 
 
-global AddFeature: function(UID: string , feature: double , aid: Analysis_ID , tag: analysis_tag ): bool ;
+global AddFeature: function(UID: string , feature: double , aid: any , tag: analysis_tag ): bool ;
 
 
 global CalculateMetric: function (): bool ;

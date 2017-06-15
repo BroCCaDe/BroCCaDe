@@ -68,7 +68,6 @@ void plugin::Analysis_DecisionTree::Plugin::LoadModel(Val* ID_val, StringVal* mo
 void plugin::Analysis_DecisionTree::Plugin::Classify(Val* ID_val, Val* features)
 {
 	int ID = ID_val->AsEnum();
-	printf("DecisionTree::Classify ID:%d\n", ID);
 	CHECK_BOUND(ID);
 	CHECK_MODEL(ID, ==, "Plugin::DecisionTree : Model (%d) has not been loaded\n");
 

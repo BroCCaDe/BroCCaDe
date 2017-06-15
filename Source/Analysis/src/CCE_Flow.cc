@@ -7,14 +7,6 @@
 
 using namespace CCD;
 
-/*
-CCE::CCE(unsigned short step_size, unsigned short pattern_size, 
-		std::shared_ptr<Bin_Strategy> binner)
-	: FlowAnalyzer(std::unique_ptr<Pattern_Data_Container> 
-		(new Pattern_Data_Container(pattern_size, binner)), step_size)
-{}
-*/
-
 // do a Breadth First Traversal from the root of the tree, this way we know that 
 // the next child should be on the same level or one level below (simpler to check)
 double CCE::calculate_metric()

@@ -7,27 +7,6 @@
 
 using namespace CCD;
 
-/*
-// We expect that the normal data is sorted
-KS::KS(unsigned int window_size, unsigned int step_size,
-		std::shared_ptr<std::vector<double>> normal_data) :
-	FlowAnalyzer(std::unique_ptr<Raw_Data>
-		(new Raw_Data(window_size, step_size)), step_size),
-	_normal_data(normal_data)
-{
-	std::sort(_normal_data->begin(), _normal_data->end());
-}
-
-
-// Set the step size of the data container and the step_size contained 
-// in the superclass
-void KS::set_step_size(unsigned int step_size)
-{
-	FlowAnalyzer::set_step_size(step_size);
-	((Raw_Data*)_data.get())->set_step_size(step_size);
-}
-*/
-
 double KS::calculate_metric()
 {
 	double d;
@@ -49,12 +28,14 @@ double KS::calculate_metric()
 }
 
 // modified from numerical recipes by assuming that data1 and data2 are already sorted
-void KS::kstwo(std::vector<double> data1, unsigned int n1, 
-	std::vector<double> data2, unsigned int n2, double *d, double *prob)
+void KS::kstwo(std::vector<double> data1, std::vector<double> data2, double *d, double *prob)
 {
 	unsigned long j1=0,j2=0;
+	unsigned int n1, n2;
 	double d1,d2,dt,en1,en2,en,fn1=0.0,fn2=0.0;
 
+	n1 = data1.size();
+	n2 = data2.size();
 	en1=n1;
 	en2=n2;
 	*d=0.0;

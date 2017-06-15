@@ -15,7 +15,7 @@ export
 {
 	module FeatureAnalysis;
 
-	type set_ID : enum {URGENT_SET = 0, IAT_SET = 1, PTUNNEL_SET = 2};
+	type set_ID : enum {URGENT_SET = 0, IAT_SET = 1, PTUNNEL_SET = 2, PACKET_LENGTH_SET = 3};
 
 	type decision_tree_args : record
 	{
