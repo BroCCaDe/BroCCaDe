@@ -19,7 +19,6 @@ event connection_state_remove (c: connection)
 }
 
 event PacketLength_feature_event(UID:string, id:conn_id, value: double) {
-#	print (fmt("LENGTH : %s", UID));
 	FeatureAnalysis::RegisterAnalysis(UID, FeatureAnalysis::PACKET_LENGTH_SET, id);
 
 	local aid : vector of FeatureAnalysis::Analysis_ID;
@@ -31,13 +30,6 @@ event PacketLength_feature_event(UID:string, id:conn_id, value: double) {
 	aid[5] = FeatureAnalysis::REGULARITY_ANALYSIS;
 
 	FeatureAnalysis::AddFeature(UID, value, aid, PACKET_LENGTH);
-
-#	FeatureAnalysis::AddFeature(UID, value, FeatureAnalysis::KS_ANALYSIS, PACKET_LENGTH);
-#	FeatureAnalysis::AddFeature(UID, value, FeatureAnalysis::ENTROPY_ANALYSIS, PACKET_LENGTH);
-#	FeatureAnalysis::AddFeature(UID, value, FeatureAnalysis::CCE_ANALYSIS, PACKET_LENGTH);
-#	FeatureAnalysis::AddFeature(UID, value, FeatureAnalysis::MULTIMODAL_ANALYSIS, PACKET_LENGTH);
-#	FeatureAnalysis::AddFeature(UID, value, FeatureAnalysis::AUTOCORRELATION_ANALYSIS, PACKET_LENGTH);
-#	FeatureAnalysis::AddFeature(UID, value, FeatureAnalysis::REGULARITY_ANALYSIS, PACKET_LENGTH);
 	FeatureAnalysis::CalculateMetric();
 }
 
