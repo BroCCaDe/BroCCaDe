@@ -22,8 +22,37 @@
  * C4.5 classifier 
  */
 
-//#include <sys/types.h>
-//#include <sys/socket.h>
+/*******************************************************************************\
+* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murodch.edu.au)            *
+*                                                                               *
+* Redistribution and use in source and binary forms, with or without            *
+* modification, are permitted provided that the following conditions are met:   *
+*                                                                               *
+* (1) Redistributions of source code must retain the above copyright            *
+*     notice, this list of conditions and the following disclaimer.             *
+*                                                                               *
+* (2) Redistributions in binary form must reproduce the above copyright         *
+*     notice, this list of conditions and the following disclaimer in           *
+*     the documentation and/or other materials provided with the                *
+*     distribution.                                                             *
+*                                                                               *
+* (3) Neither the name of Hendra Gunadi and/or Murdoch University, nor          *
+*     the names of contributors may be used to endorse or promote               *
+*     products derived from this software without specific prior written        *
+*     permission.                                                               *
+*                                                                               *
+* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"   *
+* AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE     *
+* IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE    *
+* ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE     *
+* LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR           *
+* CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF          *
+* SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS      *
+* INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN       *
+* CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       *
+* ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    *
+* POSSIBILITY OF SUCH DAMAGE.                                                   *
+\*******************************************************************************/
 
 #include <ctype.h>
 #include <err.h>
@@ -50,32 +79,42 @@ c45_classifier::c45_classifier(const char *model_name)
 	c45_load_model();
 }
 
-/*
-void c45_print_model(struct di_oid *opts, char *mod_data)
+
+char *print_id(int id, int type)
 {
-	int i;
-        di_classifier_c45_cnf_t *cnf = (di_classifier_c45_cnf_t *) opts;
-	c45_node_real_t *nodes;
-	
-	if (mod_data != NULL) {
-		nodes = (c45_node_real_t *) mod_data;
+	static char buf[16];
+
+	if (type & DIFFUSE_C45_CLASS) {
+		sprintf(buf, "c_%u", id);
+	} else if (type & DIFFUSE_C45_NODE) {
+		sprintf(buf, "n_%u", id);
 	} else {
-	 	nodes = (c45_node_real_t *) cnf->nodes;
+		sprintf(buf, "a_%u", id);
 	}
 
-	for(i=0; i<cnf->tree_len/sizeof(c45_node_real_t); i++) {
-		printf("    n_%u a_%u %s c_%u ", i, nodes[i].nid.feature, (nodes[i].nid.type & DIFFUSE_C45_REAL) ? "r" : "n",  
-			nodes[i].nid.missing_class);
-		if (nodes[i].nid.type == DIFFUSE_C45_BNOM) {
+	return buf;
+}
+
+void c45_classifier::c45_print_model()
+{
+	int i;
+
+	for(i=0; i<_tree_len; i++) {
+		c45_node_template_t* node_tmp = &_nodes[i];
+		c45_node_real_t* node = (c45_node_real_t*) node_tmp;
+		printf("    n_%u a_%u %s c_%u ", i, node->nid.feature, (node->nid.type & DIFFUSE_C45_REAL) ? "r" : "n",  
+			node->nid.missing_class);
+		if (node->nid.type == DIFFUSE_C45_BNOM) {
 			// XXX no support for non-binary nominal yet
 		} else {
-			printf("%.2f ", (double)nodes[i].val / (1 << cnf->multi)); 
-			printf("%s ", print_id(nodes[i].le_id, nodes[i].le_type));
-                        printf("%s\n", print_id(nodes[i].gt_id, nodes[i].gt_type));
+			printf("%.2lf ", (double)node->val); 
+			printf("%s ", print_id(node->le_id, node->le_type));
+                        printf("%s\n", print_id(node->gt_id, node->gt_type));
 		}
 	}
 }
 
+/*
 void c45_print_opts(struct di_oid *opts)
 {
 	di_classifier_c45_cnf_t *cnf = (di_classifier_c45_cnf_t *) opts;
@@ -136,7 +175,7 @@ int c45_classifier::c45_load_model()
 	c45_node_real_t *nodes;
 	uint16_t max_nodes = 3640; // (65545)/sizeof(c45_node_real_t);
 
-	printf("actual model_str: |%s|\n", _model_name.c_str());
+//	printf("actual model_str: |%s|\n", _model_name.c_str());
 
 	if (_model_name == "") {
 		errx(EX_DATAERR, "no classifier model specified");
@@ -148,7 +187,7 @@ int c45_classifier::c45_load_model()
 	std::ifstream f (_model_name);
 
 	if ( f.is_open() ) {
-		std::cout << "Input : \n";
+		std::cout << "\nInput : \n";
 		while ( getline(f, line) ) {
 			std::cout << line << "\n";
 			line_no++;
@@ -189,7 +228,7 @@ int c45_classifier::c45_load_model()
 				}
 				if (x.val >= _nodes.size()) _nodes.resize(x.val+1);
                                 node = (c45_node_real_t *) &(_nodes[x.val]);
-				printf("val = %d - %p - %p - %p\n", x.val, node, &(_nodes[x.val]), _nodes);
+//				printf("val = %d - %p - %p - %p\n", x.val, node, &(_nodes[x.val]), _nodes);
                                 _tree_len = (x.val + 1);
 
 				word=strtok(NULL, sep);
@@ -267,6 +306,8 @@ bad:
 	if (_tree_len == 0) {
 		errx(EX_DATAERR, "empty classifier model %s", _model_name.c_str());
 	}
+
+	c45_print_model();
 
 	return _tree_len;
 }

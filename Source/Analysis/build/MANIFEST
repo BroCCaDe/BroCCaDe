@@ -10,4 +10,5 @@ Analysis_FeatureAnalysis/scripts/types.bro
 Analysis_FeatureAnalysis/scripts/__preload__.bro
 Analysis_FeatureAnalysis/README
 Analysis_FeatureAnalysis/CHANGES
+Analysis_FeatureAnalysis/COPYING
 Analysis_FeatureAnalysis/VERSION

@@ -5,16 +5,16 @@
 
 namespace BifType { namespace Enum{ namespace FeatureAnalysis {  EnumType * Analysis_ID;  } } }
 
-#line 13 "analysis.bif"
+#line 45 "analysis.bif"
  #include "Plugin.h"
 #include <cfloat>
 typedef plugin::Analysis_FeatureAnalysis::Plugin plugin_t;
 static plugin_t *plugin_ref = &plugin::Analysis_FeatureAnalysis::plugin;
 
-#line 19 "analysis.bif"
+#line 51 "analysis.bif"
 Val* BifFunc::FeatureAnalysis::bro_Extract(Frame* frame, val_list* BiF_ARGS)
 	
-#line 20 "analysis.bif"
+#line 52 "analysis.bif"
 {
 	if ( BiF_ARGS->length() != 3 )
 		{
@@ -25,17 +25,17 @@ Val* BifFunc::FeatureAnalysis::bro_Extract(Frame* frame, val_list* BiF_ARGS)
 	Val* aid = (Val*) ((*BiF_ARGS)[1]);
 	Val* tag = (Val*) ((*BiF_ARGS)[2]);
 
-#line 20 "analysis.bif"
+#line 52 "analysis.bif"
 
 		return plugin_ref->Extract(v, aid, tag);
 	} // end of BifFunc::FeatureAnalysis::bro_Extract
 
-#line 22 "analysis.bif"
+#line 54 "analysis.bif"
 
-#line 24 "analysis.bif"
+#line 56 "analysis.bif"
 Val* BifFunc::FeatureAnalysis::bro_Extract_vector(Frame* frame, val_list* BiF_ARGS)
 	
-#line 25 "analysis.bif"
+#line 57 "analysis.bif"
 {
 	if ( BiF_ARGS->length() != 1 )
 		{
@@ -44,17 +44,17 @@ Val* BifFunc::FeatureAnalysis::bro_Extract_vector(Frame* frame, val_list* BiF_AR
 		}
 	Val* v = (Val*) ((*BiF_ARGS)[0]);
 
-#line 25 "analysis.bif"
+#line 57 "analysis.bif"
 
 		return plugin_ref->ExtractVector(v);
 	} // end of BifFunc::FeatureAnalysis::bro_Extract_vector
 
-#line 27 "analysis.bif"
+#line 59 "analysis.bif"
 
-#line 30 "analysis.bif"
+#line 62 "analysis.bif"
 Val* BifFunc::FeatureAnalysis::bro_SetStepSize(Frame* frame, val_list* BiF_ARGS)
 	
-#line 31 "analysis.bif"
+#line 63 "analysis.bif"
 {
 	if ( BiF_ARGS->length() != 2 )
 		{
@@ -64,18 +64,18 @@ Val* BifFunc::FeatureAnalysis::bro_SetStepSize(Frame* frame, val_list* BiF_ARGS)
 	Val* id = (Val*) ((*BiF_ARGS)[0]);
 	bro_uint_t step_size = (bro_uint_t) ((*BiF_ARGS)[1]->AsCount());
 
-#line 31 "analysis.bif"
+#line 63 "analysis.bif"
 
 		plugin_ref->SetStepSize(id, step_size);
 		return new Val(1, TYPE_BOOL);
 	} // end of BifFunc::FeatureAnalysis::bro_SetStepSize
 
-#line 34 "analysis.bif"
+#line 66 "analysis.bif"
 
-#line 36 "analysis.bif"
+#line 68 "analysis.bif"
 Val* BifFunc::FeatureAnalysis::bro_RemoveConn(Frame* frame, val_list* BiF_ARGS)
 	
-#line 37 "analysis.bif"
+#line 69 "analysis.bif"
 {
 	if ( BiF_ARGS->length() != 1 )
 		{
@@ -84,18 +84,18 @@ Val* BifFunc::FeatureAnalysis::bro_RemoveConn(Frame* frame, val_list* BiF_ARGS)
 		}
 	StringVal* UID = (StringVal*) ((*BiF_ARGS)[0]->AsStringVal());
 
-#line 37 "analysis.bif"
+#line 69 "analysis.bif"
 
 		plugin_ref->RemoveConnection(UID);
 		return new Val(1, TYPE_BOOL);
 	} // end of BifFunc::FeatureAnalysis::bro_RemoveConn
 
-#line 40 "analysis.bif"
+#line 72 "analysis.bif"
 
-#line 42 "analysis.bif"
+#line 74 "analysis.bif"
 Val* BifFunc::FeatureAnalysis::bro_RegisterAnalysis(Frame* frame, val_list* BiF_ARGS)
 	
-#line 43 "analysis.bif"
+#line 75 "analysis.bif"
 {
 	if ( BiF_ARGS->length() != 3 )
 		{
@@ -106,18 +106,18 @@ Val* BifFunc::FeatureAnalysis::bro_RegisterAnalysis(Frame* frame, val_list* BiF_
 	Val* id = (Val*) ((*BiF_ARGS)[1]);
 	Val* conn_ID = (Val*) ((*BiF_ARGS)[2]);
 
-#line 43 "analysis.bif"
+#line 75 "analysis.bif"
 
 		plugin_ref->RegisterAnalysis(UID, id, conn_ID);
 		return new Val(1, TYPE_BOOL);
 	} // end of BifFunc::FeatureAnalysis::bro_RegisterAnalysis
 
-#line 46 "analysis.bif"
+#line 78 "analysis.bif"
 
-#line 48 "analysis.bif"
+#line 80 "analysis.bif"
 Val* BifFunc::FeatureAnalysis::bro_AddFeature(Frame* frame, val_list* BiF_ARGS)
 	
-#line 50 "analysis.bif"
+#line 82 "analysis.bif"
 {
 	if ( BiF_ARGS->length() != 4 )
 		{
@@ -129,18 +129,18 @@ Val* BifFunc::FeatureAnalysis::bro_AddFeature(Frame* frame, val_list* BiF_ARGS)
 	Val* aid = (Val*) ((*BiF_ARGS)[2]);
 	Val* tag = (Val*) ((*BiF_ARGS)[3]);
 
-#line 50 "analysis.bif"
+#line 82 "analysis.bif"
 
 		plugin_ref->AddFeature(UID, feature, aid, tag);
 		return new Val(1, TYPE_BOOL);
 	} // end of BifFunc::FeatureAnalysis::bro_AddFeature
 
-#line 53 "analysis.bif"
+#line 85 "analysis.bif"
 
-#line 55 "analysis.bif"
+#line 87 "analysis.bif"
 Val* BifFunc::FeatureAnalysis::bro_CalculateMetric(Frame* frame, val_list* BiF_ARGS)
 	
-#line 56 "analysis.bif"
+#line 88 "analysis.bif"
 {
 	if ( BiF_ARGS->length() != 0 )
 		{
@@ -148,15 +148,15 @@ Val* BifFunc::FeatureAnalysis::bro_CalculateMetric(Frame* frame, val_list* BiF_A
 		return 0;
 		}
 
-#line 56 "analysis.bif"
+#line 88 "analysis.bif"
 
 		plugin_ref->CalculateMetric();
 		return new Val(1, TYPE_BOOL);
 	} // end of BifFunc::FeatureAnalysis::bro_CalculateMetric
 
-#line 59 "analysis.bif"
+#line 91 "analysis.bif"
 namespace FeatureAnalysis { EventHandlerPtr metric_event;  }
-void BifEvent::FeatureAnalysis::generate_metric_event(analyzer::Analyzer* analyzer, Val* id, Val* v)
+void BifEvent::FeatureAnalysis::generate_metric_event(analyzer::Analyzer* analyzer, Val* id, Val* v, Val* conn_ID)
 	{
 	// Note that it is intentional that here we do not
 	// check if ::FeatureAnalysis::metric_event is NULL, which should happen *before*
@@ -167,6 +167,7 @@ void BifEvent::FeatureAnalysis::generate_metric_event(analyzer::Analyzer* analyz
 
 	vl->append(id);
 	vl->append(v);
+	vl->append(conn_ID);
 
 	mgr.QueueEvent(::FeatureAnalysis::metric_event, vl, SOURCE_LOCAL, analyzer->GetID(), timer_mgr);
 	} // event generation

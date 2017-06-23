@@ -26,6 +26,6 @@ namespace BifFunc { namespace FeatureAnalysis { extern Val* bro_RegisterAnalysis
 namespace BifFunc { namespace FeatureAnalysis { extern Val* bro_AddFeature(Frame* frame, val_list*); }  }
 namespace BifFunc { namespace FeatureAnalysis { extern Val* bro_CalculateMetric(Frame* frame, val_list*); }  }
 namespace FeatureAnalysis { extern EventHandlerPtr metric_event;  }
-namespace BifEvent { namespace FeatureAnalysis {  void generate_metric_event(analyzer::Analyzer* analyzer, Val* id, Val* v);  }  } 
+namespace BifEvent { namespace FeatureAnalysis {  void generate_metric_event(analyzer::Analyzer* analyzer, Val* id, Val* v, Val* conn_ID);  }  } 
 
 #endif
