@@ -28,15 +28,17 @@
 * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       *
 * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    *
 * POSSIBILITY OF SUCH DAMAGE.                                                   *
+*                                                                               *
+* Tree.cc : Implements Tree.h                                                   *
 \*******************************************************************************/
 
 #include "Tree.h"
 #include <malloc.h>
-#include <vector>	// vector
-#include <memory>	// unique_ptr
+#include <vector>   // vector
+#include <memory>   // unique_ptr
 
 #ifdef DEBUG_H
-#include <stdio.h>	// printf
+#include <stdio.h>  // printf
 #endif
 
 using namespace CCD;

@@ -28,6 +28,8 @@
 * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       *
 * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    *
 * POSSIBILITY OF SUCH DAMAGE.                                                   *
+*                                                                               *
+* Plugin.cc : Implements Plugin.h                                               *
 \*******************************************************************************/
 
 #include "Plugin.h"
@@ -61,7 +63,7 @@ void Plugin::RemoveConnection(StringVal* UID)
 	_flow_dict->erase(UID_str);
 }
 
-void Plugin::ExtractFeature(StringVal* UID, Val* id, double duration) {
+void Plugin::ExtractFeature(StringVal* UID, Val* conn_ID, double duration) {
 	if (UID == NULL) {printf("UID is null\n"); return;}
 
 	std::string UID_str((const char*) UID->Bytes());
@@ -79,8 +81,18 @@ void Plugin::ExtractFeature(StringVal* UID, Val* id, double duration) {
 		// send the event : [ UID, id, feature ]
 		val_list* vl = new val_list;
 		BroString* newStr = new BroString(*(UID->AsString()));
-		vl->append(new StringVal(newStr));	// Bro unique UID
-		vl->append(id->Clone());		// 4 tuple network ID
+		vl->append(new StringVal(newStr));	                // Bro unique UID
+
+        RecordVal* conn_r = conn_ID->AsRecordVal(); 
+        RecordVal* conn_ID_copy = new RecordVal(conn_id); 
+	    conn_ID_copy->Assign(0, new AddrVal(conn_r->Lookup(0)->AsAddr())); 
+        PortVal* src_port = conn_r->Lookup(1)->AsPortVal(); 
+	    conn_ID_copy->Assign(1, new PortVal(src_port->Port(), src_port->PortType())); 
+	    conn_ID_copy->Assign(2, new AddrVal(conn_r->Lookup(2)->AsAddr())); 
+        PortVal* dst_port = conn_r->Lookup(3)->AsPortVal(); 
+	    conn_ID_copy->Assign(3, new PortVal(dst_port->Port(), dst_port->PortType())); 
+	    vl->append(conn_ID_copy);                           // 4 tuple network ID
+
 		// IAT is counted as the difference of the current flow's duration
 		// and the flow's duration when the last packet was received
 		vl->append(new Val(duration - got->second, TYPE_DOUBLE));

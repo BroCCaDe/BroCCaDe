@@ -28,6 +28,11 @@
 * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       *
 * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    *
 * POSSIBILITY OF SUCH DAMAGE.                                                   *
+*                                                                               *
+* TrainingData.h : the content of a particular training data                    *
+* Contents :                                                                    *
+*   * class DataRow         : the content of the data section of the ARFF file  *
+*   * class FeatureTraining : Contains the information needed for each ARFF file*
 \*******************************************************************************/
 
 #ifndef BRO_PLUGIN_AUX_FEATURE_TRAINING
@@ -38,12 +43,16 @@
 #include<string>
 #include<unordered_set>
 
+// each data row in the ARFF file is a comma delimited values with the class string
+// at the end. So we store the row as a vector of values and string name.
 class DataRow
 {
 public:
-    DataRow(std::vector<double> features, std::string name) : _values(features), _class_name(name) {};
+    DataRow(std::vector<double> features, std::string name) : 
+        _values(features), _class_name(name) {};
     virtual ~DataRow() {}
 
+    // put into the ARFF format
     std::string to_string() {
         std::string temp;
         temp.clear();
@@ -63,6 +72,7 @@ private:
 class FeatureTraining
 {
 public:
+    // initialize
     FeatureTraining() {
         _relation.clear();
         _attributes.clear();
@@ -71,21 +81,27 @@ public:
     }
     virtual ~FeatureTraining() {}
     
+    // change the relation string
     void change_relation(std::string relation_name) {_relation = relation_name;}
+    // add an attribute of name @attribute_name
     void add_attribute(std::string attribute_name) {_attributes.insert(attribute_name);}
+    // add a class
     void add_class(std::string class_name) {_class_names.insert(class_name);}
+    // add a data row
     void add_data_row(std::vector<double> features, std::string name) {
         std::unique_ptr<DataRow> row(new DataRow(features, name));
         _data.resize(_data.size() + 1);
         _data[_data.size()-1].swap(row);
     }
 
+    // get the information already in the print format
     std::string get_relation() {return "@RELATION " + _relation + "\n\n";}
     std::string get_attributes() {
         std::string temp;
         temp.clear();
-        for (std::unordered_set<std::string>::iterator it = _attributes.begin(); it != _attributes.end(); ++it) 
-            temp = temp + "@ATTRIBUTES " + *it + " NUMERIC\n";
+        for (std::unordered_set<std::string>::iterator it = _attributes.begin(); 
+            it != _attributes.end(); ++it) 
+                temp = temp + "@ATTRIBUTES " + *it + " NUMERIC\n";
         return temp;
     }
     std::string get_classes() {

@@ -13,7 +13,10 @@ namespace BifFunc { namespace DecisionTree { extern Val* bro_LoadModel(Frame* fr
 namespace BifFunc { namespace DecisionTree { extern Val* bro_Classify(Frame* frame, val_list*); }  }
 namespace BifFunc { namespace DecisionTree { extern Val* bro_Classify_with_strings(Frame* frame, val_list*); }  }
 namespace BifFunc { namespace DecisionTree { extern Val* bro_Classify_record(Frame* frame, val_list*); }  }
+namespace BifFunc { namespace DecisionTree { extern Val* bro_Classify_and_send(Frame* frame, val_list*); }  }
+namespace BifFunc { namespace DecisionTree { extern Val* bro_Classify_and_send_with_strings(Frame* frame, val_list*); }  }
+namespace BifFunc { namespace DecisionTree { extern Val* bro_Classify_and_send_record(Frame* frame, val_list*); }  }
 namespace DecisionTree { extern EventHandlerPtr class_result_event;  }
-namespace BifEvent { namespace DecisionTree {  void generate_class_result_event(analyzer::Analyzer* analyzer, bro_int_t c);  }  } 
+namespace BifEvent { namespace DecisionTree {  void generate_class_result_event(analyzer::Analyzer* analyzer, Val* ID, Val* conn_ID, bro_int_t c);  }  } 
 
 #endif

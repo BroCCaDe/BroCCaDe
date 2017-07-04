@@ -28,6 +28,9 @@
 * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       *
 * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    *
 * POSSIBILITY OF SUCH DAMAGE.                                                   *
+*                                                                               *
+* Histogram.h : Histogram data container. Require a binning strategy to         *
+*       determine the bin for each incoming feature value.                      *
 \*******************************************************************************/
 
 #ifndef AUX_PLUGINS_HISTOGRAM_H

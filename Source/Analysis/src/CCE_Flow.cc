@@ -28,14 +28,19 @@
 * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       *
 * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    *
 * POSSIBILITY OF SUCH DAMAGE.                                                   *
+*                                                                               *
+* CCE_Flow.cc : Implements CCE_Flow.h                                           *
 \*******************************************************************************/
 
 #include "CCE_Flow.h"
-#include "Bin_Strategy.h"		// bin allocation superclass
-#include "Pattern_Data_Container.h"	// tree data structure
-#include <math.h>			// log
-#include <stdio.h>			// printf
-#include <memory>			// unique_ptr and shared_ptr
+#include "Bin_Strategy.h"           // bin allocation superclass
+#include "Pattern_Data_Container.h" // tree data structure
+#include <math.h>                   // log
+#include <memory>                   // unique_ptr and shared_ptr
+
+#ifdef DEBUG_H
+#include <stdio.h>                  // printf
+#endif
 
 using namespace CCD;
 
@@ -43,7 +48,8 @@ using namespace CCD;
 // the next child should be on the same level or one level below (simpler to check)
 double CCE::calculate_metric()
 {
-	std::shared_ptr<CountingTree> root;		// the root of the tree
+//	std::shared_ptr<CountingTree> root;		// the root of the tree
+    std::shared_ptr< std::vector< std::vector< TreeNode > > > tree;
 	unsigned long total_pattern;			// used to count perc and prob
 	unsigned long count;				
 	unsigned short current_level;
@@ -53,18 +59,60 @@ double CCE::calculate_metric()
 	double H_1 = 0.0;				// H(X1) = EN(X1)
 	double prob;					// P(x)
 	double min_CCE;					// minimum CCE over various pattern length
-	std::list<std::shared_ptr<CountingTree>> queue, children;
+//	std::list<std::shared_ptr<CountingTree>> queue, children;
 
 	// get the root of the tree
-	root = (static_cast<Pattern_Data*>(_data.get()))->get_root();	
-	total_pattern = root->get_count();
+//	root = (static_cast<Pattern_Data*>(_data.get()))->get_root();
+	tree = (static_cast<Pattern_Data*>(_data.get()))->get_tree();		
+	total_pattern = (*tree)[0][0].count;
+
+    // calculate EN(X1)
+    for (std::vector<TreeNode>::iterator it = (*tree)[1].begin(); it != (*tree)[1].end(); it++)
+    {
+        count = it->count;
+		// get the probability
+		prob = (double) count / (double) total_pattern;
+		// calculate the entropy
+		H_1 = H_1 - prob * log(prob);
+    }
+
+    min_CCE = H_1;
+    for (size_t i = 2; i < (*tree).size(); i++)
+    {
+        for (std::vector<TreeNode>::iterator it = (*tree)[i].begin(); it != (*tree)[i].end(); it++)
+        {
+            // get the probability
+		    unsigned long count = it->count;
+		    prob = (double) count / (double) total_pattern;
+
+		    // calculate the entropy of the current level
+		    H_current = H_current - prob * log(prob);
+
+		    // check if it is unique, if it is add unique counter
+		    if (count == 1) unique_counter++;
+        }
+        double perc = (double) unique_counter / (double) total_pattern; 
+		// calculate current CCE (pattern of length m)
+		double current_CCE = (H_current - H_prev) + perc * H_1;
+#ifdef DEBUG_H
+		printf("H%d: %lf\n", current_level, (H_current - H_prev) + perc * H_1);
+#endif
+		// remember the minimum CCE value
+		if (current_CCE < min_CCE) min_CCE = current_CCE;
+
+		// reset the accummulation
+		H_prev = H_current;
+		H_current = 0.0;
+		unique_counter = 0;
+    }
 
 	// count the first entropy EN(X1) by iterating over nodes of level 1
-	children = root->get_children();
-	queue.insert(queue.end(), children.begin(), children.end());
+//	children = root->get_children();
+//	queue.insert(queue.end(), children.begin(), children.end());
 	
+/*
 	std::list<std::shared_ptr<CountingTree>>::iterator it = queue.begin();
-#ifdef DEBUG
+#ifdef DEBUG_H
 	printf("total pattern : %lu\n", total_pattern);
 #endif
 	// calculate EN(X1), also put the children (level 2) on the queue
@@ -82,7 +130,7 @@ double CCE::calculate_metric()
 		it++;
 		queue.pop_front();
 	}
-#ifdef DEBUG
+#ifdef DEBUG_H
 	printf("H1 : %lf\n", H_1);
 #endif
 	H_prev = H_1;
@@ -103,7 +151,7 @@ double CCE::calculate_metric()
 			double perc = (double) unique_counter / (double) total_pattern; 
 			// calculate current CCE (pattern of length m)
 			double current_CCE = (H_current - H_prev) + perc * H_1;
-#ifdef DEBUG
+#ifdef DEBUG_H
 			printf("H%d: %lf\n", current_level, (H_current - H_prev) + perc * H_1);
 #endif
 			// remember the minimum CCE value
@@ -138,11 +186,12 @@ double CCE::calculate_metric()
 	{
 		double perc = (double) unique_counter / (double) total_pattern;
 		double current_CCE = (H_current - H_prev) + perc * H_1;
-#ifdef DEBUG
+#ifdef DEBUG_H
 		printf("H%d: %lf\n", current_level, current_CCE);
 #endif
 		if (current_CCE < min_CCE) min_CCE = current_CCE;
 	}
+*/
 
 	return min_CCE;
 }

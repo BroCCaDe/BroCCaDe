@@ -8,4 +8,4 @@
 #
 
 @load ./init.bro
-@load ./Analysis/IAT/__load__.bro
+@load ./Analysis/FeatureAnalysis/__load__.bro

@@ -1,5 +1,46 @@
+*****************************************************************************************
+*                           Feature Extraction : Ping Tunnel                            *
+*****************************************************************************************
 
-PTunnel::FeatureExtraction
-=================================
+This work was supported by a grant from the Comcast Innovation Fund.
 
-<Insert plugin documentation here.>
+This plugin extracts the first 4 bytes of the ICMP payload.
+
+*****************************************************************************************
+*                                   Build the Plugin                                    *
+*****************************************************************************************
+
+Contained in this folder is the source code and the script. In order to compile the 
+plugin, just ``configure'' and ``make'' the plugin from the plugin root directory. The 
+prerequisites to build the plugin is to have the Bro source code and have satisfied Bro 
+prerequisites to compile. In the plugin root directory, we just need to type
+
+    ./configure --bro-dist=<Bro-dist>
+    make
+
+to configure and build the plugin. The result of this is a directory called ``build'' 
+which contains all of the required files for Bro to recognize that it is a plugin. So the
+next step is then to make Bro to actually recognize the plugin. There are two ways to do 
+this, either we point Bro to the directory containing the build files, or we can copy the 
+build files to a directory where Bro will search for available plugins. Where <Bro> is 
+the location for the installed Bro, the default location where Bro searches for plugins 
+will be in
+
+    <Bro>/lib/bro/plugins
+
+so from the plugin root directory, we can type
+
+    cp -r build/. <Bro>/lib/bro/plugins/<plugin-directory-name>
+
+or alternatively set the environment
+
+    export BRO_PLUGIN_PATH=<plugin-root-directory>/build
+
+*****************************************************************************************
+*                                   Using the Plugin                                    *
+*****************************************************************************************
+
+In the analysis script, need to handle this event:
+
+    FeatureExtraction::PTunnel_feature_event(UID : string, id : conn_id, 
+        payload : double)

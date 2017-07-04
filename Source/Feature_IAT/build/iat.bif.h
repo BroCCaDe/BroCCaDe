@@ -9,6 +9,7 @@
 #endif
 
 namespace BifFunc { namespace IAT { extern Val* bro_ExtractFeature(Frame* frame, val_list*); }  }
+namespace BifFunc { namespace IAT { extern Val* bro_RemoveConn(Frame* frame, val_list*); }  }
 namespace IAT { extern EventHandlerPtr feature_event;  }
 namespace BifEvent { namespace IAT {  void generate_feature_event(analyzer::Analyzer* analyzer, StringVal* UID, Val* id, double feature);  }  } 
 

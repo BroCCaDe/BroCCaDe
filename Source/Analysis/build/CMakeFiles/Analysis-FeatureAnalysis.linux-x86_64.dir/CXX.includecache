@@ -32,6 +32,10 @@ Analysis.h
 Bin_Strategy.h
 ../src/Bin_Strategy.h
 
+../src/MurmurHash3.h
+stdint.h
+-
+
 ../src/Plugin.h
 plugin/Plugin.h
 -
@@ -47,6 +51,8 @@ Bin_Strategy.h
 ../src/Bin_Strategy.h
 analysis.bif.h
 ../src/analysis.bif.h
+MurmurHash3.h
+../src/MurmurHash3.h
 
 /home/hendra/Bro/build/bro-config.h
 
@@ -1269,9 +1275,9 @@ Pattern_Data_Container.h
 /home/hendra/CCD/Source/Analysis/src/Pattern_Data_Container.h
 math.h
 -
-stdio.h
--
 memory
+-
+stdio.h
 -
 
 /home/hendra/CCD/Source/Analysis/src/CCE_Flow.h
@@ -1420,6 +1426,10 @@ Analysis.h
 Histogram.h
 /home/hendra/CCD/Source/Analysis/src/Histogram.h
 
+/home/hendra/CCD/Source/Analysis/src/MurmurHash3.h
+stdint.h
+-
+
 /home/hendra/CCD/Source/Analysis/src/Pattern_Data_Container.cc
 Pattern_Data_Container.h
 /home/hendra/CCD/Source/Analysis/src/Pattern_Data_Container.h
@@ -1427,9 +1437,9 @@ Bin_Strategy.h
 /home/hendra/CCD/Source/Analysis/src/Bin_Strategy.h
 list
 -
-stdio.h
-/home/hendra/CCD/Source/Analysis/src/stdio.h
 memory
+-
+stdio.h
 -
 
 /home/hendra/CCD/Source/Analysis/src/Pattern_Data_Container.h
@@ -1465,6 +1475,20 @@ fstream
 -
 memory
 -
+Analysis.h
+/home/hendra/CCD/Source/Analysis/src/Analysis.h
+KS_Flow.h
+/home/hendra/CCD/Source/Analysis/src/KS_Flow.h
+Entropy_Flow.h
+/home/hendra/CCD/Source/Analysis/src/Entropy_Flow.h
+CCE_Flow.h
+/home/hendra/CCD/Source/Analysis/src/CCE_Flow.h
+Regularity_Flow.h
+/home/hendra/CCD/Source/Analysis/src/Regularity_Flow.h
+Autocorrelation_Flow.h
+/home/hendra/CCD/Source/Analysis/src/Autocorrelation_Flow.h
+MultiModal_Flow.h
+/home/hendra/CCD/Source/Analysis/src/MultiModal_Flow.h
 stdio.h
 -
 
@@ -1483,12 +1507,12 @@ Bin_Strategy.h
 /home/hendra/CCD/Source/Analysis/src/Bin_Strategy.h
 analysis.bif.h
 /home/hendra/CCD/Source/Analysis/src/analysis.bif.h
+MurmurHash3.h
+/home/hendra/CCD/Source/Analysis/src/MurmurHash3.h
 
 /home/hendra/CCD/Source/Analysis/src/Regularity_Data_Container.cc
 Regularity_Data_Container.h
 /home/hendra/CCD/Source/Analysis/src/Regularity_Data_Container.h
-memory
--
 math.h
 -
 stdio.h

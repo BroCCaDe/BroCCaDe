@@ -28,6 +28,19 @@
 * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       *
 * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    *
 * POSSIBILITY OF SUCH DAMAGE.                                                   *
+*                                                                               *
+* Plugin.h : Bro plugin which is used to produce training data for Weka. This   *
+*       plugin implements the functions in specified in training.bif. Each      *
+*       training data is distinguished by the calculation set (int) from the    *
+*       analysis plugin.                                                        *
+* Contents :                                                                    *
+*   * ChangeRelation        : change the relation string                        *
+*   * AddAttributes         : add an attribute with a particular name. This will*
+*                             corresponds to the feature name for Weka.         *
+*   * AddClass              : add an attribute with the class names. This will  *
+*                             corresponds to the class names in the classifier. *
+*   * AddDataRow            : add comma delimited data and its class            *
+*   * print_training_data   : print the training data into a file               *
 \*******************************************************************************/
 
 #ifndef BRO_PLUGIN_FEATURE_TRAINING

@@ -4,5 +4,3 @@
 # 
 
 # @load ./bar.bro 
-
-@load ./DecisionTree.bro

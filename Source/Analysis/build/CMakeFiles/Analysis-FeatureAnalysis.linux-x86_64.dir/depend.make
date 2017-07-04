@@ -5,6 +5,7 @@ CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/analysis.bif.cc.o: ../src/A
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/analysis.bif.cc.o: ../src/Bin_Strategy.h
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/analysis.bif.cc.o: ../src/Data_Container.h
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/analysis.bif.cc.o: ../src/Flow.h
+CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/analysis.bif.cc.o: ../src/MurmurHash3.h
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/analysis.bif.cc.o: ../src/Plugin.h
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/analysis.bif.cc.o: /home/hendra/Bro/build/bro-config.h
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/analysis.bif.cc.o: /home/hendra/Bro/build/src/const.bif.netvar_h
@@ -459,12 +460,23 @@ CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Plugin.cc.o: /home/hend
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Plugin.cc.o: /home/hendra/Bro/src/threading/SerialTypes.h
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Plugin.cc.o: /home/hendra/Bro/src/util.h
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Plugin.cc.o: ../src/Analysis.h
+CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Plugin.cc.o: ../src/Autocorrelation_Flow.h
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Plugin.cc.o: ../src/Bin_Strategy.h
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Plugin.cc.o: ../src/Bin_Strategy_Interval.h
+CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Plugin.cc.o: ../src/CCE_Flow.h
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Plugin.cc.o: ../src/Data_Container.h
+CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Plugin.cc.o: ../src/Entropy_Flow.h
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Plugin.cc.o: ../src/Flow.h
+CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Plugin.cc.o: ../src/Histogram.h
+CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Plugin.cc.o: ../src/KS_Flow.h
+CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Plugin.cc.o: ../src/MultiModal_Flow.h
+CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Plugin.cc.o: ../src/MurmurHash3.h
+CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Plugin.cc.o: ../src/Pattern_Data_Container.h
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Plugin.cc.o: ../src/Plugin.cc
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Plugin.cc.o: ../src/Plugin.h
+CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Plugin.cc.o: ../src/Regularity_Data_Container.h
+CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Plugin.cc.o: ../src/Regularity_Flow.h
+CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Plugin.cc.o: ../src/Tree.h
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Plugin.cc.o: analysis.bif.h
 
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/src/Regularity_Data_Container.cc.o: ../src/Data_Container.h

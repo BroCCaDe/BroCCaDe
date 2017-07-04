@@ -30,6 +30,20 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 #################################################################################
 
 export {
@@ -37,16 +51,19 @@ module FeatureAnalysis;
 
 
 type Analysis_ID: enum  {
-	KS_ANALYSIS = 0,
-	ENTROPY_ANALYSIS = 1,
-	CCE_ANALYSIS = 2,
-	NULL_ANALYSIS = 3,
-	MULTIMODAL_ANALYSIS = 4,
-	AUTOCORRELATION_ANALYSIS = 5,
-	REGULARITY_ANALYSIS = 6,
+    KS_ANALYSIS = 0,
+    ENTROPY_ANALYSIS = 1,
+    CCE_ANALYSIS = 2,
+    NULL_ANALYSIS = 3,
+    MULTIMODAL_ANALYSIS = 4,
+    AUTOCORRELATION_ANALYSIS = 5,
+    REGULARITY_ANALYSIS = 6,
 } ;
 
 
+
+
+global ConfigureInternalType: function(): bool ;
 
 
 global Extract: function(v: result_vector , aid: Analysis_ID , tag: analysis_tag ): double ;

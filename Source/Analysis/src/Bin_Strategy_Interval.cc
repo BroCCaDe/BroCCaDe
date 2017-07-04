@@ -28,11 +28,13 @@
 * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       *
 * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    *
 * POSSIBILITY OF SUCH DAMAGE.                                                   *
+*                                                                               *
+* Bin_Strategy_Interval.cc : Implements Bin_Strategy_Interval.h                 *
 \*******************************************************************************/
 
 #include "Bin_Strategy_Interval.h"
-#include <vector>			// vector
-#include <iostream>			// cout
+#include <vector>                   // vector
+#include <iostream>                 // cout
 
 using namespace CCD;
 

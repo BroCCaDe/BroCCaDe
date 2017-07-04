@@ -1,23 +1,65 @@
+/*******************************************************************************\
+* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murodch.edu.au)            *
+*                                                                               *
+* Redistribution and use in source and binary forms, with or without            *
+* modification, are permitted provided that the following conditions are met:   *
+*                                                                               *
+* (1) Redistributions of source code must retain the above copyright            *
+*     notice, this list of conditions and the following disclaimer.             *
+*                                                                               *
+* (2) Redistributions in binary form must reproduce the above copyright         *
+*     notice, this list of conditions and the following disclaimer in           *
+*     the documentation and/or other materials provided with the                *
+*     distribution.                                                             *
+*                                                                               *
+* (3) Neither the name of Hendra Gunadi and/or Murdoch University, nor          *
+*     the names of contributors may be used to endorse or promote               *
+*     products derived from this software without specific prior written        *
+*     permission.                                                               *
+*                                                                               *
+* THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"   *
+* AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE     *
+* IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE    *
+* ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE     *
+* LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR           *
+* CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF          *
+* SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS      *
+* INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN       *
+* CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       *
+* ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    *
+* POSSIBILITY OF SUCH DAMAGE.                                                   *
+*                                                                               *
+* This work was supported by a grant from the Comcast Innovation Fund.          *
+*                                                                               *
+* CombineArff.cc : combining ARFF files for Weka input. It is assumed that the  *
+*       inputs are in the correct ARFF format otherwise undefined behaviours    *
+*                                                                               *
+* Usage : <output> [<file1>.arff [<file1>.arff [ ... ] ] ]                      *
+\*******************************************************************************/
+
 #include <string>
 #include <vector>
 #include <sstream>
 #include <fstream>
 #include <iostream>
 #include <unordered_set>
+#include <algorithm>
 
 int main(int argc, char* argv[])
 {
-    if (argc < 2) {printf("not enough parameters\n"); return 0;}
+    // check if users have passed the output file name
+    if (argc < 2) {printf("Usage : %s <output> [<file1>.arff [<file1>.arff [ ... ] ] ]\n", argv[0]); return 0;}
 
-	std::string line;
-    std::unordered_set<std::string> current_attribute_names;
-    std::unordered_set<std::string> last_attribute_names;
-    std::unordered_set<std::string> class_names;
-    std::vector<std::string> data_str;
-    std::string relation_name;
-    char sep = ' ';
-	int i = 2;    
+	std::string line;                                           // temporary string read from the input files
+    std::unordered_set<std::string> current_attribute_names;    // attribute names of the current arff file
+    std::unordered_set<std::string> last_attribute_names;       // attribute names of the last arff file
+    std::unordered_set<std::string> class_names;                // accummulated class names
+    std::vector<std::string> data_str;                          // string of the data section
+    std::string relation_name;                                  // relation name (has to be the same across all files)
+    char sep = ' ';                                             // token separator
+	int i = 2;                                                  // starting from the second argument (first arff file)
 
+    // initialize
     relation_name.clear();
     current_attribute_names.clear();
     last_attribute_names.clear();
@@ -26,32 +68,35 @@ int main(int argc, char* argv[])
 
     for (i = 2; i < argc; i++)
 	{
-		// for one file
-		std::ifstream f;
+		std::ifstream f;                                        // open file
 		f.open(argv[i]);
-        bool data_reached = false;
+        bool data_reached = false;                              // we haven't seen the @DATA token yet
 		while( getline(f, line) )
 		{
-            if (data_reached)                       // we've reached data section, so just combine
+            if (data_reached)                                   // we've reached data section, so just combine
             {
                 data_str.push_back(line);
             }
             else
             {
-                // remove \t
+                // replace '\t' with the common separator ' '
                 size_t tab = 0;
                 while( (tab = line.find('\t', tab)) != std::string::npos)
                     line.replace(tab, 1, 1, ' ');
 
                 std::istringstream stm(line) ;
     		    std::string token ;
+                // get the first token
                 if( std::getline( stm, token, sep ) )
                 {
+                    // if it's an empty line then keep going
                     if (token.empty()) continue;
-                    // at the moment we don't care about case
+                    std::transform(token.begin(), token.end(), token.begin(), toupper); // upper case the token
+                    // if it starts with @RELATION, grab the relation name
                     if (token == "@RELATION")
                     {
                         std::getline(stm, token, sep);
+                        // then check if it's consistent across all arff files
                         if (relation_name.empty()) relation_name = token;
                         else if (relation_name != token)
                         {
@@ -60,10 +105,14 @@ int main(int argc, char* argv[])
                             return 1;
                         }
                     }
+                    // if it starts with @ATTRIBUTES, grab the attribute name. We can assume that the type will
+                    // be NUMERIC except for "class" attribute
                     else if (token == "@ATTRIBUTES")
                     {
                         std::getline(stm, token, sep);
                         current_attribute_names.insert(token);
+                        // if it is of "class" attribute then we need to grab the class names, delimited by '{' '}'
+                        // and is separated by ',' with no spaces in between
                         if (token == "class")
                         {
                             std::getline(stm, token, '{');
@@ -72,10 +121,11 @@ int main(int argc, char* argv[])
                             std::string class_token;
                             while(std::getline(stm_token, class_token, ','))
                             {
-                                class_names.insert(class_token);
+                                class_names.insert(class_token);    // accummulate all the class names
                             }
                         }
                     }
+                    // if it reached @DATA, then check whether the attributes are consistent across all files
                     else if (token == "@DATA")
                     {
                         data_reached = true;
@@ -102,20 +152,23 @@ int main(int argc, char* argv[])
                                 }
                             }
                         }
-                        //current_attribute_names.clear();
                     }
                 }
             }
         }
-		f.close();
+		f.close();                                              // close the file
 	}
 
+    // open the output file
     std::ofstream of;
     of.open(argv[1]);
+    // output the relation name directly
     of << "@RELATION \t" << relation_name << "\n\n";
     for (std::unordered_set<std::string>::iterator it = last_attribute_names.begin(); 
         it != last_attribute_names.end(); it++)
     {
+        // output attribute name and its type. All of the attributes will be numeric except
+        // "class" which will be a collection of class names, e.g. "{c1,c2,c3}"
         of << "@ATTRIBUTES " << *it;
         if (*it == "class")
         {
@@ -131,11 +184,12 @@ int main(int argc, char* argv[])
         else of << "\tNUMERIC";
         of << "\n";
     }
+    // output the data section verbatim
     of << "\n@DATA\n";
     for (std::vector<std::string>::iterator it = data_str.begin(); it != data_str.end(); it++)
         of << *it << "\n";
     
-    of.close(); 
+    of.close();                                                 // close the file
 
 	return 0;
 }

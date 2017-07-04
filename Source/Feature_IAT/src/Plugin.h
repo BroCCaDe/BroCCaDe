@@ -28,6 +28,13 @@
 * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       *
 * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    *
 * POSSIBILITY OF SUCH DAMAGE.                                                   *
+*                                                                               *
+* Plugin.h : Bro plugin which implements functions specified in iat.bif         *
+* Content:                                                                      *
+*   * ExtractFeature    : extract inter arrival time feature                    *
+*   * RemoveConn        : remove a connection from the dictionary               *
+*   * feature_event     : event raised by the plugin containing the inter       *
+*                         arrival time value.                                   *
 \*******************************************************************************/
 
 #ifndef BRO_PLUGIN_FEATUREEXTRACTION_IAT

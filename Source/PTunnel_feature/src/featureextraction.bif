@@ -28,6 +28,13 @@
 # CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       #
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    #
 # POSSIBILITY OF SUCH DAMAGE.                                                   #
+#                                                                               #
+# featureextraction.bif : interface between the plugin and Bro                  #
+# Contents :                                                                    #
+#   * ExtractHeaderFeature  : extract some bytes from the input string specified#
+#                             by the starting position and length               #
+#   * PTunnel_feature_event : the event raised by the plugin which contains the #
+#                             byte(s) extracted from the input string           #
 #################################################################################
 
 module FeatureExtraction;

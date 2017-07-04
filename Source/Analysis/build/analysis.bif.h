@@ -18,6 +18,7 @@ namespace BifEnum { namespace FeatureAnalysis { enum Analysis_ID {
 	REGULARITY_ANALYSIS = 6,
 }; } }
 namespace BifType { namespace Enum{ namespace FeatureAnalysis {  extern EnumType * Analysis_ID;  } } }
+namespace BifFunc { namespace FeatureAnalysis { extern Val* bro_ConfigureInternalType(Frame* frame, val_list*); }  }
 namespace BifFunc { namespace FeatureAnalysis { extern Val* bro_Extract(Frame* frame, val_list*); }  }
 namespace BifFunc { namespace FeatureAnalysis { extern Val* bro_Extract_vector(Frame* frame, val_list*); }  }
 namespace BifFunc { namespace FeatureAnalysis { extern Val* bro_SetStepSize(Frame* frame, val_list*); }  }

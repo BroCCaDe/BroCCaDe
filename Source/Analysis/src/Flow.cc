@@ -28,6 +28,8 @@
 * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       *
 * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    *
 * POSSIBILITY OF SUCH DAMAGE.                                                   *
+*                                                                               *
+* Flow.cc : Implements Flow.h                                                   *
 \*******************************************************************************/
 
 #include <vector>			// vector
@@ -66,6 +68,7 @@ void Flow::begin_adding_feature(unsigned int set_ID)
 {
 	_current_set_ID = set_ID;
 	_result.clear();
+    if (_steps.size() <= set_ID) _steps.resize(set_ID + 1, 0);
 	_steps[set_ID]++;
 }
 
@@ -122,8 +125,8 @@ void Flow::add_feature(unsigned int tag, std::vector<unsigned int> aid, double f
 					}
 					case NULL_DATA :
 					{
-						_data[_current_set_ID][tag][type] = 
-							std::shared_ptr<Null_Data> (new Null_Data());
+						_data[_current_set_ID][tag][type] = _config->null_data;
+							//std::shared_ptr<Null_Data> (new Null_Data());
 						break;
 					}
 				}
@@ -180,9 +183,10 @@ void Flow::add_analysis(unsigned int tag, unsigned int aid)
 				(new Regularity(std::static_pointer_cast<Regularity_Data>
 				(_data [_current_set_ID][tag][type])));
 		else if (aid == _config->Null_analysis)
-			_analysis[_current_set_ID][tag][aid] = std::shared_ptr<NullAnalysis>
-				(new NullAnalysis(std::static_pointer_cast<Null_Data>
-				(_data[_current_set_ID][tag][type])));
+			_analysis[_current_set_ID][tag][aid] = _config->null_analysis;
+//                std::shared_ptr<NullAnalysis>
+//				(new NullAnalysis(std::static_pointer_cast<Null_Data>
+//				(_data[_current_set_ID][tag][type])));
 	}
 
 	// store the result and the identifier (aid and tag)

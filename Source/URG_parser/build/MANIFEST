@@ -9,4 +9,5 @@ FeatureExtraction_UrgentPointer/scripts/types.bro
 FeatureExtraction_UrgentPointer/scripts/__preload__.bro
 FeatureExtraction_UrgentPointer/README
 FeatureExtraction_UrgentPointer/CHANGES
+FeatureExtraction_UrgentPointer/COPYING
 FeatureExtraction_UrgentPointer/VERSION

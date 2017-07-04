@@ -28,18 +28,25 @@
 * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       *
 * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    *
 * POSSIBILITY OF SUCH DAMAGE.                                                   *
+*                                                                               *
+* Regularity_Flow.h : analysis engine which calculate the regularity metric     *
+*       specified by the standard deviation across the standard deviation of all*
+*       windows. The formula defined in                                         *
+*       Serdar Cabuk, Carla E. Brodley, and Clay Shields. IP Covert Timing      *
+*       Channels: Design and Detection                                          *
 \*******************************************************************************/
 
 #ifndef AUX_PLUGINS_REGULARITY_FLOW_H
 #define AUX_PLUGINS_REGULARITY_FLOW_H
 
-#include <vector>			// vector
-#include "Analysis.h"			// superclass
-#include "Regularity_Data_Container.h"	// Regularity_Data
+#include <vector>                       // vector
+#include "Analysis.h"                   // superclass
+#include "Regularity_Data_Container.h"  // Regularity_Data
 
 namespace CCD {
 
-// Flow analyzer which uses entropy analysis on a histogram of data
+// analysis engine to calculate regularity metric using a data container which
+// do rapid calculation on the standard deviation
 class Regularity : public FeatureAnalyzer {
 public:
 	Regularity(std::shared_ptr<Regularity_Data> data) : FeatureAnalyzer(data) {}

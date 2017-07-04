@@ -1,5 +1,80 @@
+*****************************************************************************************
+*                                    Analysis Plugin                                    *
+*****************************************************************************************
 
-Analysis::IAT
-=================================
+This work was supported by a grant from the Comcast Innovation Fund.
 
-<Insert plugin documentation here.>
+This plugin is the core building block for the covert channel detection framework
+extension in Bro. There are various analysis method implemented in this plugin:
+    * Kolmogorov-Smirnov Test (KS)
+    * Entropy
+    * Corrected Conditional Entropy (CCE)
+    * MultiModality estimation
+    * Autocorrelation
+    * Regularity metric
+and also Null analysis which serves as a mean to pass the value of extracted feature 
+directly. Currently there is no way to modularly add an analysis engine, and we have to 
+modify the plugin to add desired analysis engine and data container.
+
+*****************************************************************************************
+*                                   Build the Plugin                                    *
+*****************************************************************************************
+
+Contained in this folder is the source code and the script. In order to compile the 
+plugin, just ``configure'' and ``make'' the plugin from the plugin root directory. The 
+prerequisites to build the plugin is to have the Bro source code and have satisfied Bro 
+prerequisites to compile. In the plugin root directory, we just need to type
+
+    ./configure --bro-dist=<Bro-dist>
+    make
+
+to configure and build the plugin. The result of this is a directory called ``build'' 
+which contains all of the required files for Bro to recognize that it is a plugin. So the
+next step is then to make Bro to actually recognize the plugin. There are two ways to do 
+this, either we point Bro to the directory containing the build files, or we can copy the 
+build files to a directory where Bro will search for available plugins. Where <Bro> is 
+the location for the installed Bro, the default location where Bro searches for plugins 
+will be in
+
+    <Bro>/lib/bro/plugins
+
+so from the plugin root directory, we can type
+
+    cp -r build/. <Bro>/lib/bro/plugins/<plugin-directory-name>
+
+or alternatively set the environment
+
+    export BRO_PLUGIN_PATH=<plugin-root-directory>/build
+
+*****************************************************************************************
+*                                   Using Bro Script                                    *
+*****************************************************************************************
+
+There is already analysis script which contains the analysis of the following events:
+    * Packet Length : KS, Entropy, CCE, MultiModal, Autocorrelation, Regularity
+    * Interarrival Time : KS, Entropy, CCE, MultiModal, Autocorrelation, Regularity
+    * URG_flag and URG_ptr : Null
+    * 4 bytes ICMP Payload (for Ping Tunnel) : Null
+
+Modify the vector containing the analysis ID to remove the analysis or add an analysis.
+If the feature is simple enough, i.e. can be obtained from Bro basic scripts, then we 
+only need add an event handler, create new corresponding feature event in the script, and
+add the analysis tag enumeration in types.bro. For reference, see the packet length 
+feature which is extracted from the new_packet event. The location of both scripts:
+
+    <plugin>/scripts/Analysis/FeatureAnalysis/Analysis.bro
+    <plugin>/scripts/types.bro
+
+Upon receiving the metric values, we can either handle it directly in Bro script, or pass
+it to the decision tree plugin to be classified. The input to the decision tree 
+classifier is any one of the three:
+    * vector of metric values (Classify)
+    * vector of metric values and accompanying feature names (Classify_with_strings)
+    * record of metric values where the field name is the feature name (Classify_record)
+
+and the decision tree will raise an event 
+
+    DecisionTree::class_result_event(id : FeatureAnalysis::set_ID,  conn_ID : 
+        conn_id, c : int)
+
+where c is the classification according to the decision tree.

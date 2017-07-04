@@ -28,6 +28,9 @@
 * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       *
 * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    *
 * POSSIBILITY OF SUCH DAMAGE.                                                   *
+*                                                                               *
+* Plugin.h : Bro plugin to extract URG_flag and URG_ptr from each incoming TCP  *
+*       packet. We attach our parser into Bro analyzer tree.                    *
 \*******************************************************************************/
 
 #ifndef BRO_PLUGIN_FEATUREEXTRACTION_URGENTPOINTER

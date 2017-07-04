@@ -12,6 +12,8 @@ void __bif_iat_init(plugin::Plugin* plugin)
 	{
 	(void) new BuiltinFunc(BifFunc::IAT::bro_ExtractFeature, "IAT::ExtractFeature", 0);
 	plugin->AddBifItem("IAT::ExtractFeature", plugin::BifItem::FUNCTION);
+	(void) new BuiltinFunc(BifFunc::IAT::bro_RemoveConn, "IAT::RemoveConn", 0);
+	plugin->AddBifItem("IAT::RemoveConn", plugin::BifItem::FUNCTION);
 	::IAT::feature_event = internal_handler("IAT::feature_event");
 	plugin->AddBifItem("IAT::feature_event", plugin::BifItem::EVENT);
 

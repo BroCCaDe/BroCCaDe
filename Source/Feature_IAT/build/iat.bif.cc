@@ -4,15 +4,15 @@
 #include "iat.bif.h"
 
 
-#line 3 "iat.bif"
+#line 42 "iat.bif"
  #include "Plugin.h"
 typedef plugin::FeatureExtraction_IAT::Plugin plugin_t;
 static plugin_t *plugin_ref = &plugin::FeatureExtraction_IAT::plugin;
 
-#line 8 "iat.bif"
+#line 47 "iat.bif"
 Val* BifFunc::IAT::bro_ExtractFeature(Frame* frame, val_list* BiF_ARGS)
 	
-#line 9 "iat.bif"
+#line 48 "iat.bif"
 {
 	if ( BiF_ARGS->length() != 3 )
 		{
@@ -23,13 +23,33 @@ Val* BifFunc::IAT::bro_ExtractFeature(Frame* frame, val_list* BiF_ARGS)
 	Val* id = (Val*) ((*BiF_ARGS)[1]);
 	double duration = (double) ((*BiF_ARGS)[2]->AsInterval());
 
-#line 9 "iat.bif"
+#line 48 "iat.bif"
 
 	  	plugin_ref->ExtractFeature(UID, id, duration);
 		return new Val(1, TYPE_BOOL);
 	} // end of BifFunc::IAT::bro_ExtractFeature
 
-#line 12 "iat.bif"
+#line 51 "iat.bif"
+
+#line 53 "iat.bif"
+Val* BifFunc::IAT::bro_RemoveConn(Frame* frame, val_list* BiF_ARGS)
+    
+#line 54 "iat.bif"
+{
+	if ( BiF_ARGS->length() != 1 )
+		{
+		reporter->Error("IAT::RemoveConn() takes exactly 1 argument(s)");
+		return 0;
+		}
+	StringVal* UID = (StringVal*) ((*BiF_ARGS)[0]->AsStringVal());
+
+#line 54 "iat.bif"
+
+        plugin_ref->RemoveConnection(UID);
+        return new Val(1, TYPE_BOOL);
+    } // end of BifFunc::IAT::bro_RemoveConn
+
+#line 57 "iat.bif"
 namespace IAT { EventHandlerPtr feature_event;  }
 void BifEvent::IAT::generate_feature_event(analyzer::Analyzer* analyzer, StringVal* UID, Val* id, double feature)
 	{

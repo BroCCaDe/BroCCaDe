@@ -28,6 +28,11 @@
 * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       *
 * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    *
 * POSSIBILITY OF SUCH DAMAGE.                                                   *
+*                                                                               *
+* Plugin.cc : Implements Plugin.h                                               *
+* Note      : to attach the parser to Bro analyzer tree, we have to add the     *
+*             component, hook to the analyzer tree setup, and actually attach   *
+*             our parser                                                        *
 \*******************************************************************************/
 
 #include "Plugin.h"

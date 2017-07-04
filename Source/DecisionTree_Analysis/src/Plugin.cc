@@ -28,6 +28,8 @@
 * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       *
 * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    *
 * POSSIBILITY OF SUCH DAMAGE.                                                   *
+*                                                                               *
+* Plugin.cc : Implements Plugin.h                                               *
 \*******************************************************************************/
 
 #include "Plugin.h"
@@ -39,17 +41,27 @@
 #define CHECK_BOUND(ID) \
 	if ((unsigned int) ID > _classifiers.size()) { \
 		printf("Plugin::DecisionTree : Invalid ID %d (larger than %lu)\n", ID, _classifiers.size()); \
-		return; }
+		return -1; }
 
 // Check whether a model specified by the ID has / has not been loaded
 #define CHECK_MODEL(ID, op, fmt) \
 	if (_classifiers[ID].get() op NULL) { \
 		printf(fmt, ID); \
-		return; }
+		return -1; }
 
 // Send the actual event
-#define SEND_EVENT(c) \
+#define SEND_EVENT(ID, conn_ID, c) \
 	val_list* vl = new val_list; \
+    vl->append(new Val(ID, TYPE_ENUM)); \
+    RecordVal* conn_r = conn_ID->AsRecordVal(); \
+    RecordVal* conn_ID_copy = new RecordVal(conn_id); \
+	conn_ID_copy->Assign(0, new AddrVal(conn_r->Lookup(0)->AsAddr())); \
+    PortVal* src_port = conn_r->Lookup(1)->AsPortVal(); \
+	conn_ID_copy->Assign(1, new PortVal(src_port->Port(), src_port->PortType())); \
+	conn_ID_copy->Assign(2, new AddrVal(conn_r->Lookup(2)->AsAddr())); \
+    PortVal* dst_port = conn_r->Lookup(3)->AsPortVal(); \
+	conn_ID_copy->Assign(3, new PortVal(dst_port->Port(), dst_port->PortType())); \
+	vl->append(conn_ID_copy); \
 	vl->append(new Val(c, TYPE_INT)); \
 	mgr.QueueEvent(DecisionTree::class_result_event, vl);
 
@@ -57,7 +69,7 @@
 #define LENGTH_CHECK(length1, length2, err) \
 	if (length1 != length2) { \
 		printf(err); \
-		return; }
+		return -1; }
 
 
 namespace plugin { namespace Analysis_DecisionTree { Plugin plugin; } }
@@ -81,7 +93,7 @@ void plugin::Analysis_DecisionTree::Plugin::Init(unsigned int n)
 	_classifiers.resize(n);
 }
 
-void plugin::Analysis_DecisionTree::Plugin::LoadModel(Val* ID_val, StringVal* model_name)
+int plugin::Analysis_DecisionTree::Plugin::LoadModel(Val* ID_val, StringVal* model_name)
 {
 	int ID = ID_val->AsEnum();
 	CHECK_BOUND(ID);
@@ -95,9 +107,12 @@ void plugin::Analysis_DecisionTree::Plugin::LoadModel(Val* ID_val, StringVal* mo
 	// load the classifier and move the reference
 	std::unique_ptr<c45_classifier> temp_classifier(new c45_classifier(model_file));
 	_classifiers[ID].swap(temp_classifier);
+
+    return 1;
 }
 
-void plugin::Analysis_DecisionTree::Plugin::Classify(Val* ID_val, Val* features)
+int plugin::Analysis_DecisionTree::Plugin::Classify(Val* ID_val, Val* conn_ID, 
+    Val* features, bool send_event)
 {
 	int ID = ID_val->AsEnum();
 	CHECK_BOUND(ID);
@@ -112,10 +127,18 @@ void plugin::Analysis_DecisionTree::Plugin::Classify(Val* ID_val, Val* features)
 	for (unsigned int i = 0; i < _classifiers[ID]->get_feature_length(); i++)
 		features_double[i] = features_vec[i]->AsDouble();
 
-	SEND_EVENT(_classifiers[ID]->c45_classify(features_double));
+    int c = _classifiers[ID]->c45_classify(features_double);
+
+    if (send_event)
+    {
+	    SEND_EVENT(ID, conn_ID, c);
+    }
+    
+    return c;
 }
 
-void plugin::Analysis_DecisionTree::Plugin::Classify_with_strings(Val* ID_val, Val* features, Val* features_str)
+int plugin::Analysis_DecisionTree::Plugin::Classify_with_strings(Val* ID_val, 
+    Val* conn_ID, Val* features, Val* features_str, bool send_event)
 {
 	int ID = ID_val->AsEnum();
 	CHECK_BOUND(ID);
@@ -143,14 +166,22 @@ void plugin::Analysis_DecisionTree::Plugin::Classify_with_strings(Val* ID_val, V
 		if (j == features_str_vec.size()) // if the string is not found, then abort
 		{
 			printf("Plugin::DecisionTree : feature string is not found \"%s\"\n", str.c_str());
-			return;
+			return -1;
 		}
 	}
 
-	SEND_EVENT(_classifiers[ID]->c45_classify(features_double));
+    int c = _classifiers[ID]->c45_classify(features_double);
+
+    if (send_event) 
+    {
+        SEND_EVENT(ID, conn_ID, c);
+    }
+
+    return c;
 }
 
-void plugin::Analysis_DecisionTree::Plugin::Classify_record(Val* ID_val, Val* features)
+int plugin::Analysis_DecisionTree::Plugin::Classify_record(Val* ID_val, Val* conn_ID, 
+    Val* features, bool send_event)
 {
 	int ID = ID_val->AsEnum();
 	CHECK_BOUND(ID);
@@ -167,5 +198,12 @@ void plugin::Analysis_DecisionTree::Plugin::Classify_record(Val* ID_val, Val* fe
 			_classifiers[ID]->get_feature_str(i).c_str())->AsDouble();
 	}
 
-	SEND_EVENT(_classifiers[ID]->c45_classify(features_double));
+    int c = _classifiers[ID]->c45_classify(features_double);
+
+    if (send_event)
+    {
+	    SEND_EVENT(ID, conn_ID, _classifiers[ID]->c45_classify(features_double));
+    }
+
+    return c;
 }

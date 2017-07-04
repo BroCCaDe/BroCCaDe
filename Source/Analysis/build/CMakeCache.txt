@@ -329,7 +329,7 @@ CMAKE_UNAME:INTERNAL=/bin/uname
 //ADVANCED property for variable: CMAKE_VERBOSE_MAKEFILE
 CMAKE_VERBOSE_MAKEFILE-ADVANCED:INTERNAL=1
 //automatically generated files
-bro_ALL_GENERATED_OUTPUTS:INTERNAL=bif-plugin-Analysis_FeatureAnalysis-analysis.bif;bif-plugin-Analysis_FeatureAnalysis-analysis.bif;bif-plugin-Analysis_FeatureAnalysis-analysis.bif
+bro_ALL_GENERATED_OUTPUTS:INTERNAL=bif-plugin-Analysis_FeatureAnalysis-analysis.bif
 //Bro script stubs for BIFs in Bro plugins
 bro_PLUGIN_BIF_SCRIPTS:INTERNAL=/home/hendra/CCD/Source/Analysis/build/lib/bif/analysis.bif.bro
 //plugin libraries

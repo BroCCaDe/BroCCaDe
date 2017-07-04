@@ -127,11 +127,11 @@ clean: CMakeFiles/bif-plugin-Analysis_FeatureAnalysis-analysis.bif.dir/clean
 # Target rules for target CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir
 
 # All Build rule for target.
-CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/all: CMakeFiles/copy-bif-Analysis_FeatureAnalysis.dir/all
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/all: CMakeFiles/bif-plugin-Analysis_FeatureAnalysis-analysis.bif.dir/all
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/all: CMakeFiles/bro-plugin-Analysis_FeatureAnalysis.dir/all
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/all: CMakeFiles/generate_outputs.dir/all
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/all: CMakeFiles/bif-init-Analysis_FeatureAnalysis.dir/all
+CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/all: CMakeFiles/copy-bif-Analysis_FeatureAnalysis.dir/all
 CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/all: CMakeFiles/copy-scripts-Analysis_FeatureAnalysis.dir/all
 	$(MAKE) -f CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/build.make CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/depend
 	$(MAKE) -f CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/build.make CMakeFiles/Analysis-FeatureAnalysis.linux-x86_64.dir/build
@@ -233,9 +233,9 @@ clean: CMakeFiles/generate_outputs.dir/clean
 # Target rules for target CMakeFiles/bif-init-Analysis_FeatureAnalysis.dir
 
 # All Build rule for target.
-CMakeFiles/bif-init-Analysis_FeatureAnalysis.dir/all: CMakeFiles/copy-bif-Analysis_FeatureAnalysis.dir/all
 CMakeFiles/bif-init-Analysis_FeatureAnalysis.dir/all: CMakeFiles/bif-plugin-Analysis_FeatureAnalysis-analysis.bif.dir/all
 CMakeFiles/bif-init-Analysis_FeatureAnalysis.dir/all: CMakeFiles/generate_outputs.dir/all
+CMakeFiles/bif-init-Analysis_FeatureAnalysis.dir/all: CMakeFiles/copy-bif-Analysis_FeatureAnalysis.dir/all
 	$(MAKE) -f CMakeFiles/bif-init-Analysis_FeatureAnalysis.dir/build.make CMakeFiles/bif-init-Analysis_FeatureAnalysis.dir/depend
 	$(MAKE) -f CMakeFiles/bif-init-Analysis_FeatureAnalysis.dir/build.make CMakeFiles/bif-init-Analysis_FeatureAnalysis.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/hendra/CCD/Source/Analysis/build/CMakeFiles --progress-num= "Built target bif-init-Analysis_FeatureAnalysis"

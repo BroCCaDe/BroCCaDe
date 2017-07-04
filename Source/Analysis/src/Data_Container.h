@@ -28,6 +28,14 @@
 * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       *
 * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    *
 * POSSIBILITY OF SUCH DAMAGE.                                                   *
+*                                                                               *
+* Data_Container.h : the superclass for the data container and raw data         *
+*       container used for KS-test and autocorrelation.                         *
+* Contents :                                                                    *
+*   * class Data_Container : the superclass for data container. Mainly the child*
+*           classes have to override the add_feature function.                  *
+*   * class Raw_Data : a simple data container where the data is stored plainly *
+*           as an array (vector) of double. Only keep a window of data.         *
 \*******************************************************************************/
 
 #ifndef AUX_PLUGINS_DATA_CONTAINER_H

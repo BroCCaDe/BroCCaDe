@@ -28,6 +28,9 @@
 * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       *
 * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    *
 * POSSIBILITY OF SUCH DAMAGE.                                                   *
+*                                                                               *
+* URG_parser.h : the parser class which inherits the analyzer provided in Bro.  *
+*       We implements the function which is called to inspect each packet       *
 \*******************************************************************************/
 
 #ifndef AUX_PLUGINS_HEADER_URGENTPOINTER_H

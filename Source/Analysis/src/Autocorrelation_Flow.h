@@ -28,13 +28,21 @@
 * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       *
 * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    *
 * POSSIBILITY OF SUCH DAMAGE.                                                   *
+*                                                                               *
+* Autocorrelation_Flow.h : Analysis engine that calculates autocorrelation      *
+* Content :                                                                     *
+*   * class Autocorrelation : an analysis engine which store the data as raw    *
+*           data and employs Autocorrelation_Calculation class to calculate its *
+*           metric                                                              *
+*   * class Autocorrelation_Calculation : a class that calculates the average   *
+*           sum of autocorrelation for various lags given a time series         *
 \*******************************************************************************/
 
 #ifndef AUX_PLUGINS_AUTOCORRELATION_FLOW_H
 #define AUX_PLUGINS_AUTOCORRELATION_FLOW_H
 
-#include <vector>		// contains vector
-#include <memory>
+#include <vector>		    // vector
+#include <memory>           // shared_ptr
 #include "Analysis.h"		// the superclass (flow analyzer)
 
 namespace CCD {

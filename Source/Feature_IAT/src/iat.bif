@@ -28,6 +28,13 @@
 # CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       #
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    #
 # POSSIBILITY OF SUCH DAMAGE.                                                   #
+#                                                                               #
+# iat.bif : interface between Bro script and the IAT feature extraction plugin. #
+# Content:                                                                      #
+#   * ExtractFeature    : extract inter arrival time feature                    #
+#   * RemoveConn        : remove a connection from the dictionary               #
+#   * feature_event     : event raised by the plugin containing the inter       #
+#                         arrival time value.                                   #
 #################################################################################
 
 module IAT;
@@ -42,5 +49,11 @@ function ExtractFeature%(UID : string, id : conn_id, duration : interval%): bool
 	  	plugin_ref->ExtractFeature(UID, id, duration);
 		return new Val(1, TYPE_BOOL);
 	%}
+
+function RemoveConn%(UID : string%): bool
+    %{
+        plugin_ref->RemoveConnection(UID);
+        return new Val(1, TYPE_BOOL);
+    %}
 
 event feature_event%(UID : string, id : conn_id, feature: double%);

@@ -28,14 +28,17 @@
 * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       *
 * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    *
 * POSSIBILITY OF SUCH DAMAGE.                                                   *
+*                                                                               *
+* Entropy_Flow.h : Analysis engine to calculate the first order entropy from the*
+*       histogram of data.                                                      *
 \*******************************************************************************/
 
 #ifndef AUX_PLUGINS_ENTROPY_FLOW_H
 #define AUX_PLUGINS_ENTROPY_FLOW_H
 
-#include <vector>		// vector
-#include "Histogram.h"		// Histogram
-#include "Analysis.h"		// superclass
+#include <vector>           // vector
+#include "Histogram.h"      // Histogram
+#include "Analysis.h"       // superclass
 
 namespace CCD {
 

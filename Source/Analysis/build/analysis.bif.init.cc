@@ -12,6 +12,8 @@ void __bif_analysis_init(plugin::Plugin* plugin)
 	{
 	BifType::Enum::FeatureAnalysis::Analysis_ID = internal_type("FeatureAnalysis::Analysis_ID")->AsEnumType();
 	plugin->AddBifItem("FeatureAnalysis::Analysis_ID", plugin::BifItem::TYPE);
+	(void) new BuiltinFunc(BifFunc::FeatureAnalysis::bro_ConfigureInternalType, "FeatureAnalysis::ConfigureInternalType", 0);
+	plugin->AddBifItem("FeatureAnalysis::ConfigureInternalType", plugin::BifItem::FUNCTION);
 	(void) new BuiltinFunc(BifFunc::FeatureAnalysis::bro_Extract, "FeatureAnalysis::Extract", 0);
 	plugin->AddBifItem("FeatureAnalysis::Extract", plugin::BifItem::FUNCTION);
 	(void) new BuiltinFunc(BifFunc::FeatureAnalysis::bro_Extract_vector, "FeatureAnalysis::Extract_vector", 0);

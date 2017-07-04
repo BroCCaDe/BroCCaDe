@@ -3,8 +3,9 @@ Analysis_FeatureAnalysis/lib/bif/__load__.bro
 Analysis_FeatureAnalysis/lib/bif/analysis.bif.bro
 Analysis_FeatureAnalysis/lib/Analysis-FeatureAnalysis.linux-x86_64.so
 Analysis_FeatureAnalysis/scripts/__load__.bro
-Analysis_FeatureAnalysis/scripts/Analysis/IAT/__load__.bro
-Analysis_FeatureAnalysis/scripts/Analysis/IAT/KS_IAT.bro
+Analysis_FeatureAnalysis/scripts/Analysis/FeatureAnalysis/Analysis.bro
+Analysis_FeatureAnalysis/scripts/Analysis/FeatureAnalysis/__load__.bro
+Analysis_FeatureAnalysis/scripts/Analysis/FeatureAnalysis/Analysis(backup).bro
 Analysis_FeatureAnalysis/scripts/init.bro
 Analysis_FeatureAnalysis/scripts/types.bro
 Analysis_FeatureAnalysis/scripts/__preload__.bro

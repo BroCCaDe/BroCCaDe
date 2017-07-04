@@ -28,6 +28,9 @@
 * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       *
 * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    *
 * POSSIBILITY OF SUCH DAMAGE.                                                   *
+*                                                                               *
+* KS_Flow.h : analysis engine to measure the Kolmogorov-Smirnov test on a plain *
+*       data against a ``normal'' data obtained from training (in the config)   *
 \*******************************************************************************/
 
 #ifndef AUX_PLUGINS_KS_FLOW_H

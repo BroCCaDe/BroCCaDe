@@ -28,6 +28,15 @@
 * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       *
 * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    *
 * POSSIBILITY OF SUCH DAMAGE.                                                   *
+*                                                                               *
+* Bin_Strategy.h : superclass for the bin allocator and a simple bin allocator  *
+* Content :                                                                     *
+*   * class Bin_Strategy : the superclass definition which contains 2 abstract  *
+*           methods that all bin allocator have to override, get the total      *
+*           number of bins and classifying a feature into a bin                 *
+*   * class Bin_Strategy_Null : a bin allocator that directly returns the       *
+*           feature as the bin number. Only works for value in unsigned short   *
+*           range [0, 2^16)                                                     *
 \*******************************************************************************/
 
 #ifndef AUX_PLUGINS_BIN_STRATEGY_H
@@ -52,7 +61,7 @@ public:
 class Bin_Strategy_Null
 {
 public:
-	// Constructor: specify the possible bin
+	// Constructor: specify the possible bin values
 	Bin_Strategy_Null(unsigned short bin_count) : _bin_count(bin_count) {}
 	virtual ~Bin_Strategy_Null() {}
 	

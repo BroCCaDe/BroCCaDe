@@ -52,6 +52,8 @@
 * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       *
 * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    *
 * POSSIBILITY OF SUCH DAMAGE.                                                   *
+*                                                                               *
+* Modified to the class structure and actual double value                       *
 \*******************************************************************************/
 
 #include <ctype.h>
@@ -187,9 +189,13 @@ int c45_classifier::c45_load_model()
 	std::ifstream f (_model_name);
 
 	if ( f.is_open() ) {
+#ifdef DEBUG_H
 		std::cout << "\nInput : \n";
+#endif
 		while ( getline(f, line) ) {
+#ifdef DEBUG_H
 			std::cout << line << "\n";
+#endif
 			line_no++;
 
 			/* trim leading ws and check that we actually have at least 1 char */
@@ -307,7 +313,9 @@ bad:
 		errx(EX_DATAERR, "empty classifier model %s", _model_name.c_str());
 	}
 
+#ifdef DEBUG_H
 	c45_print_model();
+#endif
 
 	return _tree_len;
 }

@@ -10,4 +10,5 @@ FeatureExtraction_IAT/scripts/types.bro
 FeatureExtraction_IAT/scripts/__preload__.bro
 FeatureExtraction_IAT/README
 FeatureExtraction_IAT/CHANGES
+FeatureExtraction_IAT/COPYING
 FeatureExtraction_IAT/VERSION

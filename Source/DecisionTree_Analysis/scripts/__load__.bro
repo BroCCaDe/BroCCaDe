@@ -8,7 +8,6 @@
 #
 
 @load ./init.bro
-@load ./Analysis/DecisionTree/__load__.bro
 
 
 

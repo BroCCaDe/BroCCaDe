@@ -28,6 +28,11 @@
 * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       *
 * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    *
 * POSSIBILITY OF SUCH DAMAGE.                                                   *
+*                                                                               *
+* Tree.h : data structure which contains the pattern tree to calculate CCE.     *
+*       It is n-ary tree with n equals to the possible bin numbers and depth    *
+*       equals to the pattern length. Each tree will hold the current level and *
+*       count of how many times has the a particular pattern appeared.          *
 \*******************************************************************************/
 
 #ifndef AUX_PLUGINS_COUNTINGTREE_H

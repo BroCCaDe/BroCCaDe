@@ -28,15 +28,23 @@
 * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       *
 * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    *
 * POSSIBILITY OF SUCH DAMAGE.                                                   *
+*                                                                               *
+* MultiModal_Flow.h : analysis engine to calculate multi modal estimation based *
+*       on the formula sum((n_i)^2)/(max(n_i))^2.                               *
+* Based on the technical report TR-2015-02-01 Communication Networks Group at   *
+*       the Institute of Telecommunications Vienna University of Technology.    *
+*       F. Iglesias, R. Annessi, D. Frkat, V. Bernhardt, M.Nitzschke, T.Zseby.  *
+*       Preparation of the Network Security Advanced Lab: Detection of Covert   *
+*       Channels                                                                *
 \*******************************************************************************/
 
 #ifndef AUX_PLUGINS_MULTIMODAL_FLOW_H
 #define AUX_PLUGINS_MULTIMODAL_FLOW_H
 
-#include <vector>		// vector
-#include <memory>		// shared_ptr
-#include "Analysis.h"		// superclass
-#include "Histogram.h"		// Histogram
+#include <vector>           // vector
+#include <memory>           // shared_ptr
+#include "Analysis.h"       // superclass
+#include "Histogram.h"      // Histogram
 
 namespace CCD {
 

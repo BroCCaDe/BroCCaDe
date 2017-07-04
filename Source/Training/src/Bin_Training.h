@@ -28,6 +28,11 @@
 * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       *
 * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    *
 * POSSIBILITY OF SUCH DAMAGE.                                                   *
+*                                                                               *
+* Bin_Training.h : holds the data series and print it out both in the raw format*
+*       and the intervals for equiprobable bin. Raw format is useful for KS     *
+*       normal data while the intervals are useful for the binning strategy,    *
+*       e.g. for Histogram and CCE pattern tree                                 *
 \*******************************************************************************/
 
 #ifndef AUX_PLUGIN_BIN_TRAINING_H

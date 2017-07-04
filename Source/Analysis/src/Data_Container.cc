@@ -28,9 +28,11 @@
 * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       *
 * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    *
 * POSSIBILITY OF SUCH DAMAGE.                                                   *
+*                                                                               *
+* Data_Container.cc : Implements Data_Container.h                               *
 \*******************************************************************************/
 
-#include <vector>		// vector
+#include <vector>           // vector
 #include "Data_Container.h"
 
 using namespace CCD;

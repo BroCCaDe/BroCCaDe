@@ -20,6 +20,12 @@ void __bif_decisiontree_init(plugin::Plugin* plugin)
 	plugin->AddBifItem("DecisionTree::Classify_with_strings", plugin::BifItem::FUNCTION);
 	(void) new BuiltinFunc(BifFunc::DecisionTree::bro_Classify_record, "DecisionTree::Classify_record", 0);
 	plugin->AddBifItem("DecisionTree::Classify_record", plugin::BifItem::FUNCTION);
+	(void) new BuiltinFunc(BifFunc::DecisionTree::bro_Classify_and_send, "DecisionTree::Classify_and_send", 0);
+	plugin->AddBifItem("DecisionTree::Classify_and_send", plugin::BifItem::FUNCTION);
+	(void) new BuiltinFunc(BifFunc::DecisionTree::bro_Classify_and_send_with_strings, "DecisionTree::Classify_and_send_with_strings", 0);
+	plugin->AddBifItem("DecisionTree::Classify_and_send_with_strings", plugin::BifItem::FUNCTION);
+	(void) new BuiltinFunc(BifFunc::DecisionTree::bro_Classify_and_send_record, "DecisionTree::Classify_and_send_record", 0);
+	plugin->AddBifItem("DecisionTree::Classify_and_send_record", plugin::BifItem::FUNCTION);
 	::DecisionTree::class_result_event = internal_handler("DecisionTree::class_result_event");
 	plugin->AddBifItem("DecisionTree::class_result_event", plugin::BifItem::EVENT);
 

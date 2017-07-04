@@ -28,6 +28,25 @@
 # CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       #
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    #
 # POSSIBILITY OF SUCH DAMAGE.                                                   #
+#                                                                               #
+# decisiontree.bif : interface between the decision tree plugin and Bro scripts #
+# Contents :                                                                    #
+#   * Init : initialize the plugin with the number of models                    #
+#   * LoadModel : load the model from the file specified by the input string    #
+#   * Classify : classify input vector according to the model specified. The    #
+#           order of the values in the feature vector must match the order of   #
+#           features in the model                                               #
+#   * Classify_with_strings :                                                   #
+#           same as classify with additional input of string                    #
+#           vector indicating the name of the feature. The feature vector does  #
+#           not have to be in order as the plugin will match the feature names  #
+#           specified in the model and the string vector.                       #
+#   * Classify_record :                                                         # 
+#           similar to classify except that the input is a record.              #
+#           Note that the feature names specified in the model must exists in   #
+#           the input record otherwise the execution will terminate             #
+#   * class_result_event :                                                      #
+#           event raised by the plugin specifying the class of the input vector.#
 #################################################################################
 
 module DecisionTree;
@@ -49,24 +68,43 @@ function LoadModel%(ID : FeatureAnalysis::set_ID, model_name : string%): bool
 		return new Val(1, TYPE_BOOL);
 	%}
 
-function Classify%(ID : FeatureAnalysis::set_ID, features: FeatureAnalysis::feature_vector%): bool
+function Classify%(ID : FeatureAnalysis::set_ID, conn_ID : conn_id, 
+        features: FeatureAnalysis::feature_vector%): int
+    %{
+        return new Val(plugin_ref->Classify(ID, conn_ID, features, false), TYPE_INT);
+    %}
+
+function Classify_with_strings%(ID : FeatureAnalysis::set_ID, conn_ID : conn_id, 
+        features: FeatureAnalysis::feature_vector, features_str: string_vec%): int
 	%{
-		plugin_ref->Classify(ID, features);
+		return new Val(plugin_ref->Classify_with_strings(ID, conn_ID, features, 
+            features_str, false), TYPE_INT);
+	%}
+
+function Classify_record%(ID : FeatureAnalysis::set_ID, conn_ID : conn_id, features: any%): int
+	%{
+		return new Val(plugin_ref->Classify_record(ID, conn_ID, features, false), TYPE_INT);
+	%}
+
+function Classify_and_send%(ID : FeatureAnalysis::set_ID, conn_ID : conn_id, features: 
+        FeatureAnalysis::feature_vector%): bool
+	%{
+		plugin_ref->Classify(ID, conn_ID, features);
 		return new Val(1, TYPE_BOOL);
 	%}
 
-function Classify_with_strings%(ID : FeatureAnalysis::set_ID, features: FeatureAnalysis::feature_vector, 
-		features_str: string_vec%): bool
+function Classify_and_send_with_strings%(ID : FeatureAnalysis::set_ID, conn_ID : conn_id, 
+        features: FeatureAnalysis::feature_vector, features_str: string_vec%): bool
 	%{
-		plugin_ref->Classify_with_strings(ID, features, features_str);
+		plugin_ref->Classify_with_strings(ID, conn_ID, features, features_str);
 		return new Val(1, TYPE_BOOL);
 	%}
 
-function Classify_record%(ID : FeatureAnalysis::set_ID, features: any%): bool
+function Classify_and_send_record%(ID : FeatureAnalysis::set_ID, conn_ID : conn_id, features: any%): bool
 	%{
-		plugin_ref->Classify_record(ID, features);
+		plugin_ref->Classify_record(ID, conn_ID, features);
 		return new Val(1, TYPE_BOOL);
 	%}
 
-event class_result_event%(c:int%);
+event class_result_event%(ID : FeatureAnalysis::set_ID, conn_ID : conn_id, c:int%);
 #event classify_event%(features: FeatureAnalysis::feature_vector%);

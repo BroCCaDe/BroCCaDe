@@ -28,13 +28,22 @@
 * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       *
 * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    *
 * POSSIBILITY OF SUCH DAMAGE.                                                   *
+*                                                                               *
+* Analysis.h : super class for all of the analysis engine and a simple analyzer *
+* content :                                                                     *
+*   * DATA_CONTAINER_TYPE_COUNT : number of data container type, useful for the *
+*           mapping between analysis engine and data container                  *
+*   * Data_Container_Enum : enumeration on the type of data containers          *
+*   * FeatureAnalyzer : abstract class for the analysis engine which contains a *
+*           pointer to the data container and method to calculate metric        *
+*   * NullAnalysis : the analysis engine which just returns the stored data     *
 \*******************************************************************************/
 
 #ifndef AUX_PLUGIN_ANALYSIS_H
 #define AUX_PLUGIN_ANALYSIS_H
 
 #include "Data_Container.h"	// Data_Container
-#include <memory>		// shared_ptr
+#include <memory>		    // shared_ptr
 
 namespace CCD {
 
@@ -56,9 +65,9 @@ public:
 	FeatureAnalyzer(std::shared_ptr<Data_Container> data) : _data(data) {}
 	virtual ~FeatureAnalyzer() {}
 
-	virtual double calculate_metric() = 0;
+	virtual double calculate_metric() = 0;  // abstract method to calculate metric
 protected:
-	std::shared_ptr<Data_Container> _data;
+	std::shared_ptr<Data_Container> _data;  // pointer to the data container
 };
 
 class NullAnalysis : public FeatureAnalyzer
@@ -69,6 +78,7 @@ public:
 
 	virtual double calculate_metric()
 	{
+        // return the contained data
 		return (static_cast<Null_Data*>(_data.get()))->get_data();
 	}
 };

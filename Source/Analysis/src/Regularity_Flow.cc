@@ -28,32 +28,35 @@
 * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       *
 * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    *
 * POSSIBILITY OF SUCH DAMAGE.                                                   *
+*                                                                               *
+* Regularity_Flow.cc : Implements Regularity_Flow.h                             *
 \*******************************************************************************/
 
-#include <vector>			// vector
-#include <math.h>			// abs and sqrt
+#include <vector>                       // vector
+#include <math.h>                       // abs and sqrt
 #include <cmath>
-#include "Regularity_Flow.h"		// superclass
-#include "Regularity_Data_Container.h"	// data container for the standard deviations
+#include "Regularity_Flow.h"            // superclass
+#include "Regularity_Data_Container.h"  // data container for the standard deviations
 
 #ifdef DEBUG_H
-#include <stdio.h>			// printf
+#include <stdio.h>                      // printf
 #endif
 
 using namespace CCD;
 
 double Regularity::calculate_metric()
 {
-	unsigned short i, j;
+	unsigned short i, j, n;
 	double N;
-	double sum = 0.0;		// sum (|sigma_j - sigma_i| / sigma_i)
-	double sum_square = 0.0;	// sum ((|sigma_j - sigma_i| / sigma_j)^2)
+	double sum = 0.0;		            // sum (|sigma_j - sigma_i| / sigma_i)
+	double sum_square = 0.0;	        // sum ((|sigma_j - sigma_i| / sigma_j)^2)
 	Regularity_Data* ptr = static_cast<Regularity_Data*> (_data.get());
 	
 	std::vector<double> stdev (ptr->get_stdev());
-	N = (double) stdev.size() * ((double)stdev.size() - 1) / 2.0;
+    n = stdev.size();
+	N = (double) n * ((double) n - 1.0) / 2.0;
 
-	for (j = 0; j < stdev.size(); j++) // forall j
+	for (j = 0; j < n; j++) // forall j
 	{
 		for (i = 0; i < j; i++) // forall i < j
 		{

@@ -28,18 +28,34 @@
 * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       *
 * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    *
 * POSSIBILITY OF SUCH DAMAGE.                                                   *
+*                                                                               *
+* Plugin.h : Bro plugin with internal dictionary of flows. The main function of *
+*       of the plugin is to lookup flow of interest and interface it with the   *
+*       Bro script. It implements all the functions specified in analysis.bif.h *
+* Content:                                                                      *
+*   * Extract           : extract a value from vector of metric result (record) *
+*   * Extract_vector    : extract vector of double values from the vector of    *
+*                         metric result (record)                                *
+*   * SetStepSize       : set the number of data to trigger metric calculation  *
+*   * RemoveConn        : remove a connection from the dictionary               *
+*   * RegisterAnalysis  : indicate the beginning of a transaction to add feature*
+*   * AddFeature        : add the feature associated with the analyzers         *
+*   * CalculateMetric   : indicate the end of a transaction to add feature      *
+*   * metric_event      : an event definition which contains the result of      *
+*                         metric calculation                                    *
 \*******************************************************************************/
 
 #ifndef BRO_PLUGIN_ANALYSIS_FEATUREANALYSIS_H
 #define BRO_PLUGIN_ANALYSIS_FEATUREANALYSIS_H
 
 #include <plugin/Plugin.h>
-#include <unordered_map>		// unordered_map
-#include <vector>			// vector
-#include <memory>			// shared_ptr
-#include "Flow.h"			// Flow
-#include "Bin_Strategy.h"		// Bin allocation
+#include <unordered_map>        // unordered_map
+#include <vector>               // vector
+#include <memory>               // shared_ptr
+#include "Flow.h"               // Flow
+#include "Bin_Strategy.h"       // Bin allocation
 #include "analysis.bif.h"
+#include "MurmurHash3.h"
 
 namespace plugin {
 namespace Analysis_FeatureAnalysis {
@@ -52,11 +68,10 @@ using namespace BifEnum::FeatureAnalysis;
 #define DEFAULT_TAG_COUNT 3
 #define DEFAULT_STEP_SIZE 10
 #define DEFAULT_SET_IDS 3
-#define DEFAULT_KS_WINDOW_SIZE 10
-#define DEFAULT_REGULARITY_WINDOW_SIZE 10
-#define DEFAULT_REGULARITY_WINDOW_NUMBER 1000
+#define DEFAULT_KS_WINDOW_SIZE 100
+#define DEFAULT_REGULARITY_WINDOW_SIZE 100
+#define DEFAULT_REGULARITY_WINDOW_NUMBER 10
 #define DEFAULT_CCE_PATTERN_SIZE 5
-
 
 class Plugin : public ::plugin::Plugin
 {
@@ -67,6 +82,7 @@ public:
 	void AddFeature(StringVal* UID, double feature, Val* aid_val, Val* tag_val);
 	void CalculateMetric();
 
+    void ConfigureInternalType();
 	void SetStepSize(Val* Set_ID, unsigned int step_size);
 	Val* Extract(Val* v, Val* aid, Val* tag);
 	Val* ExtractVector(Val* v);
@@ -76,12 +92,22 @@ protected:
 private:
 	// map from UID to Flow object
 	std::unordered_map <std::string, std::shared_ptr<CCD::Flow> > _flow_dict;
-	std::shared_ptr<CCD::FlowConfig> _flow_config;	// global config for all flows
+	std::shared_ptr<CCD::FlowConfig> _flow_config;  // global config for all flows
 	// temporary holder is useful so that we don't have to do the lookup multiple times for the same flow.
-	std::shared_ptr<CCD::Flow> _current_flow; 	// temporary holder
-	std::string* _current_UID;			// temporary holder's UID
-	unsigned int _current_set_ID;			// temporary holder's set_ID
-	Val* _current_conn_id;				// temporary holder's 4 network tuple
+	std::shared_ptr<CCD::Flow> _current_flow;       // temporary holder
+//	std::unique_ptr<std::string> _current_UID;      // temporary holder's UID
+//	Val* _current_conn_id;          // temporary holder's 4 network tuple
+    std::unique_ptr<IPAddr> _current_src_ip;
+    std::unique_ptr<IPAddr> _current_dst_ip;
+    uint32 _current_src_port;
+    uint32 _current_dst_port;
+    TransportProto _current_src_proto;
+    TransportProto _current_dst_proto;
+	unsigned int _current_set_ID;			        // temporary holder's set_ID
+
+    VectorType* result_vector_type;
+    RecordType* analysis_result_type;
+    VectorType* feature_vector_type;
 };
 
 extern Plugin plugin;

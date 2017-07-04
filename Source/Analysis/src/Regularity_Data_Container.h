@@ -28,13 +28,18 @@
 * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       *
 * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    *
 * POSSIBILITY OF SUCH DAMAGE.                                                   *
+*                                                                               *
+* Regularity_Data_Container.h : data container to calculate regularity metric.  *
+*       It is based on the rapid calculation formula                            *
+*       sqrt(N * sum(feature^2) + sum(feature)^2) / N where N is the number of  *
+*       data points. It calculate the standard deviation within each window.    *
 \*******************************************************************************/
 
 #ifndef AUX_PLUGINS_REGULARITY_DATA_CONTAINER_H
 #define AUX_PLUGINS_REGULARITY_DATA_CONTAINER_H
 
-#include <vector>		// vector
-#include "Data_Container.h"	// abstract Data_Container
+#include <vector>                       // vector
+#include "Data_Container.h"             // abstract Data_Container
 
 namespace CCD {
 
@@ -57,12 +62,12 @@ private:
 	// reset _current_data, _current_sum, and _current_sum_square
 	void reset_current_window();
 
-	unsigned short _window_number;		// limit the number of standard deviation
-	unsigned short _window_size;		// the window size
-	std::vector<double> _stdev;		// moving window of standard deviations
+	unsigned short _window_number;      // limit the number of standard deviation
+	unsigned short _window_size;        // the window size
+	std::vector<double> _stdev;         // moving window of standard deviations
 	unsigned int _current_data;		
-	double _current_sum;			// sum (feature)
-	double _current_sum_square;		// sum (feature^2)
+	double _current_sum;                // sum (feature)
+	double _current_sum_square;         // sum (feature^2)
 };
 
 }

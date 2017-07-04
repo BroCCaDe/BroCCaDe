@@ -28,21 +28,23 @@
 * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       *
 * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    *
 * POSSIBILITY OF SUCH DAMAGE.                                                   *
+*                                                                               *
+* CCE_Flow.h : an analysis engine that calculates CCE. The data itself is stored*
+*       as a tree of pattern with a particular length. Based upon the           *
+*       description in "An Entropy-Based Approach to Detecting Covert Timing    *
+*       Channels" by Steven Gianvecchio and Haining Wang.                       *
 \*******************************************************************************/
 
 #ifndef AUX_PLUGINS_CCE_FLOW_H
 #define AUX_PLUGINS_CCE_FLOW_H
 
-#include <vector>			// vector
-#include <memory>			// shared_ptr
-#include "Analysis.h"			// superclass (feature analyzer)
-#include "Pattern_Data_Container.h"	// Pattern_Data
+#include <vector>                   // vector
+#include <memory>                   // shared_ptr
+#include "Analysis.h"               // superclass (feature analyzer)
+#include "Pattern_Data_Container.h" // Pattern_Data
 
 namespace CCD {
 
-// CCE flow analyzer, based from the description in 
-// "An Entropy-Based Approach to Detecting Covert Timing Channels
-// by Steven Gianvecchio and Haining Wang
 class CCE : public FeatureAnalyzer {
 public:
 	// Constructor: we need to specify the pattern size and the bin allocation strategy

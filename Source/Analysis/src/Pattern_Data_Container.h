@@ -28,6 +28,10 @@
 * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       *
 * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    *
 * POSSIBILITY OF SUCH DAMAGE.                                                   *
+*                                                                               *
+* Pattern_Data_Container.h : Data container for CCE. Its main purpose is to     *
+*       wrap the pattern tree data structure to interface with the general      *
+*       analysis tool and holds the bin allocator                               *
 \*******************************************************************************/
 
 #ifndef AUX_PLUGINS_PATTERN_DATA_CONTAINER_H
@@ -41,6 +45,12 @@
 
 namespace CCD {
 
+struct TreeNode
+{
+    unsigned long count;
+    unsigned short children[10];
+};
+
 class Pattern_Data : public Data_Container
 {
 public:
@@ -51,15 +61,21 @@ public:
 	// return a boolean indicating whether the calculation is triggered
 	virtual void add_feature(double feature);
 
-	std::shared_ptr<CountingTree> get_root() {return _root;}
+//	std::shared_ptr<CountingTree> get_root() {return _root;}
+    std::shared_ptr< std::vector<std::vector<TreeNode> > > get_tree() {return _tree;}
 private:
 	unsigned short _pattern_length;		
 
 	// The internal of the data container is represented as a tree of depth equal to the
 	// pattern length. On each node, possible children are possible bin values.
-	std::shared_ptr<CountingTree> _root;	// the root of the tree data structure
+//	std::shared_ptr<CountingTree> _root;	// the root of the tree data structure
 	std::list<unsigned short> _pattern;	// moving window of pattern
 	std::shared_ptr<Bin_Strategy> _binner;	// bin allocator
+
+    void add_pattern(std::list<unsigned short>::iterator current, std::list<unsigned short>::iterator end,
+        unsigned short id, unsigned short level);
+    std::shared_ptr< std::vector<std::vector<TreeNode> > > _tree;
+    
 };
 
 }

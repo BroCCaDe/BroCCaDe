@@ -28,11 +28,12 @@
 * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       *
 * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    *
 * POSSIBILITY OF SUCH DAMAGE.                                                   *
+*                                                                               *
+* Regularity_Data_Container.cc : Implements Regularity_Data_Container.h         *
 \*******************************************************************************/
 
 #include "Regularity_Data_Container.h"
-#include <memory>
-#include <math.h>
+#include <math.h>                       // sqrt
 
 #ifdef DEBUG_H
 #include "stdio.h"
@@ -40,7 +41,7 @@
 
 using namespace CCD;
 
-
+// initializing the data container
 Regularity_Data::Regularity_Data(unsigned short window_number,
 		unsigned short window_size)
 	: Data_Container(), _window_number(window_number), _window_size(window_size)
@@ -49,11 +50,13 @@ Regularity_Data::Regularity_Data(unsigned short window_number,
 	reset_current_window();
 }
 
+// add a feature value and add to the list of standard deviation when the window
+// is full and reset the window.
 void Regularity_Data::add_feature(double feature)
 {
-//	printf("Regularity_Data::add_feature got here\n");
 	_current_data++;
 	rapid_stdev_calculation(feature);
+    // check if the window is full
 	if (_current_data >= _window_size)
 	{
 		add_stdev();
@@ -61,6 +64,8 @@ void Regularity_Data::add_feature(double feature)
 	}	
 }
 
+// for the rapid standard deviation calculation we only need to maintain the sum
+// and the sum of square (sum(x) and sum(x^2)
 void Regularity_Data::rapid_stdev_calculation(double feature)
 {
 	_current_sum += feature;
@@ -85,6 +90,7 @@ void Regularity_Data::add_stdev()
 	}
 }
 
+// reset the window and the window
 void Regularity_Data::reset_current_window()
 {
 	_current_data = 0;

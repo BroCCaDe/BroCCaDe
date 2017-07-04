@@ -28,18 +28,27 @@
 * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       *
 * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    *
 * POSSIBILITY OF SUCH DAMAGE.                                                   *
+*                                                                               *
+* Plugin.cc : Implements Plugin.h                                               *
 \*******************************************************************************/
 
 #include "Plugin.h"
 #include "analysis.bif.h"
-#include "Flow.h"			// Flow
-#include "Bin_Strategy_Interval.h"	// abstract Bin allocator
-#include <vector>			// vector
-#include <unordered_map>		// unordered_map
+#include "Flow.h"                   // Flow
+#include "Bin_Strategy_Interval.h"  // abstract Bin allocator
+#include <vector>                   // vector
+#include <unordered_map>            // unordered_map
 #include <iostream>			
-#include <cfloat>			// DBL_MAX
-#include <fstream>			// ifstream
-#include <memory>			// shared_ptr and unique_ptr
+#include <cfloat>                   // DBL_MAX
+#include <fstream>                  // ifstream
+#include <memory>                   // shared_ptr and unique_ptr
+#include "Analysis.h"
+#include "KS_Flow.h"
+#include "Entropy_Flow.h"
+#include "CCE_Flow.h"
+#include "Regularity_Flow.h"
+#include "Autocorrelation_Flow.h"
+#include "MultiModal_Flow.h"
 
 //#define DEBUG_H
 
@@ -54,14 +63,21 @@
 #define ACCESS_2(arr, idx_1, idx_2) (*arr)[idx_1][idx_2] //  (*((*arr)[idx_1]))[idx_2]
 #define ACCESS_3(arr, idx_1, idx_2, idx_3) (*arr)[idx_1][idx_2][idx_3] // (*((*((*arr)[idx_1]))[idx_2]))[idx_3]
 
+using namespace BifEnum::FeatureAnalysis;
+
+/*const unsigned int KS_analysis = KS_ANALYSIS;
+const unsigned int Entropy_analysis = ENTROPY_ANALYSIS;
+const unsigned int CCE_analysis = CCE_ANALYSIS;
+const unsigned int Autocorrelation_analysis = AUTOCORRELATION_ANALYSIS;
+const unsigned int MultiModal_analysis = MULTIMODAL_ANALYSIS;
+const unsigned int Regularity_analysis = REGULARITY_ANALYSIS;
+const unsigned int Null_analysis = NULL_ANALYSIS;*/
+
 namespace plugin { namespace Analysis_FeatureAnalysis { Plugin plugin; } }
 
 using namespace plugin::Analysis_FeatureAnalysis;
 
-using namespace BifEnum::FeatureAnalysis;
-
 using namespace CCD;
-
 
 plugin::Configuration Plugin::Configure()
 	{
@@ -113,6 +129,9 @@ plugin::Configuration Plugin::Configure()
 	_flow_config->map_analysis_data[MULTIMODAL_ANALYSIS] = HISTOGRAM_DATA;
 	_flow_config->map_analysis_data[AUTOCORRELATION_ANALYSIS] = RAW_DATA;
 	_flow_config->map_analysis_data[REGULARITY_ANALYSIS] = REGULARITY_DATA;
+
+    _flow_config->null_data = std::shared_ptr<Null_Data> (new Null_Data());
+    _flow_config->null_analysis = std::shared_ptr<NullAnalysis> (new NullAnalysis(_flow_config->null_data));
 	
 	// populate the bData_Container_Enum _map_analysis_data[]in intervals and the normal data
 	Bin_Strategy_Interval* ptr = static_cast<Bin_Strategy_Interval*> (_flow_config->binner.get());
@@ -191,9 +210,15 @@ plugin::Configuration Plugin::Configure()
 // from the dictionary
 void plugin::Analysis_FeatureAnalysis::Plugin::RemoveConnection(StringVal* UID)
 {
-	//BroString* newStr = new BroString(*(UID->AsString()));
 	std::string UID_str((const char*) UID->Bytes());
 	_flow_dict.erase(UID_str);
+}
+
+void plugin::Analysis_FeatureAnalysis::Plugin::ConfigureInternalType()
+{
+    result_vector_type = internal_type("result_vector")->AsVectorType();
+    analysis_result_type = internal_type("analysis_result")->AsRecordType();
+    feature_vector_type = internal_type("FeatureAnalysis::feature_vector")->AsVectorType();
 }
 
 // set the step size for all future Flow
@@ -211,8 +236,8 @@ void plugin::Analysis_FeatureAnalysis::Plugin::SetStepSize(Val* Set_ID, unsigned
 // register the request for analysis which is distinguished by its analysis ID and tag
 void plugin::Analysis_FeatureAnalysis::Plugin::RegisterAnalysis(StringVal* UID, Val* Set_ID, Val* conn_ID)
 {
-	std::string *UID_str = new std::string((const char*) UID->Bytes());	
-	int set_ID = Set_ID->AsEnum();
+	std::unique_ptr<std::string> UID_ptr(new std::string((const char*) UID->Bytes()));
+    int set_ID = Set_ID->AsEnum();
 
 	if ((unsigned int) set_ID >= _flow_config->set_IDs) 
 	{
@@ -222,19 +247,19 @@ void plugin::Analysis_FeatureAnalysis::Plugin::RegisterAnalysis(StringVal* UID, 
 	}
 
 	std::unordered_map <std::string, std::shared_ptr<Flow> >::iterator 
-			got = _flow_dict.find(*UID_str);
+			got = _flow_dict.find(*UID_ptr);
 
 	std::shared_ptr<Flow> flow;
 	// check if we have the flow in the dictionary
 	if (got == _flow_dict.end())
 	{
 #ifdef DEBUG_H
-		printf("creating new flow ID: %s\n", UID_str->c_str());
+		printf("creating new flow ID: %s\n", UID_ptr->c_str());
 #endif
 		// if not then create a new entry
 		flow = std::shared_ptr<Flow> (new Flow(_flow_config));
 		pair<std::unordered_map<std::string, std::shared_ptr<Flow> >::iterator, bool>
-			result = _flow_dict.emplace(*UID_str, flow);
+			result = _flow_dict.emplace(*UID_ptr, flow);
 		
 		// and check that the entry is created successfully
 		if (!result.second) 
@@ -245,14 +270,24 @@ void plugin::Analysis_FeatureAnalysis::Plugin::RegisterAnalysis(StringVal* UID, 
 		flow = got->second;
 	}
 
-	// remove last reference to the UID string and conn_ID
-	delete(_current_UID);
-	delete(_current_conn_id);
-
 	// set the current temporary references
 	_current_flow = flow;
-	_current_UID = UID_str;
-	_current_conn_id = conn_ID->Clone();
+//    std::unique_ptr<Val> temp_val(conn_ID->Clone());
+//    _current_conn_id.swap(temp_val);
+//    _current_conn_id = conn_ID->Clone();
+    // hold internals of conn_id
+    RecordVal* conn_r = conn_ID->AsRecordVal();
+    std::unique_ptr<IPAddr> temp_src_ip(new IPAddr(conn_r->Lookup(0)->AsAddr()));
+    _current_src_ip.swap(temp_src_ip);
+    PortVal* src_port = conn_r->Lookup(1)->AsPortVal();
+    _current_src_port = src_port->Port();
+    _current_src_proto = src_port->PortType();
+    std::unique_ptr<IPAddr> temp_dst_ip(new IPAddr(conn_r->Lookup(2)->AsAddr()));
+    _current_dst_ip.swap(temp_dst_ip);
+    PortVal* dst_port = conn_r->Lookup(3)->AsPortVal();
+    _current_dst_port = dst_port->Port();
+    _current_dst_proto = dst_port->PortType();
+
 	_current_set_ID = set_ID;
 
 	// indicate the flow begin
@@ -263,13 +298,13 @@ void plugin::Analysis_FeatureAnalysis::Plugin::RegisterAnalysis(StringVal* UID, 
 void plugin::Analysis_FeatureAnalysis::Plugin::AddFeature(StringVal* UID, double feature,
 	Val* aid_val, Val* tag_val)
 {
-	std::string *UID_str = new std::string((const char*) UID->Bytes());	
-	if (UID_str->compare(*_current_UID))
-	{
-		printf("error: current UID is not the same as the input UID\n");
-		return;
-	}
-	delete(UID_str);	// we have no more use for the UID_str
+//	std::string *UID_str = new std::string((const char*) UID->Bytes());	
+//	if (UID_str->compare(*_current_UID))
+//	{
+//		printf("error: current UID is not the same as the input UID\n");
+//		return;
+//	}
+//	delete(UID_str);	// we have no more use for the UID_str
 
 	int tag = tag_val->AsEnum();
 
@@ -316,18 +351,26 @@ void plugin::Analysis_FeatureAnalysis::Plugin::CalculateMetric()
 
 		val_list* vl = new val_list;
 		vl->append(new Val(_current_set_ID, TYPE_ENUM));
-		vl->append(new VectorVal(internal_type("result_vector")->AsVectorType()));
+		vl->append(new VectorVal(result_vector_type));
 		// add the metric result to the vector for event argument
 		for (unsigned long i = 0; i < return_list.size(); i++)
 		{
-			RecordVal* r = new RecordVal(internal_type("analysis_result")->AsRecordType());
+			RecordVal* r = new RecordVal(analysis_result_type);
 			r->Assign(0, new Val(return_list[i]->_value, TYPE_DOUBLE));
 			r->Assign(2, new Val(return_list[i]->_aid, TYPE_ENUM));
 			r->Assign(1, new Val(return_list[i]->_tag, TYPE_ENUM));
 			(*vl)[1]->AsVectorVal()->Assign(i, r);
 		}
-				//RecordVal* tmp_id = _current_conn_id->AsRecordVal();
-		vl->append(_current_conn_id->Clone());
+        //RecordVal* tmp_id = _current_conn_id->AsRecordVal();
+//		vl->append(_current_conn_id->Clone());
+//        vl->append(_current_conn_id);
+        RecordVal* conn_ID = new RecordVal(conn_id);
+		conn_ID->Assign(0, new AddrVal(*_current_src_ip));
+		conn_ID->Assign(1, new PortVal(_current_src_port, _current_src_proto));
+		conn_ID->Assign(2, new AddrVal(*_current_dst_ip));
+		conn_ID->Assign(3, new PortVal(_current_dst_port, _current_dst_proto));
+        vl->append(conn_ID);
+
 		mgr.QueueEvent(FeatureAnalysis::metric_event, vl);
 	}
 }
@@ -352,7 +395,7 @@ Val* plugin::Analysis_FeatureAnalysis::Plugin::ExtractVector(Val* v)
 {
 	unsigned int i;
 	unsigned int n = v->AsVectorVal()->Size();
-	VectorVal* rv = new VectorVal(internal_type("FeatureAnalysis::feature_vector")->AsVectorType());
+	VectorVal* rv = new VectorVal(feature_vector_type);
 	for (i = 0; i < n; i++)
 	{
 		RecordVal* e = (v->AsVectorVal())->Lookup(i)->AsRecordVal();

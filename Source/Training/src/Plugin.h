@@ -28,6 +28,10 @@
 * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       *
 * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    *
 * POSSIBILITY OF SUCH DAMAGE.                                                   *
+*                                                                               *
+* Plugin.h : Implements bin.bif. Internally hold a dictionary of training data  *
+*       identified by flow UID. Each incoming feature value is passed directly  *
+*       to its associated IntervalTraining object.                              *
 \*******************************************************************************/
 
 #ifndef BRO_PLUGIN_TRAINING_BIN

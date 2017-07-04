@@ -1,5 +1,66 @@
+*****************************************************************************************
+*                                Decision Tree Classifier                               *
+*****************************************************************************************
 
-Analysis::DecisionTree
-=================================
+This work was supported by a grant from the Comcast Innovation Fund.
 
-<Insert plugin documentation here.>
+This plugin implements C45 decision tree classifier which can be used to classify a flow
+based on the input to the plugin. It is quite general in a sense it does not restrict 
+whether the input is vector of calculated metric values or a feature vector.
+
+*****************************************************************************************
+*                                   Build the Plugin                                    *
+*****************************************************************************************
+
+Contained in this folder is the source code and the script. In order to compile the 
+plugin, just ``configure'' and ``make'' the plugin from the plugin root directory. The 
+prerequisites to build the plugin is to have the Bro source code and have satisfied Bro 
+prerequisites to compile. In the plugin root directory, we just need to type
+
+    ./configure --bro-dist=<Bro-dist>
+    make
+
+to configure and build the plugin. The result of this is a directory called ``build'' 
+which contains all of the required files for Bro to recognize that it is a plugin. So the
+next step is then to make Bro to actually recognize the plugin. There are two ways to do 
+this, either we point Bro to the directory containing the build files, or we can copy the 
+build files to a directory where Bro will search for available plugins. Where <Bro> is 
+the location for the installed Bro, the default location where Bro searches for plugins 
+will be in
+
+    <Bro>/lib/bro/plugins
+
+so from the plugin root directory, we can type
+
+    cp -r build/. <Bro>/lib/bro/plugins/<plugin-directory-name>
+
+or alternatively set the environment
+
+    export BRO_PLUGIN_PATH=<plugin-root-directory>/build
+
+*****************************************************************************************
+*                                   Using the Plugin                                    *
+*****************************************************************************************
+
+The plugin itself needs to be initialized with the number of tree classifiers with the
+
+    DecisionTree::Init(int n) 
+
+function. The tree models are then loaded with the function
+	
+    DecisionTree::LoadModel(FeatureAnalysis::Analysis_ID id, string name)
+
+where ``name'' is the file name containing the model description as specified in [1] and
+``id'' is the set of analysis.
+
+The input to the decision tree classifier is any one of the three:
+    * vector of metric values (Classify)
+    * vector of metric values and accompanying feature names (Classify_with_strings)
+    * record of metric values where the field name is the feature name (Classify_record)
+
+A note for the input with record is that the record has to contain at least the feature
+names specified in the model otherwise Bro will terminate complaining that there is no
+such field exists.
+
+[1] Sebastian Zander and Grenville Armitage. Design of DIFFUSE v0.4 - DIstributed 
+    Firewall and Flow-shaper Using Statistical Evidence

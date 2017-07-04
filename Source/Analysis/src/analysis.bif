@@ -28,66 +28,87 @@
 # CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       #
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    #
 # POSSIBILITY OF SUCH DAMAGE.                                                   #
+#                                                                               #
+# analysis.bif : interface between Bro script and the analysis plugin.          #
+# Content:                                                                      #
+#   * Analysis_ID       : enum of analysis ID used in the plugin as well        #
+#   * Extract           : extract a value from vector of metric result (record) #
+#   * Extract_vector    : extract vector of double values from the vector of    #
+#                         metric result (record)                                #
+#   * SetStepSize       : set the number of data to trigger metric calculation  #
+#   * RemoveConn        : remove a connection from the dictionary               #
+#   * RegisterAnalysis  : indicate the beginning of a transaction to add feature#
+#   * AddFeature        : add the feature associated with the analyzers         #
+#   * CalculateMetric   : indicate the end of a transaction to add feature      #
+#   * metric_event      : an event definition which contains the result of      #
+#                         metric calculation                                    #
 #################################################################################
 
 module FeatureAnalysis;
 
 enum Analysis_ID %{
-	KS_ANALYSIS = 0,
-	ENTROPY_ANALYSIS = 1,
-	CCE_ANALYSIS = 2,
-	NULL_ANALYSIS = 3,
-	MULTIMODAL_ANALYSIS = 4,
-	AUTOCORRELATION_ANALYSIS = 5,
-	REGULARITY_ANALYSIS = 6,
+    KS_ANALYSIS = 0,
+    ENTROPY_ANALYSIS = 1,
+    CCE_ANALYSIS = 2,
+    NULL_ANALYSIS = 3,
+    MULTIMODAL_ANALYSIS = 4,
+    AUTOCORRELATION_ANALYSIS = 5,
+    REGULARITY_ANALYSIS = 6,
 %}
 
-%%{ #include "Plugin.h"
+%%{ 
+#include "Plugin.h"
 #include <cfloat>
 typedef plugin::Analysis_FeatureAnalysis::Plugin plugin_t;
 static plugin_t *plugin_ref = &plugin::Analysis_FeatureAnalysis::plugin;
 %%}
 
+function ConfigureInternalType%(%): bool
+    %{
+        plugin_ref->ConfigureInternalType();
+        return new Val(1, TYPE_BOOL);
+    %}
+
 function Extract%(v : result_vector, aid : Analysis_ID, tag : analysis_tag%): double
-	%{
-		return plugin_ref->Extract(v, aid, tag);
-	%}
+    %{
+        return plugin_ref->Extract(v, aid, tag);
+    %}
 
 function Extract_vector%(v : result_vector%): FeatureAnalysis::feature_vector
-	%{
-		return plugin_ref->ExtractVector(v);
-	%}
+    %{
+        return plugin_ref->ExtractVector(v);
+    %}
 
 
 function SetStepSize%(id : set_ID, step_size : count%): bool
-	%{
-		plugin_ref->SetStepSize(id, step_size);
-		return new Val(1, TYPE_BOOL);
-	%}
+    %{
+        plugin_ref->SetStepSize(id, step_size);
+        return new Val(1, TYPE_BOOL);
+    %}
 
 function RemoveConn%(UID : string%): bool
-	%{
-		plugin_ref->RemoveConnection(UID);
-		return new Val(1, TYPE_BOOL);
-	%}
+    %{
+        plugin_ref->RemoveConnection(UID);
+        return new Val(1, TYPE_BOOL);
+    %}
 
 function RegisterAnalysis%(UID : string, id : set_ID, conn_ID : conn_id %): bool
-	%{
-		plugin_ref->RegisterAnalysis(UID, id, conn_ID);
-		return new Val(1, TYPE_BOOL);
-	%}
+    %{
+        plugin_ref->RegisterAnalysis(UID, id, conn_ID);
+        return new Val(1, TYPE_BOOL);
+    %}
 
 function AddFeature%(UID : string, feature: double, 
-		aid : any, tag : analysis_tag%): bool
-	%{
-		plugin_ref->AddFeature(UID, feature, aid, tag);
-		return new Val(1, TYPE_BOOL);
-	%}
+        aid : any, tag : analysis_tag%): bool
+    %{
+        plugin_ref->AddFeature(UID, feature, aid, tag);
+        return new Val(1, TYPE_BOOL);
+    %}
 
 function CalculateMetric %(%): bool
-	%{
-		plugin_ref->CalculateMetric();
-		return new Val(1, TYPE_BOOL);
-	%}
+    %{
+        plugin_ref->CalculateMetric();
+        return new Val(1, TYPE_BOOL);
+    %}
 
 event metric_event%(id : set_ID, v : result_vector, conn_ID: conn_id%);

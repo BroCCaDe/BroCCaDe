@@ -28,6 +28,13 @@
 * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       *
 * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    *
 * POSSIBILITY OF SUCH DAMAGE.                                                   *
+*                                                                               *
+* Plugin.h : Bro plugin to extract some bytes from the input string. Implements *
+*       featureextraction.bif. Currently it is limited to be up to 4 bytes since*
+*       we expects the feature to be a value, not string                        *
+* Contents :                                                                    *
+*   * ExtractHeaderFeature  : extract some bytes from the input string specified*
+*                             by the starting position and length               *
 \*******************************************************************************/
 
 

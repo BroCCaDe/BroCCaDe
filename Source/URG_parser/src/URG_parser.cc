@@ -28,14 +28,15 @@
 * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       *
 * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    *
 * POSSIBILITY OF SUCH DAMAGE.                                                   *
+*                                                                               *
+* URG_parser.cc : Implements URG_parser.h                                       *
 \*******************************************************************************/
 
-#include "Event.h"
+#include "Event.h"              
 
 #include "URG_parser.h"
 #include "Conn.h"
 #include "urgentpointer.bif.h"
-
 
 using namespace plugin::FeatureExtraction_UrgentPointer;
 
@@ -46,16 +47,16 @@ void URG_parser::DeliverPacket(int len, const u_char* data, bool is_orig,
 
   	if ((data == NULL) || (ip == NULL)) 
 	{
-#if DEBUG_H
+#ifdef DEBUG_H
 		printf("data or ip header is null");
 #endif
 		return;
 	}
 	Analyzer::DeliverPacket(len, data, is_orig, seq, ip, caplen);
 
-	if (ip != 0) {
+	if (ip != 0) {  
 		const struct tcphdr* tp = (const struct tcphdr*) ip->Payload();
-#if DEBUG_H
+#ifdef DEBUG_H
 		printf("URG : %u, Pointer : %u\n", tp->urg, tp->urg_ptr);
 #endif
 		// build the conn_id
@@ -66,11 +67,10 @@ void URG_parser::DeliverPacket(int len, const u_char* data, bool is_orig,
 		id_val->Assign(3, new PortVal(ntohs(_conn->RespPort()), TRANSPORT_TCP));
 
 		val_list *vl = new val_list;
-		//vl->append(BuildConnVal());
-		vl->append(new StringVal((_conn->GetUID()).Base62("C")));
-		vl->append(id_val);
-		vl->append(new Val(tp->urg, TYPE_COUNT));
-		vl->append(new Val(tp->urg_ptr, TYPE_COUNT));
+		vl->append(new StringVal((_conn->GetUID()).Base62("C")));   // pass the UID
+		vl->append(id_val);                                         // conn_ID
+		vl->append(new Val(tp->urg, TYPE_COUNT));                   // URG_flag
+		vl->append(new Val(ntohs(tp->urg_ptr), TYPE_COUNT));        // URG_ptr
 		mgr.QueueEvent(FeatureExtraction::URG_feature_event, vl);
 	}
 }

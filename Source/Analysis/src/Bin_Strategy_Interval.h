@@ -28,13 +28,16 @@
 * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       *
 * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    *
 * POSSIBILITY OF SUCH DAMAGE.                                                   *
+*                                                                               *
+* Bin_Strategy_Interval.h : inherits class Bin_Strategy. A bin allocator which  *
+*       determines the bin number based on an closed-open interval [).          *
 \*******************************************************************************/
 
 #ifndef AUX_PLUGINS_BIN_STRATEGY_INTERVAL_H
 #define AUX_PLUGINS_BIN_STRATEGY_INTERVAL_H
 
-#include <vector>		// vector
-#include "Bin_Strategy.h"	// superclass
+#include <vector>           // vector
+#include "Bin_Strategy.h"   // superclass
 
 namespace CCD {
 

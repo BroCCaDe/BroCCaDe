@@ -28,6 +28,8 @@
 * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       *
 * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    *
 * POSSIBILITY OF SUCH DAMAGE.                                                   *
+*                                                                               *
+* Autocorrelation_Flow.cc : implements Autocorrelation_Flow.h			        *
 \*******************************************************************************/
 
 #include <vector>
@@ -75,9 +77,7 @@ void Autocorrelation_Calculation::compute_variance(void)
 double Autocorrelation_Calculation::compute_autoc(unsigned int lag)
 {
   // sanity check : variance should never be zero
-  if (_var == 0.0) {
-    printf("autocorrelation calculation: variance is zero\n"); return 0.0;
-  }
+  if (_var == 0.0) {return 0.0;}
 
   double   autocv;      // Autocovariance value
   double   ac_value;    // Computed autocorrelation value to be returned

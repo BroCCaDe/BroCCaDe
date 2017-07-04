@@ -28,32 +28,42 @@
 * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)       *
 * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    *
 * POSSIBILITY OF SUCH DAMAGE.                                                   *
+*                                                                               *
+* Pattern_Data_Container.cc : Implements Pattern_Data_Container.h               *
 \*******************************************************************************/
 
 #include "Pattern_Data_Container.h"
-#include "Bin_Strategy.h"
-#include <list>
-#include "stdio.h"
-#include <memory>
+#include "Bin_Strategy.h"           // bin allocator
+#include <list>                     // list
+#include <memory>                   // shared_ptr
 
 //#define DEBUG_H
 
+#ifdef DEBUG_H
+#include <stdio.h>
+#endif
+
 using namespace CCD;
 
+
+
+// Initialize the data container with the bin allocator and creating new tree root
 Pattern_Data::Pattern_Data(unsigned short pattern_length, 
 		std::shared_ptr<Bin_Strategy> binner)
 	: Data_Container()
 {
-//	printf("Pattern_Data::Pattern_Data got here\n");
 	_binner = binner;
-	std::shared_ptr<CountingTree> tmp_root(new CountingTree(binner->get_bin_count(), 0));
-	_root.swap(tmp_root);
+//	std::shared_ptr<CountingTree> tmp_root(new CountingTree(binner->get_bin_count(), 0));
+//	_root.swap(tmp_root);
+    std::shared_ptr<std::vector<std::vector<TreeNode> > > 
+        tmp_tree(new std::vector< std::vector< TreeNode> >(pattern_length+1));
+    _tree.swap(tmp_tree);
+    (*_tree)[0].push_back({0, {0,0,0,0,0,0,0,0,0,0}});
 	_pattern_length = pattern_length;
 }
 
 void Pattern_Data::add_feature(double feature)
 {
-//	printf("Pattern_Data::add_feature got here\n");
 	unsigned short bin_number = _binner->get_bin_number(feature);
 	unsigned short bin_count = _binner->get_bin_count();
 	// sanity check: if the bin number is out of bounds
@@ -69,10 +79,7 @@ void Pattern_Data::add_feature(double feature)
 	// print the pattern
 	std::list<unsigned short>::const_iterator it = _pattern.begin();
 	printf("pattern (%lu): ", _root->get_count());
-	for (; it != _pattern.end(); it++)
-	{
-		printf("%d ", *it);
-	}
+	for (; it != _pattern.end(); it++) printf("%d ", *it);
 	printf("\n");
 #endif	
 
@@ -80,8 +87,27 @@ void Pattern_Data::add_feature(double feature)
 	if (_pattern.size() >= _pattern_length)
 	{
 		// add pattern to the tree
-		_root->add_pattern(_pattern.begin(), _pattern.end());
+		//_root->add_pattern(_pattern.begin(), _pattern.end());
+        add_pattern(_pattern.begin(), _pattern.end(), 0, 0);
 		// and remove the last data point in the pattern
 		_pattern.pop_back();
 	}
+}
+
+// append
+void Pattern_Data::add_pattern(std::list<unsigned short>::iterator current, 
+    std::list<unsigned short>::iterator end, unsigned short id, unsigned short level)
+{
+    if (current == end) return;
+    (*_tree)[level][id].count++;
+    unsigned short next_id = (*_tree)[level][id].children[*current];
+    if(next_id == 0)
+    {
+        TreeNode newchild = {0, {0,0,0,0,0,0,0,0,0,0}};
+    //    newchild.count = 0;
+    //    memset(newchild.children, 10 * sizeof (unsigned short), 0);
+        (*_tree)[level+1].push_back(newchild);
+        next_id = (*_tree)[level][id].children[*current] = (*_tree)[level+1].size()-1;
+    }
+    add_pattern(++current, end, next_id, level+1);
 }
