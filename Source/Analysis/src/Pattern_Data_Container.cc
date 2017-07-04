@@ -58,7 +58,7 @@ Pattern_Data::Pattern_Data(unsigned short pattern_length,
     std::shared_ptr<std::vector<std::vector<TreeNode> > > 
         tmp_tree(new std::vector< std::vector< TreeNode> >(pattern_length+1));
     _tree.swap(tmp_tree);
-    (*_tree)[0].push_back({0, {0,0,0,0,0,0,0,0,0,0}});
+    (*_tree)[0].push_back({0, {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}});
 	_pattern_length = pattern_length;
 }
 
@@ -96,14 +96,14 @@ void Pattern_Data::add_feature(double feature)
 
 // append
 void Pattern_Data::add_pattern(std::list<unsigned short>::iterator current, 
-    std::list<unsigned short>::iterator end, unsigned short id, unsigned short level)
+    std::list<unsigned short>::iterator end, short id, unsigned short level)
 {
-    if (current == end) return;
     (*_tree)[level][id].count++;
-    unsigned short next_id = (*_tree)[level][id].children[*current];
-    if(next_id == 0)
+    if (current == end) return;
+    short next_id = (*_tree)[level][id].children[*current];
+    if(next_id == -1)
     {
-        TreeNode newchild = {0, {0,0,0,0,0,0,0,0,0,0}};
+        TreeNode newchild = {0, {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}};
     //    newchild.count = 0;
     //    memset(newchild.children, 10 * sizeof (unsigned short), 0);
         (*_tree)[level+1].push_back(newchild);

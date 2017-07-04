@@ -32,10 +32,6 @@ Analysis.h
 Bin_Strategy.h
 ../src/Bin_Strategy.h
 
-../src/MurmurHash3.h
-stdint.h
--
-
 ../src/Plugin.h
 plugin/Plugin.h
 -
@@ -51,8 +47,6 @@ Bin_Strategy.h
 ../src/Bin_Strategy.h
 analysis.bif.h
 ../src/analysis.bif.h
-MurmurHash3.h
-../src/MurmurHash3.h
 
 /home/hendra/Bro/build/bro-config.h
 
@@ -1426,10 +1420,6 @@ Analysis.h
 Histogram.h
 /home/hendra/CCD/Source/Analysis/src/Histogram.h
 
-/home/hendra/CCD/Source/Analysis/src/MurmurHash3.h
-stdint.h
--
-
 /home/hendra/CCD/Source/Analysis/src/Pattern_Data_Container.cc
 Pattern_Data_Container.h
 /home/hendra/CCD/Source/Analysis/src/Pattern_Data_Container.h
@@ -1507,8 +1497,6 @@ Bin_Strategy.h
 /home/hendra/CCD/Source/Analysis/src/Bin_Strategy.h
 analysis.bif.h
 /home/hendra/CCD/Source/Analysis/src/analysis.bif.h
-MurmurHash3.h
-/home/hendra/CCD/Source/Analysis/src/MurmurHash3.h
 
 /home/hendra/CCD/Source/Analysis/src/Regularity_Data_Container.cc
 Regularity_Data_Container.h

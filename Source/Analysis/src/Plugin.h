@@ -55,7 +55,6 @@
 #include "Flow.h"               // Flow
 #include "Bin_Strategy.h"       // Bin allocation
 #include "analysis.bif.h"
-#include "MurmurHash3.h"
 
 namespace plugin {
 namespace Analysis_FeatureAnalysis {

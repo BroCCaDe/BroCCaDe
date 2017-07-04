@@ -30,13 +30,14 @@
 # POSSIBILITY OF SUCH DAMAGE.                                                   #
 #################################################################################
 
-@load /opt/bro/lib/bro/plugins/Feature_IAT/lib/bif
-@load /opt/bro/lib/bro/plugins/Feature_URG/lib/bif
-@load /opt/bro/lib/bro/plugins/Feature_PTunnel/lib/bif
+#@load /opt/bro/lib/bro/plugins/Feature_IAT/lib/bif
+#@load /opt/bro/lib/bro/plugins/Feature_URG/lib/bif
+#@load /opt/bro/lib/bro/plugins/Feature_PTunnel/lib/bif
 # @load /opt/bro/lib/bro/plugins/Training/lib/bif
 
 global aid_full : vector of FeatureAnalysis::Analysis_ID;
 global aid_null : vector of FeatureAnalysis::Analysis_ID;
+global aid_one : vector of FeatureAnalysis::Analysis_ID;
 
 event bro_init()
 {
@@ -46,6 +47,7 @@ event bro_init()
 	DecisionTree::LoadModel(FeatureAnalysis::URGENT_SET, "TreeModel-URG");
 	DecisionTree::LoadModel(FeatureAnalysis::IAT_SET, "TreeModel-IAT");
 	DecisionTree::LoadModel(FeatureAnalysis::PACKET_LENGTH_SET, "TreeModel-IAT");
+#    DecisionTree::LoadModel(FeatureAnalysis::PACKET_LENGTH_SET, "TreeModel-IAT_KS");
 
     aid_full[0] = FeatureAnalysis::KS_ANALYSIS;
 	aid_full[1] = FeatureAnalysis::ENTROPY_ANALYSIS;
@@ -55,6 +57,13 @@ event bro_init()
 	aid_full[5] = FeatureAnalysis::REGULARITY_ANALYSIS;
 
     aid_null[0] = FeatureAnalysis::NULL_ANALYSIS;
+
+    aid_one[0] = FeatureAnalysis::KS_ANALYSIS;
+#	aid_one[0] = FeatureAnalysis::ENTROPY_ANALYSIS;
+#	aid_one[0] = FeatureAnalysis::CCE_ANALYSIS;
+#	aid_one[0] = FeatureAnalysis::MULTIMODAL_ANALYSIS;
+#	aid_one[0] = FeatureAnalysis::AUTOCORRELATION_ANALYSIS;
+#	aid_one[0] = FeatureAnalysis::REGULARITY_ANALYSIS;
 
     FeatureAnalysis::ConfigureInternalType();
 }
@@ -69,6 +78,7 @@ event PacketLength_dummy_event(UID:string, id:conn_id, value:double) {}
 event PacketLength_feature_event(UID:string, id:conn_id, value: double) {
 	FeatureAnalysis::RegisterAnalysis(UID, FeatureAnalysis::PACKET_LENGTH_SET, id);
 	FeatureAnalysis::AddFeature(UID, value, aid_full, PACKET_LENGTH);
+#	FeatureAnalysis::AddFeature(UID, value, aid_one, PACKET_LENGTH);
 	FeatureAnalysis::CalculateMetric();
 }
 
@@ -83,7 +93,8 @@ event new_packet (c: connection, p: pkt_hdr)
 
 event IAT::feature_event(UID:string, id:conn_id, value: double) {
 	FeatureAnalysis::RegisterAnalysis(UID, FeatureAnalysis::IAT_SET, id);
-	FeatureAnalysis::AddFeature(UID, value, aid_full, INTERARRIVAL_TIME);
+#	FeatureAnalysis::AddFeature(UID, value, aid_full, INTERARRIVAL_TIME);
+    FeatureAnalysis::AddFeature(UID, value, aid_one, INTERARRIVAL_TIME);
 	FeatureAnalysis::CalculateMetric();
 }
 

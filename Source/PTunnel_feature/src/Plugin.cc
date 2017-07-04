@@ -55,7 +55,7 @@ plugin::Configuration Plugin::Configure()
 // the length is limited to 4 bytes
 void plugin::PTunnel_FeatureExtraction::ExtractFeature(StringVal* UID, Val* conn_ID, 
 		StringVal* payload, unsigned int position, unsigned int len) {
-    if (payload->Length() < position + len) return; // if there's not enough bytes then skip
+    if (payload->Len() < position + len) return; // if there's not enough bytes then skip
 
 	const u_char* bytes = payload->Bytes();
 	val_list* vl = new val_list;
