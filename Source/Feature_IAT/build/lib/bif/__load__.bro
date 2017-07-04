@@ -1,1 +1,0 @@
-@load ./iat.bif.bro

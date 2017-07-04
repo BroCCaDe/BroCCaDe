@@ -1,1 +1,0 @@
-@load ./analysis.bif.bro
