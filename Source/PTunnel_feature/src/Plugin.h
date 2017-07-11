@@ -46,7 +46,7 @@
 namespace plugin {
 namespace PTunnel_FeatureExtraction {
 
-void ExtractFeature(StringVal* UID, Val* id, StringVal* payload, 
+void ExtractFeature(StringVal* UID, Val* id, Val* direction, StringVal* payload, 
 	unsigned int position, unsigned int len);
 
 class Plugin : public ::plugin::Plugin

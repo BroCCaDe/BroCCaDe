@@ -41,9 +41,12 @@
 #include "Bin_Training.h"
 #include <vector>
 #include <unordered_map>
+#include <memory>
 
 #define DEFAULT_TAG_COUNT 3
-#define TRAINING_DATA_NUMBER 100
+#define KS_TRAINING_DATA_NUMBER 100
+#define KS_TRAINING_DATA_THRESHOLD 1000
+#define BIN_TRAINING_DATA_THRESHOLD 1000
 #define DEFAULT_BIN_COUNT 5
 
 namespace plugin {
@@ -52,13 +55,12 @@ namespace Training_Bin {
 class Plugin : public ::plugin::Plugin
 {
 public:
-	void RemoveConnection(StringVal* UID);
-	void add_feature(StringVal* UID, double feature, Val* tag);
+	void RemoveConnection(StringVal* UID, Val* tag);
+	void add_feature(StringVal* UID, Val* direction, double feature, Val* tag);
 protected:
 	// Overridden from plugin::Plugin.
 private:
-	// the map also has to take into account the analysis ID and tag (enums)
-	std::unordered_map <std::string, std::vector <IntervalTraining*>* >* _flow_dict;
+	std::unordered_map <std::string, std::shared_ptr<BiFlow> > _flow_dict;
 	virtual plugin::Configuration Configure();
 	unsigned int _tag_count;
 	unsigned int _bin_count;

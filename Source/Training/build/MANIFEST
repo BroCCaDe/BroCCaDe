@@ -10,4 +10,5 @@ Training_Bin/scripts/types.bro
 Training_Bin/scripts/__preload__.bro
 Training_Bin/README
 Training_Bin/CHANGES
+Training_Bin/COPYING
 Training_Bin/VERSION

@@ -39,6 +39,7 @@
 #define AUX_PLUGIN_BIN_TRAINING_H
 
 #include <vector>	// vector
+#include <memory>
 
 // The class to get the intervals for the equiprobable bins and
 // the "normal" data series for the Kolmogorov-Smirnov test
@@ -61,6 +62,14 @@ public:
 	unsigned int get_data_length() {return _data.size();}
 private:
 	std::vector<double> _data;	// data series
+};
+
+class BiFlow
+{
+public:
+    std::shared_ptr<IntervalTraining> get(int direction, int tag);
+private:
+    std::vector<std::vector<std::shared_ptr<IntervalTraining> > > _flows;
 };
 
 #endif

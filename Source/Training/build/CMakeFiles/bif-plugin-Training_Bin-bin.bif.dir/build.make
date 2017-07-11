@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/hendra/Experiment/Training
+CMAKE_SOURCE_DIR = /home/hendra/CCD/Source/Training
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/hendra/Experiment/Training/build
+CMAKE_BINARY_DIR = /home/hendra/CCD/Source/Training/build
 
 # Utility rule file for bif-plugin-Training_Bin-bin.bif.
 
@@ -60,9 +60,9 @@ CMakeFiles/bif-plugin-Training_Bin-bin.bif: bin.bif.register.cc
 
 
 bin.bif.h: ../src/bin.bif
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/hendra/Experiment/Training/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "[BIFCL] Processing src/bin.bif"
-	/home/hendra/Bro/build/src/bifcl -p Training::Bin /home/hendra/Experiment/Training/src/bin.bif || ( rm -f bin.bif.h bin.bif.cc bin.bif.init.cc bin.bif.register.cc && exit 1 )
-	/usr/bin/cmake -E copy bin.bif.bro /home/hendra/Experiment/Training/build/lib/bif/bin.bif.bro
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/hendra/CCD/Source/Training/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "[BIFCL] Processing src/bin.bif"
+	/home/hendra/Bro/build/src/bifcl -p Training::Bin /home/hendra/CCD/Source/Training/src/bin.bif || ( rm -f bin.bif.h bin.bif.cc bin.bif.init.cc bin.bif.register.cc && exit 1 )
+	/usr/bin/cmake -E copy bin.bif.bro /home/hendra/CCD/Source/Training/build/lib/bif/bin.bif.bro
 	/usr/bin/cmake -E remove -f bin.bif.bro
 
 bin.bif.cc: bin.bif.h
@@ -97,6 +97,6 @@ CMakeFiles/bif-plugin-Training_Bin-bin.bif.dir/clean:
 .PHONY : CMakeFiles/bif-plugin-Training_Bin-bin.bif.dir/clean
 
 CMakeFiles/bif-plugin-Training_Bin-bin.bif.dir/depend:
-	cd /home/hendra/Experiment/Training/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hendra/Experiment/Training /home/hendra/Experiment/Training /home/hendra/Experiment/Training/build /home/hendra/Experiment/Training/build /home/hendra/Experiment/Training/build/CMakeFiles/bif-plugin-Training_Bin-bin.bif.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/hendra/CCD/Source/Training/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hendra/CCD/Source/Training /home/hendra/CCD/Source/Training /home/hendra/CCD/Source/Training/build /home/hendra/CCD/Source/Training/build /home/hendra/CCD/Source/Training/build/CMakeFiles/bif-plugin-Training_Bin-bin.bif.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/bif-plugin-Training_Bin-bin.bif.dir/depend
 

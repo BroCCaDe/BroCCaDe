@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/hendra/Experiment/Training
+CMAKE_SOURCE_DIR = /home/hendra/CCD/Source/Training
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/hendra/Experiment/Training/build
+CMAKE_BINARY_DIR = /home/hendra/CCD/Source/Training/build
 
 # Utility rule file for copy-scripts-Training_Bin.
 
@@ -54,7 +54,7 @@ CMAKE_BINARY_DIR = /home/hendra/Experiment/Training/build
 include CMakeFiles/copy-scripts-Training_Bin.dir/progress.make
 
 CMakeFiles/copy-scripts-Training_Bin:
-	test -d /home/hendra/Experiment/Training/scripts && rm -f /home/hendra/Experiment/Training/build/scripts && ln -s /home/hendra/Experiment/Training/scripts /home/hendra/Experiment/Training/build/scripts || true
+	test -d /home/hendra/CCD/Source/Training/scripts && rm -f /home/hendra/CCD/Source/Training/build/scripts && ln -s /home/hendra/CCD/Source/Training/scripts /home/hendra/CCD/Source/Training/build/scripts || true
 
 copy-scripts-Training_Bin: CMakeFiles/copy-scripts-Training_Bin
 copy-scripts-Training_Bin: CMakeFiles/copy-scripts-Training_Bin.dir/build.make
@@ -71,6 +71,6 @@ CMakeFiles/copy-scripts-Training_Bin.dir/clean:
 .PHONY : CMakeFiles/copy-scripts-Training_Bin.dir/clean
 
 CMakeFiles/copy-scripts-Training_Bin.dir/depend:
-	cd /home/hendra/Experiment/Training/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hendra/Experiment/Training /home/hendra/Experiment/Training /home/hendra/Experiment/Training/build /home/hendra/Experiment/Training/build /home/hendra/Experiment/Training/build/CMakeFiles/copy-scripts-Training_Bin.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/hendra/CCD/Source/Training/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hendra/CCD/Source/Training /home/hendra/CCD/Source/Training /home/hendra/CCD/Source/Training/build /home/hendra/CCD/Source/Training/build /home/hendra/CCD/Source/Training/build/CMakeFiles/copy-scripts-Training_Bin.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/copy-scripts-Training_Bin.dir/depend
 

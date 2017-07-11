@@ -51,26 +51,27 @@ int main(int argc, char* argv[])
     if (argc < 2) {printf("Usage : %s <output> [<file1>.arff [<file1>.arff [ ... ] ] ]\n", argv[0]); return 0;}
 
 	std::string line;                                           // temporary string read from the input files
-    std::unordered_set<std::string> current_attribute_names;    // attribute names of the current arff file
-    std::unordered_set<std::string> last_attribute_names;       // attribute names of the last arff file
+    std::vector<std::string> attribute_names;                   // attribute names arff files
     std::unordered_set<std::string> class_names;                // accummulated class names
     std::vector<std::string> data_str;                          // string of the data section
     std::string relation_name;                                  // relation name (has to be the same across all files)
+    std::unordered_set<std::string>::iterator itc;
     char sep = ' ';                                             // token separator
 	int i = 2;                                                  // starting from the second argument (first arff file)
 
     // initialize
     relation_name.clear();
-    current_attribute_names.clear();
-    last_attribute_names.clear();
+    attribute_names.clear();
     class_names.clear();
     data_str.clear();
+
 
     for (i = 2; i < argc; i++)
 	{
 		std::ifstream f;                                        // open file
 		f.open(argv[i]);
         bool data_reached = false;                              // we haven't seen the @DATA token yet
+        int att_count = 0;                                      // attribute counter
 		while( getline(f, line) )
 		{
             if (data_reached)                                   // we've reached data section, so just combine
@@ -110,7 +111,12 @@ int main(int argc, char* argv[])
                     else if (token == "@ATTRIBUTES")
                     {
                         std::getline(stm, token, sep);
-                        current_attribute_names.insert(token);
+                        if (i == 2) attribute_names.push_back(token);
+                        else if (attribute_names[att_count].compare(token) != 0)
+                        {
+                            printf("inconsistent attribute %s in %s\n", token.c_str(), argv[i]);
+                                    return 1;
+                        }
                         // if it is of "class" attribute then we need to grab the class names, delimited by '{' '}'
                         // and is separated by ',' with no spaces in between
                         if (token == "class")
@@ -124,34 +130,12 @@ int main(int argc, char* argv[])
                                 class_names.insert(class_token);    // accummulate all the class names
                             }
                         }
+                        att_count++;
                     }
                     // if it reached @DATA, then check whether the attributes are consistent across all files
                     else if (token == "@DATA")
                     {
                         data_reached = true;
-                        // compare attributes
-                        if (last_attribute_names.size() == 0)
-                        {
-                            last_attribute_names.swap(current_attribute_names);
-                        }
-                        else
-                        {
-                            if (last_attribute_names.size() != current_attribute_names.size())
-                            {
-                                printf("attributes number of %s is of different size (%lu %lu)\n", argv[i], 
-                                    last_attribute_names.size(), current_attribute_names.size());
-                                return 1;
-                            }
-                            for (std::unordered_set<std::string>::iterator it = last_attribute_names.begin();
-                                it != last_attribute_names.end(); it++)
-                            {
-                                if (current_attribute_names.find(*it) == current_attribute_names.end())
-                                {
-                                    printf("attribute %s is missing from %s\n", it->c_str(), argv[i]);
-                                    return 1;
-                                }
-                            }
-                        }
                     }
                 }
             }
@@ -164,26 +148,24 @@ int main(int argc, char* argv[])
     of.open(argv[1]);
     // output the relation name directly
     of << "@RELATION \t" << relation_name << "\n\n";
-    for (std::unordered_set<std::string>::iterator it = last_attribute_names.begin(); 
-        it != last_attribute_names.end(); it++)
+    for (std::vector<std::string>::iterator it = attribute_names.begin(); 
+        it != attribute_names.end(); it++)
     {
+        if (*it == "class") continue;
         // output attribute name and its type. All of the attributes will be numeric except
         // "class" which will be a collection of class names, e.g. "{c1,c2,c3}"
-        of << "@ATTRIBUTES " << *it;
-        if (*it == "class")
-        {
-            of << "\t{";
-            // assume that there will be at least one class
-            std::unordered_set<std::string>::iterator itc = class_names.begin();
-            of << *itc;
-            for (++itc; itc != class_names.end(); itc++)
-                of << "," << *itc;
-            
-            of << "}";
-        }
-        else of << "\tNUMERIC";
-        of << "\n";
+        of << "@ATTRIBUTE " << *it << "\tNUMERIC\n";
     }
+
+    // output class
+    of << "@ATTRIBUTE class \t{";
+    // assume that there will be at least one class
+    itc = class_names.begin();
+    of << *itc;
+    for (++itc; itc != class_names.end(); itc++)
+        of << "," << *itc;
+    of << "}\n";
+        
     // output the data section verbatim
     of << "\n@DATA\n";
     for (std::vector<std::string>::iterator it = data_str.begin(); it != data_str.end(); it++)

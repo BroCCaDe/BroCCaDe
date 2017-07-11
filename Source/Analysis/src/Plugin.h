@@ -75,10 +75,13 @@ using namespace BifEnum::FeatureAnalysis;
 class Plugin : public ::plugin::Plugin
 {
 public:
+	void Load_Normal_Data(Val* tag_val, StringVal* KS_data_file);
+    void Load_Interval(Val* tag_val, Val* aid_val, StringVal* Interval_data_file);
+    void Set_Bin_Null(Val* tag_val, Val* aid_val, unsigned short bin_count);
 	void RemoveConnection(StringVal* UID);
 
-	void RegisterAnalysis(StringVal* UID, Val* Set_ID, Val* conn_ID);
-	void AddFeature(StringVal* UID, double feature, Val* aid_val, Val* tag_val);
+	void RegisterAnalysis(StringVal* UID, Val* Set_ID, Val* conn_ID, Val* direction_val);
+	void AddFeature(double feature, Val* aid_val, Val* tag_val);
 	void CalculateMetric();
 
     void ConfigureInternalType();
@@ -90,7 +93,7 @@ protected:
 	virtual plugin::Configuration Configure();
 private:
 	// map from UID to Flow object
-	std::unordered_map <std::string, std::shared_ptr<CCD::Flow> > _flow_dict;
+	std::unordered_map <std::string, std::shared_ptr<CCD::BiFlow> > _flow_dict;
 	std::shared_ptr<CCD::FlowConfig> _flow_config;  // global config for all flows
 	// temporary holder is useful so that we don't have to do the lookup multiple times for the same flow.
 	std::shared_ptr<CCD::Flow> _current_flow;       // temporary holder
@@ -103,6 +106,7 @@ private:
     TransportProto _current_src_proto;
     TransportProto _current_dst_proto;
 	unsigned int _current_set_ID;			        // temporary holder's set_ID
+    unsigned int _current_direction;                // temporary holder's direction
 
     VectorType* result_vector_type;
     RecordType* analysis_result_type;

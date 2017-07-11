@@ -30,7 +30,8 @@
 # POSSIBILITY OF SUCH DAMAGE.                                                   #
 #################################################################################
 
-type analysis_tag : enum {INTERARRIVAL_TIME, PACKET_LENGTH, URG_FLAG, URG_POINTER, ICMP_PAYLOAD_4_BYTES};
+type analysis_tag : enum {INTERARRIVAL_TIME=0, PACKET_LENGTH=1, 
+    URG_FLAG=2, URG_POINTER=3, ICMP_PAYLOAD_4_BYTES=4, TTL=5};
 
 type analysis_result : record
 {
@@ -45,7 +46,7 @@ export
 {
 	module FeatureAnalysis;
 
-	type set_ID : enum {URGENT_SET = 0, IAT_SET = 1, PTUNNEL_SET = 2, PACKET_LENGTH_SET = 3};
+	type set_ID : enum {URGENT_SET = 0, IAT_SET = 1, PTUNNEL_SET = 2, PACKET_LENGTH_SET = 3, TTL_SET = 4};
 
 	type decision_tree_args : record
 	{

@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/hendra/Experiment/Training
+CMAKE_SOURCE_DIR = /home/hendra/CCD/Source/Training
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/hendra/Experiment/Training/build
+CMAKE_BINARY_DIR = /home/hendra/CCD/Source/Training/build
 
 # Utility rule file for dist.
 
@@ -57,7 +57,7 @@ CMakeFiles/dist: Training_Bin.tar.gz
 
 
 Training_Bin.tar.gz: lib/Training-Bin.linux-x86_64.so
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/hendra/Experiment/Training/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building binary plugin package: Training_Bin.tar.gz"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/hendra/CCD/Source/Training/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building binary plugin package: Training_Bin.tar.gz"
 	/home/hendra/Bro/cmake/bro-plugin-create-package.sh Training_Bin README CHANGES COPYING VERSION
 
 dist: CMakeFiles/dist
@@ -76,6 +76,6 @@ CMakeFiles/dist.dir/clean:
 .PHONY : CMakeFiles/dist.dir/clean
 
 CMakeFiles/dist.dir/depend:
-	cd /home/hendra/Experiment/Training/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hendra/Experiment/Training /home/hendra/Experiment/Training /home/hendra/Experiment/Training/build /home/hendra/Experiment/Training/build /home/hendra/Experiment/Training/build/CMakeFiles/dist.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/hendra/CCD/Source/Training/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hendra/CCD/Source/Training /home/hendra/CCD/Source/Training /home/hendra/CCD/Source/Training/build /home/hendra/CCD/Source/Training/build /home/hendra/CCD/Source/Training/build/CMakeFiles/dist.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/dist.dir/depend
 

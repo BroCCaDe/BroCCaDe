@@ -56,6 +56,11 @@ enum Analysis_ID %{
     REGULARITY_ANALYSIS = 6,
 %}
 
+enum Direction %{
+    FORWARD = 0,
+    BACKWARD = 1,
+%}
+
 %%{ 
 #include "Plugin.h"
 #include <cfloat>
@@ -86,22 +91,39 @@ function SetStepSize%(id : set_ID, step_size : count%): bool
         return new Val(1, TYPE_BOOL);
     %}
 
+function LoadNormalData%(tag : analysis_tag, KS_data_file : string%): bool
+    %{
+        plugin_ref->Load_Normal_Data(tag, KS_data_file);
+        return new Val(1, TYPE_BOOL);
+    %}
+
+function LoadInterval%(tag : analysis_tag, aid : any, Interval_data_file : string%): bool
+    %{
+        plugin_ref->Load_Interval(tag, aid, Interval_data_file);
+        return new Val(1, TYPE_BOOL);
+    %}
+
+function SetBinNull%(tag : analysis_tag, aid : any, bin_count : count%): bool
+    %{
+        plugin_ref->Set_Bin_Null(tag, aid, bin_count);
+        return new Val(1, TYPE_BOOL);
+    %}
+
 function RemoveConn%(UID : string%): bool
     %{
         plugin_ref->RemoveConnection(UID);
         return new Val(1, TYPE_BOOL);
     %}
 
-function RegisterAnalysis%(UID : string, id : set_ID, conn_ID : conn_id %): bool
+function RegisterAnalysis%(UID : string, id : set_ID, conn_ID : conn_id, direction : Direction %): bool
     %{
-        plugin_ref->RegisterAnalysis(UID, id, conn_ID);
+        plugin_ref->RegisterAnalysis(UID, id, conn_ID, direction);
         return new Val(1, TYPE_BOOL);
     %}
 
-function AddFeature%(UID : string, feature: double, 
-        aid : any, tag : analysis_tag%): bool
+function AddFeature%(feature: double, aid : any, tag : analysis_tag%): bool
     %{
-        plugin_ref->AddFeature(UID, feature, aid, tag);
+        plugin_ref->AddFeature(feature, aid, tag);
         return new Val(1, TYPE_BOOL);
     %}
 
@@ -111,4 +133,4 @@ function CalculateMetric %(%): bool
         return new Val(1, TYPE_BOOL);
     %}
 
-event metric_event%(id : set_ID, v : result_vector, conn_ID: conn_id%);
+event metric_event%(id : set_ID, direction : Direction, v : result_vector, conn_ID: conn_id%);

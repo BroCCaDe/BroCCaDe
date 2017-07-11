@@ -1,6 +1,8 @@
 event new_packet (c: connection, p: pkt_hdr)
 {
-	IAT::ExtractFeature(c$uid, c$id, c$duration);
+    if (p ?$ ip)
+    {
+	    IAT::ExtractFeature(c$uid, c$id, get_direction(c$id$orig_h, p$ip$src), p$c$duration);
+    }
 }
-
 

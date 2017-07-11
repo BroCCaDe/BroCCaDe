@@ -37,6 +37,8 @@
 #include "featureextraction.bif.h"
 #include "Type.h"
 
+#define DEBUG_H
+
 namespace plugin { namespace PTunnel_FeatureExtraction { Plugin plugin; } }
 
 using namespace plugin::PTunnel_FeatureExtraction;
@@ -54,17 +56,18 @@ plugin::Configuration Plugin::Configure()
 
 // the length is limited to 4 bytes
 void plugin::PTunnel_FeatureExtraction::ExtractFeature(StringVal* UID, Val* conn_ID, 
-		StringVal* payload, unsigned int position, unsigned int len) {
+		Val* direction, StringVal* payload, unsigned int position, unsigned int len) {
     if (payload->Len() < position + len) return; // if there's not enough bytes then skip
 
 	const u_char* bytes = payload->Bytes();
 	val_list* vl = new val_list;
-	unsigned int i; int feature = 0;
-
+	unsigned int i; unsigned long feature = 0;
+/*
 	for (i = 0; i < len; i++) feature |= (*(bytes+position+i)) << (8*i);
 #ifdef DEBUG_H
 	printf("Received ICMP payload %04x %04x\n", feature, *((int*)bytes));
 #endif
+*/
 	BroString* newStr = new BroString(*(UID->AsString()));
 	vl->append(new StringVal(newStr));	                // Bro unique UID
 
@@ -77,7 +80,11 @@ void plugin::PTunnel_FeatureExtraction::ExtractFeature(StringVal* UID, Val* conn
     PortVal* dst_port = conn_r->Lookup(3)->AsPortVal(); 
     conn_ID_copy->Assign(3, new PortVal(dst_port->Port(), dst_port->PortType())); 
     vl->append(conn_ID_copy);                           // 4 tuple network ID
+    vl->append(new Val(direction->AsEnum(), TYPE_ENUM));// direction
 
-	vl->append(new Val(feature, TYPE_DOUBLE));
+    vl->append(new VectorVal(internal_type("FeatureAnalysis::feature_vector")->AsVectorType()));
+    for (i = 0; i < len; i++) (*vl)[3]->AsVectorVal()->Assign(i, new Val((double)(*(bytes+position+i)), TYPE_DOUBLE));
+
+//	vl->append(new Val((double)feature, TYPE_DOUBLE));
 	mgr.QueueEvent(FeatureExtraction::PTunnel_feature_event, vl);
 }

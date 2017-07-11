@@ -58,7 +58,7 @@ public:
 };
 
 // Simple bin allocator which just take a feature and return it directly
-class Bin_Strategy_Null
+class Bin_Strategy_Null : public Bin_Strategy
 {
 public:
 	// Constructor: specify the possible bin values
@@ -67,7 +67,7 @@ public:
 	
 	// cast the feature into a suitable return value
 	virtual unsigned short get_bin_number(double feature) 
-		{return static_cast<unsigned short>(feature);}
+		{if (feature >= _bin_count) return _bin_count-1; return static_cast<unsigned short>(feature);}
 
 	virtual unsigned short get_bin_count() {return _bin_count;}
 private:

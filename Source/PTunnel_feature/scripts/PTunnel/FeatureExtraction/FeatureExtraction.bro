@@ -32,12 +32,12 @@
 
 event icmp_echo_reply(c: connection, icmp: icmp_conn, id: count, seq: count, payload: string)
 {
-	FeatureExtraction::ExtractHeaderFeature(c$uid, c$id, payload, 0, 4);
+	FeatureExtraction::ExtractHeaderFeature(c$uid, c$id, FeatureAnalysis::BACKWARD, payload, 0, 4);
 }
 
 event icmp_echo_request(c: connection, icmp: icmp_conn, id: count, seq: count, payload: string)
 {
-	FeatureExtraction::ExtractHeaderFeature(c$uid, c$id, payload, 0, 4);
+	FeatureExtraction::ExtractHeaderFeature(c$uid, c$id, FeatureAnalysis::FORWARD, payload, 0, 4);
 }
 
 

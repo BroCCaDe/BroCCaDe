@@ -77,8 +77,10 @@ void Regularity_Data::add_stdev()
 	// calculate the standard deviation
 	// sqrt(N s2 - s1^2) / N
 	// where s2 is the sum square and s1 is the sum
-	double sigma = sqrt((_current_data * _current_sum_square) - 
-		(_current_sum * _current_sum)) / _current_data;
+    double d = (_current_data * _current_sum_square) - 
+		(_current_sum * _current_sum);
+	double sigma = 0.0;
+    if (d >= 0.0) sigma = sqrt(d) / _current_data;
 
 	_stdev.push_back(sigma);
 	// we only keep limited number of window

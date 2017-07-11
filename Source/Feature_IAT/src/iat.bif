@@ -44,9 +44,9 @@ typedef plugin::FeatureExtraction_IAT::Plugin plugin_t;
 static plugin_t *plugin_ref = &plugin::FeatureExtraction_IAT::plugin;
 %%}
 
-function ExtractFeature%(UID : string, id : conn_id, duration : interval%): bool
+function ExtractFeature%(UID : string, id : conn_id, direction : FeatureAnalysis::Direction, duration : interval%): bool
 	%{
-	  	plugin_ref->ExtractFeature(UID, id, duration);
+	  	plugin_ref->ExtractFeature(UID, id, direction, duration);
 		return new Val(1, TYPE_BOOL);
 	%}
 
@@ -56,4 +56,4 @@ function RemoveConn%(UID : string%): bool
         return new Val(1, TYPE_BOOL);
     %}
 
-event feature_event%(UID : string, id : conn_id, feature: double%);
+event feature_event%(UID : string, id : conn_id, direction : FeatureAnalysis::Direction, feature: double%);

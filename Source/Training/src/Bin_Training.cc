@@ -62,7 +62,7 @@ std::vector< std::pair<double, double> >
 	// are the average value of the borders, e.g.. {l1, ..., r1}, {l2, ..., r2}, {l3, ..., r4}
 	// the intervals are {-DBL_MIN, l2 - (l2 - r1) / 2}, {l2 - (l2 - r1) / 2, l3 - (l3 - r2) / 2}, 
 	// {l3 - (l3 - r2) / 2, DBL_MAX}
-	for (unsigned int i = 1, idx=step; i < bin_number - 1; i++, idx+=step)
+	for (unsigned int i = 1, idx=step; i < bin_number; i++, idx+=step)
 	{
 		double right = (_data[idx+1] + _data[idx]) / 2.0;
 		// simple countermeasure when left = right, add a tiny value
@@ -74,4 +74,18 @@ std::vector< std::pair<double, double> >
 	result.emplace_back(left, DBL_MAX);
 
 	return result;
+}
+
+std::shared_ptr<IntervalTraining> BiFlow::get(int direction, int tag)
+{
+    if (direction < _flows.size())
+    {
+        if (tag < _flows[direction].size())
+            return _flows[direction][tag];
+    }
+    else _flows.resize(direction+1);
+    if (_flows[direction].size() <= tag) _flows[direction].resize(tag+1);
+    std::shared_ptr<IntervalTraining> temp(new IntervalTraining());
+    _flows[direction][tag].swap(temp);
+    return _flows[direction][tag];
 }

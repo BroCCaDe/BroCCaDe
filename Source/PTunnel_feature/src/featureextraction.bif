@@ -42,10 +42,12 @@ module FeatureExtraction;
 %%{ #include "Plugin.h"
 %%}
 
-function ExtractHeaderFeature%(UID : string, id : conn_id, payload: string, position:count, len:count%): bool
+function ExtractHeaderFeature%(UID : string, id : conn_id, direction : FeatureAnalysis::Direction, 
+        payload: string, position:count, len:count%): bool
 	%{
-	  	plugin::PTunnel_FeatureExtraction::ExtractFeature(UID, id, payload, position, len);
+	  	plugin::PTunnel_FeatureExtraction::ExtractFeature(UID, id, direction, payload, position, len);
 		return new Val(1, TYPE_BOOL);
 	%}
 
-event PTunnel_feature_event%(UID : string, id : conn_id, payload: double%);
+event PTunnel_feature_event%(UID : string, id : conn_id, 
+    direction : FeatureAnalysis::Direction, features: FeatureAnalysis::feature_vector%);

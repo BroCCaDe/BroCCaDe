@@ -50,16 +50,20 @@ double Regularity::calculate_metric()
 	double N;
 	double sum = 0.0;		            // sum (|sigma_j - sigma_i| / sigma_i)
 	double sum_square = 0.0;	        // sum ((|sigma_j - sigma_i| / sigma_j)^2)
+    double d;
 	Regularity_Data* ptr = static_cast<Regularity_Data*> (_data.get());
 	
 	std::vector<double> stdev (ptr->get_stdev());
     n = stdev.size();
+    if (n == 0) return 0.0;
 	N = (double) n * ((double) n - 1.0) / 2.0;
+    if (N == 0.0) N = 1.0;              // only happen when there is only 1 data point
 
 	for (j = 0; j < n; j++) // forall j
 	{
 		for (i = 0; i < j; i++) // forall i < j
 		{
+            if (stdev[i] == 0.0) continue;
 			// |sigma_j - sigma_i| / sigma_i
 			double r = std::abs(stdev[j] - stdev[i]) / stdev[i];
 			sum += r;
@@ -68,5 +72,7 @@ double Regularity::calculate_metric()
 	}
 	
 	// stdev (|sigma_j - sigma_i| / sigma_i) for all j, i < j
-	return sqrt((N * sum_square) - (sum * sum)) / N;
+    d = (N * sum_square) - (sum * sum);
+    if (d < 0.0) return 0.0;
+	return sqrt(d) / N;
 }

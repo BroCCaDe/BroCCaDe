@@ -1,1 +1,13 @@
 make: [build-it] Error 1 (ignored)
+/home/hendra/CCD/Source/Analysis/src/Plugin.cc: In member function ‘void plugin::Analysis_FeatureAnalysis::Plugin::Load_Normal_Data(Val*, StringVal*)’:
+/home/hendra/CCD/Source/Analysis/src/Plugin.cc:125:13: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+     if (tag >= _flow_config->KS_normal_data.size()) _flow_config->KS_normal_data.resize(tag+1);
+             ^
+/home/hendra/CCD/Source/Analysis/src/Plugin.cc: In member function ‘void plugin::Analysis_FeatureAnalysis::Plugin::Set_Bin_Null(Val*, Val*, short unsigned int)’:
+/home/hendra/CCD/Source/Analysis/src/Plugin.cc:169:17: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+         if (tag >= _flow_config->binner[aid].size()) _flow_config->binner[aid].resize(tag+1, _flow_config->default_binner);
+                 ^
+/home/hendra/CCD/Source/Analysis/src/Plugin.cc: In member function ‘void plugin::Analysis_FeatureAnalysis::Plugin::Load_Interval(Val*, Val*, StringVal*)’:
+/home/hendra/CCD/Source/Analysis/src/Plugin.cc:222:17: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+         if (tag >= _flow_config->binner[aid].size()) _flow_config->binner[aid].resize(tag+1, _flow_config->default_binner);
+                 ^

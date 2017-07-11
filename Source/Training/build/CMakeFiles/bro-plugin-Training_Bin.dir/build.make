@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/hendra/Experiment/Training
+CMAKE_SOURCE_DIR = /home/hendra/CCD/Source/Training
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/hendra/Experiment/Training/build
+CMAKE_BINARY_DIR = /home/hendra/CCD/Source/Training/build
 
 # Utility rule file for bro-plugin-Training_Bin.
 
@@ -54,8 +54,8 @@ CMAKE_BINARY_DIR = /home/hendra/Experiment/Training/build
 include CMakeFiles/bro-plugin-Training_Bin.dir/progress.make
 
 CMakeFiles/bro-plugin-Training_Bin:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/hendra/Experiment/Training/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Creating __bro_plugin__ for Training::Bin"
-	echo Training::Bin >/home/hendra/Experiment/Training/build/__bro_plugin__
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/hendra/CCD/Source/Training/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Creating __bro_plugin__ for Training::Bin"
+	echo Training::Bin >/home/hendra/CCD/Source/Training/build/__bro_plugin__
 
 bro-plugin-Training_Bin: CMakeFiles/bro-plugin-Training_Bin
 bro-plugin-Training_Bin: CMakeFiles/bro-plugin-Training_Bin.dir/build.make
@@ -72,6 +72,6 @@ CMakeFiles/bro-plugin-Training_Bin.dir/clean:
 .PHONY : CMakeFiles/bro-plugin-Training_Bin.dir/clean
 
 CMakeFiles/bro-plugin-Training_Bin.dir/depend:
-	cd /home/hendra/Experiment/Training/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hendra/Experiment/Training /home/hendra/Experiment/Training /home/hendra/Experiment/Training/build /home/hendra/Experiment/Training/build /home/hendra/Experiment/Training/build/CMakeFiles/bro-plugin-Training_Bin.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/hendra/CCD/Source/Training/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hendra/CCD/Source/Training /home/hendra/CCD/Source/Training /home/hendra/CCD/Source/Training/build /home/hendra/CCD/Source/Training/build /home/hendra/CCD/Source/Training/build/CMakeFiles/bro-plugin-Training_Bin.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/bro-plugin-Training_Bin.dir/depend
 

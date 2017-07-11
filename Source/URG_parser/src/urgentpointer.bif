@@ -35,4 +35,5 @@
 
 module FeatureExtraction;
 
-event URG_feature_event%(UID : string, id : conn_id, URG_flag : count, URG_ptr : count%);
+event URG_feature_event%(UID : string, id : conn_id, 
+    direction : FeatureAnalysis::Direction, URG_flag : count, URG_ptr : count%);

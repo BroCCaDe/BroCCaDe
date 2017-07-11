@@ -51,7 +51,7 @@ class Plugin : public ::plugin::Plugin
 public:
 	// calculate the inter arrival time. This inherently implies
 	// that the first packet will not generate an event
-	void ExtractFeature(StringVal* UID, Val* id, double duration);
+	void ExtractFeature(StringVal* UID, Val* id, Val* direction, double duration);
 	// whenever Bro removes a flow, we also remove the floe
 	void RemoveConnection(StringVal* UID);
 protected:

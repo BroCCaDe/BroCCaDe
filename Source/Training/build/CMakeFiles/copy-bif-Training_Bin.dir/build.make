@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/hendra/Experiment/Training
+CMAKE_SOURCE_DIR = /home/hendra/CCD/Source/Training
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/hendra/Experiment/Training/build
+CMAKE_BINARY_DIR = /home/hendra/CCD/Source/Training/build
 
 # Utility rule file for copy-bif-Training_Bin.
 
@@ -54,8 +54,8 @@ CMAKE_BINARY_DIR = /home/hendra/Experiment/Training/build
 include CMakeFiles/copy-bif-Training_Bin.dir/progress.make
 
 CMakeFiles/copy-bif-Training_Bin:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/hendra/Experiment/Training/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Creating build/lib/bif for Training::Bin"
-	/usr/bin/cmake -E copy_directory /home/hendra/Experiment/Training/build/bif /home/hendra/Experiment/Training/build/lib/bif
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/home/hendra/CCD/Source/Training/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Creating build/lib/bif for Training::Bin"
+	/usr/bin/cmake -E copy_directory /home/hendra/CCD/Source/Training/build/bif /home/hendra/CCD/Source/Training/build/lib/bif
 
 copy-bif-Training_Bin: CMakeFiles/copy-bif-Training_Bin
 copy-bif-Training_Bin: CMakeFiles/copy-bif-Training_Bin.dir/build.make
@@ -72,6 +72,6 @@ CMakeFiles/copy-bif-Training_Bin.dir/clean:
 .PHONY : CMakeFiles/copy-bif-Training_Bin.dir/clean
 
 CMakeFiles/copy-bif-Training_Bin.dir/depend:
-	cd /home/hendra/Experiment/Training/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hendra/Experiment/Training /home/hendra/Experiment/Training /home/hendra/Experiment/Training/build /home/hendra/Experiment/Training/build /home/hendra/Experiment/Training/build/CMakeFiles/copy-bif-Training_Bin.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/hendra/CCD/Source/Training/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/hendra/CCD/Source/Training /home/hendra/CCD/Source/Training /home/hendra/CCD/Source/Training/build /home/hendra/CCD/Source/Training/build /home/hendra/CCD/Source/Training/build/CMakeFiles/copy-bif-Training_Bin.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/copy-bif-Training_Bin.dir/depend
 

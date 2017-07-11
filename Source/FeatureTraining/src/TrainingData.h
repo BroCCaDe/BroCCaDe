@@ -84,7 +84,13 @@ public:
     // change the relation string
     void change_relation(std::string relation_name) {_relation = relation_name;}
     // add an attribute of name @attribute_name
-    void add_attribute(std::string attribute_name) {_attributes.insert(attribute_name);}
+    void add_attribute(std::string attribute_name) {
+        if (_attributes.find(attribute_name) == _attributes.end())
+        {
+            _attributes.insert(attribute_name);
+            _attributes_ordered.push_back(attribute_name);
+        }
+    }
     // add a class
     void add_class(std::string class_name) {_class_names.insert(class_name);}
     // add a data row
@@ -99,8 +105,8 @@ public:
     std::string get_attributes() {
         std::string temp;
         temp.clear();
-        for (std::unordered_set<std::string>::iterator it = _attributes.begin(); 
-            it != _attributes.end(); ++it) 
+        for (std::vector<std::string>::iterator it = _attributes_ordered.begin(); 
+            it != _attributes_ordered.end(); ++it) 
                 temp = temp + "@ATTRIBUTES " + *it + " NUMERIC\n";
         return temp;
     }
@@ -121,6 +127,7 @@ public:
 private:
     std::string _relation;
     std::unordered_set<std::string> _attributes;
+    std::vector<std::string> _attributes_ordered;
     std::unordered_set<std::string> _class_names;
 	std::vector<std::unique_ptr<DataRow> > _data;
 };

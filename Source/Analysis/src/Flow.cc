@@ -105,14 +105,14 @@ void Flow::add_feature(unsigned int tag, std::vector<unsigned int> aid, double f
 					case HISTOGRAM_DATA :
 					{
 						_data[_current_set_ID][tag][type] = std::shared_ptr<Histogram>
-							(new Histogram (_config->binner));
+							(new Histogram (_config->binner[*it][tag]));
 						break;	
 					}
 					case PATTERN_DATA :
 					{
 						_data[_current_set_ID][tag][type] = 
 							std::shared_ptr<Pattern_Data> (new Pattern_Data (
-							_config->CCE_pattern_size, _config->binner));
+							_config->CCE_pattern_size, _config->binner[*it][tag]));
 						break;
 					}
 					case REGULARITY_DATA :
@@ -161,7 +161,7 @@ void Flow::add_analysis(unsigned int tag, unsigned int aid)
 		if (aid == _config->KS_analysis)
 			_analysis[_current_set_ID][tag][aid] = std::shared_ptr<KS> (new KS 
 				(std::static_pointer_cast<Raw_Data>
-				(_data[_current_set_ID][tag][type]), _config->KS_normal_data));			
+				(_data[_current_set_ID][tag][type]), _config->KS_normal_data[tag]));			
 		else if (aid == _config->Entropy_analysis)
 			_analysis[_current_set_ID][tag][aid] = std::shared_ptr<Entropy>
 				(new Entropy(std::static_pointer_cast<Histogram>

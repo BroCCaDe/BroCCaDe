@@ -86,9 +86,9 @@ public:
 	// lags for autocorrelation calculation
 	std::shared_ptr<std::vector<unsigned int> > Autocorrelation_lags;
 	// normal data to test against. Used for KS test
-	std::shared_ptr<std::vector<double> > KS_normal_data;
-	// currently we only accommodate 1 binning strategy, used for Histogram and CCE pattern
-	std::shared_ptr<Bin_Strategy> binner;
+	std::vector<std::shared_ptr<std::vector<double> > > KS_normal_data;
+	std::vector<std::vector<std::shared_ptr<Bin_Strategy> >> binner;
+    std::shared_ptr<Bin_Strategy> default_binner;
     // static Null_Data_Container and Null_Analysis
     std::shared_ptr<Null_Data> null_data;
     std::shared_ptr<NullAnalysis> null_analysis;
@@ -107,8 +107,8 @@ public:
 	{
 		_data.clear();                                  // initialize the map to data containers
 		_data.resize(config->set_IDs);
-//		_analysis.clear();                              // initialize the map to the analysis
-//		_analysis.resize(config->set_IDs);
+		_analysis.clear();                              // initialize the map to the analysis
+		_analysis.resize(config->set_IDs);
 		_reset.clear();
 		_steps.resize(config->set_IDs, 0);              // initialize the steps for each calculation set
 		_current_set_ID = -1;			
@@ -139,6 +139,24 @@ private:
 	std::vector<unsigned int> _steps;                   // steps for each calculation set
 	std::vector<std::unique_ptr<TempValue> > _result;
 	int _current_set_ID;                                // current calculation set ID
+};
+
+class BiFlow {
+public:
+    BiFlow(std::shared_ptr<FlowConfig> config) : _config(config) {_flows.resize(2);}
+    std::shared_ptr<Flow> get(unsigned int direction) {
+        if (direction < _flows.size()) 
+        {
+            if (_flows[direction].get() == NULL)
+                _flows[direction] = std::shared_ptr<Flow> (new Flow(_config));
+            return _flows[direction];
+        }
+        printf("weird direction : %u\n", direction);
+        exit (1);
+    }
+private:
+    std::vector<std::shared_ptr<Flow> > _flows;
+    std::shared_ptr<FlowConfig> _config;
 };
 
 // used to store the value of the calculated metric with its accompanying analysis ID and input tag

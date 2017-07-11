@@ -63,7 +63,7 @@ void Plugin::RemoveConnection(StringVal* UID)
 	_flow_dict->erase(UID_str);
 }
 
-void Plugin::ExtractFeature(StringVal* UID, Val* conn_ID, double duration) {
+void Plugin::ExtractFeature(StringVal* UID, Val* conn_ID, Val* direction, double duration) {
 	if (UID == NULL) {printf("UID is null\n"); return;}
 
 	std::string UID_str((const char*) UID->Bytes());
@@ -92,6 +92,7 @@ void Plugin::ExtractFeature(StringVal* UID, Val* conn_ID, double duration) {
         PortVal* dst_port = conn_r->Lookup(3)->AsPortVal(); 
 	    conn_ID_copy->Assign(3, new PortVal(dst_port->Port(), dst_port->PortType())); 
 	    vl->append(conn_ID_copy);                           // 4 tuple network ID
+        vl->append(new Val(direction->AsEnum(), TYPE_ENUM));// direction
 
 		// IAT is counted as the difference of the current flow's duration
 		// and the flow's duration when the last packet was received
