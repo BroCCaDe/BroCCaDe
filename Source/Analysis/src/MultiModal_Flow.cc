@@ -42,15 +42,17 @@ using namespace CCD;
 double MultiModal::calculate_metric()
 {
 	Histogram* ptr = static_cast<Histogram*> (_data.get());
-	unsigned short bin_count = ptr->get_bin_count();		// get the number of bins
+//	unsigned int bin_count = ptr->get_bin_count();		// get the number of bins
 	unsigned long max_i = 0;
 	unsigned long sum_square_i = 0;
 #ifdef DEBUG
-	printf("MultiModal: total data %lu\n", ptr->get_total_data());
+	printf("MultiModal: total data %lu, bin count %u\n", ptr->get_total_data(), bin_count);
 #endif
-	for (unsigned short i = 0; i < bin_count; i++)
+//	for (unsigned int i = 0; i < bin_count; i++)
+    for (auto it = ptr->begin(); it != ptr->end(); it++)
 	{
-		unsigned long n_i = ptr->get_bin(i);
+//		unsigned long n_i = ptr->get_bin(i);
+        unsigned long n_i = it->second;
 #ifdef DEBUG
 		printf("%u ", n_i);
 #endif

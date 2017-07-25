@@ -55,15 +55,20 @@ namespace Training_Bin {
 class Plugin : public ::plugin::Plugin
 {
 public:
-	void RemoveConnection(StringVal* UID, Val* tag);
-	void add_feature(StringVal* UID, Val* direction, double feature, Val* tag);
+	void RemoveConnection(Val* tag);
+	void add_feature(double feature, Val* tag);
+    void SetBinCount(Val* bin_counts);
+    void SetKSDataCount(unsigned int count);
+    void ChangePrefix(StringVal* prefix);
 protected:
 	// Overridden from plugin::Plugin.
 private:
 	std::unordered_map <std::string, std::shared_ptr<BiFlow> > _flow_dict;
 	virtual plugin::Configuration Configure();
 	unsigned int _tag_count;
-	unsigned int _bin_count;
+	std::vector<unsigned int> _bin_counts;
+    unsigned int _ks_data_count;
+    std::string _prefix;
 };
 
 extern Plugin plugin;

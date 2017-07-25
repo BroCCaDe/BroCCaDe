@@ -5,5 +5,3 @@
 
 # @load ./bar.bro 
 
-@load ./FeatureExtraction.bro
-

@@ -5,5 +5,5 @@
 
 # @load ./bar.bro 
 
-@load ./training_bin.bro
+#@load ./training_bin.bro
 

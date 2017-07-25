@@ -10,8 +10,12 @@ namespace plugin { namespace Training_Bin {
 
 void __bif_bin_init(plugin::Plugin* plugin)
 	{
-	BifType::Enum::BinTraining::Direction = internal_type("BinTraining::Direction")->AsEnumType();
-	plugin->AddBifItem("BinTraining::Direction", plugin::BifItem::TYPE);
+	(void) new BuiltinFunc(BifFunc::BinTraining::bro_SetBinCount, "BinTraining::SetBinCount", 0);
+	plugin->AddBifItem("BinTraining::SetBinCount", plugin::BifItem::FUNCTION);
+	(void) new BuiltinFunc(BifFunc::BinTraining::bro_ChangePrefix, "BinTraining::ChangePrefix", 0);
+	plugin->AddBifItem("BinTraining::ChangePrefix", plugin::BifItem::FUNCTION);
+	(void) new BuiltinFunc(BifFunc::BinTraining::bro_SetKSDataCount, "BinTraining::SetKSDataCount", 0);
+	plugin->AddBifItem("BinTraining::SetKSDataCount", plugin::BifItem::FUNCTION);
 	(void) new BuiltinFunc(BifFunc::BinTraining::bro_RemoveConn, "BinTraining::RemoveConn", 0);
 	plugin->AddBifItem("BinTraining::RemoveConn", plugin::BifItem::FUNCTION);
 	(void) new BuiltinFunc(BifFunc::BinTraining::bro_add_feature, "BinTraining::add_feature", 0);

@@ -43,20 +43,19 @@ module BinTraining;
 
 
 
+global SetBinCount: function(bin_count: any ): bool ;
 
 
-type Direction: enum  {
-    FORWARD = 0,
-    BACKWARD = 1,
-} ;
+global ChangePrefix: function(prefix: string ): bool ;
 
 
+global SetKSDataCount: function(ks_data_count: count ): bool ;
 
 
-global RemoveConn: function(UID: string , tag: analysis_tag ): bool ;
+global RemoveConn: function(tag: analysis_tag ): bool ;
 
 
-global add_feature: function(UID: string , direction: Direction , feature: double , tag: analysis_tag ): bool ;
+global add_feature: function(feature: double , tag: analysis_tag ): bool ;
 
 } # end of export section
 module GLOBAL;

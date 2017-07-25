@@ -8,7 +8,7 @@
 #
 
 @load ./init.bro
-@load ./Training/Bin/__load__.bro
+#@load ./Training/Bin/__load__.bro
 
 
 

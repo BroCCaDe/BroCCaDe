@@ -56,7 +56,7 @@ public:
 	virtual unsigned short get_bin_number(double features);
 
 	// get the number of intervals contained in the list
-	virtual unsigned short get_bin_count() {return _intervals.size();}
+	virtual unsigned int get_bin_count() {return _intervals.size();}
 
 	// add an interval into the list of intervals
 	void add_interval(double min, double max);

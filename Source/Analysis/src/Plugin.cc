@@ -159,7 +159,7 @@ void plugin::Analysis_FeatureAnalysis::Plugin::Load_Normal_Data(Val* tag_val, St
 }
 
 void plugin::Analysis_FeatureAnalysis::Plugin::Set_Bin_Null
-    (Val* tag_val, Val* aid_val, unsigned short bin_count)
+    (Val* tag_val, Val* aid_val, unsigned int bin_count)
 {
     int tag = tag_val->AsEnum();
     std::vector<Val*>* aid_vector = aid_val->AsVector();

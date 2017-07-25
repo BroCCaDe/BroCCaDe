@@ -63,31 +63,31 @@ std::shared_ptr<FeatureTraining> plugin::Feature_Training::Plugin::find_or_creat
 void plugin::Feature_Training::Plugin::ChangeRelation(Val* ID, StringVal* name)
 {
     int set_ID = ID->AsEnum();
-    std::string *name_str = new std::string((const char*) name->Bytes());
+    std::string name_str((const char*) name->Bytes());
     std::shared_ptr<FeatureTraining> d = find_or_create(set_ID);
-    d->change_relation(*name_str);
+    d->change_relation(name_str);
 }
 
 void plugin::Feature_Training::Plugin::Add_Attributes(Val* ID, StringVal* name)
 {
     int set_ID = ID->AsEnum();
-	std::string *name_str = new std::string((const char*) name->Bytes());
+	std::string name_str((const char*) name->Bytes());
 	std::shared_ptr<FeatureTraining> d = find_or_create(set_ID);
-	d->add_attribute(*name_str);
+	d->add_attribute(name_str);
 }
 
 void plugin::Feature_Training::Plugin::Add_Class(Val* ID, StringVal* name)
 {
     int set_ID = ID->AsEnum();
-	std::string *name_str = new std::string((const char*) name->Bytes());
+	std::string name_str((const char*) name->Bytes());
 	std::shared_ptr<FeatureTraining> d = find_or_create(set_ID);
-	d->add_class(*name_str);
+	d->add_class(name_str);
 }
 
 void plugin::Feature_Training::Plugin::Add_DataRow(Val* ID, Val* values, StringVal* name)
 {
     int set_ID = ID->AsEnum();
-	std::string *name_str = new std::string((const char*) name->Bytes());
+	std::string name_str((const char*) name->Bytes());
 	std::shared_ptr<FeatureTraining> d = find_or_create(set_ID);
 	std::vector<Val*>* values_vector = values->AsVector();
 	std::vector<double> features;
@@ -95,7 +95,7 @@ void plugin::Feature_Training::Plugin::Add_DataRow(Val* ID, Val* values, StringV
 	for (unsigned int i = 0; i < values_vector->size(); i++)
 		features.push_back((*values_vector)[i]->AsDouble());
 
-	d->add_data_row(features, *name_str);
+	d->add_data_row(features, name_str);
 }
 
 void plugin::Feature_Training::Plugin::print(Val* ID, StringVal* FileName)

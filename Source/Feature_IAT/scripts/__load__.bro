@@ -8,6 +8,6 @@
 #
 
 @load ./init.bro
-@load ./FeatureExtraction/IAT/__load__.bro
+# @load ./FeatureExtraction/IAT/__load__.bro
 
 

@@ -54,7 +54,7 @@ public:
 	// classify a feature into a bin
 	virtual unsigned short get_bin_number(double feature) = 0;
 	// get the number of possible bin
-	virtual unsigned short get_bin_count() = 0;
+	virtual unsigned int get_bin_count() = 0;
 };
 
 // Simple bin allocator which just take a feature and return it directly
@@ -62,16 +62,16 @@ class Bin_Strategy_Null : public Bin_Strategy
 {
 public:
 	// Constructor: specify the possible bin values
-	Bin_Strategy_Null(unsigned short bin_count) : _bin_count(bin_count) {}
+	Bin_Strategy_Null(unsigned int bin_count) : _bin_count(bin_count) {}
 	virtual ~Bin_Strategy_Null() {}
 	
 	// cast the feature into a suitable return value
 	virtual unsigned short get_bin_number(double feature) 
 		{if (feature >= _bin_count) return _bin_count-1; return static_cast<unsigned short>(feature);}
 
-	virtual unsigned short get_bin_count() {return _bin_count;}
+	virtual unsigned int get_bin_count() {return _bin_count;}
 private:
-	unsigned short _bin_count;	// maximum possible value
+	unsigned int _bin_count;	// maximum possible value
 };
 
 }

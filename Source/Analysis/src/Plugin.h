@@ -77,7 +77,7 @@ class Plugin : public ::plugin::Plugin
 public:
 	void Load_Normal_Data(Val* tag_val, StringVal* KS_data_file);
     void Load_Interval(Val* tag_val, Val* aid_val, StringVal* Interval_data_file);
-    void Set_Bin_Null(Val* tag_val, Val* aid_val, unsigned short bin_count);
+    void Set_Bin_Null(Val* tag_val, Val* aid_val, unsigned int bin_count);
 	void RemoveConnection(StringVal* UID);
 
 	void RegisterAnalysis(StringVal* UID, Val* Set_ID, Val* conn_ID, Val* direction_val);

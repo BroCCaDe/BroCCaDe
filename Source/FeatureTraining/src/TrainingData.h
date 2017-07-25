@@ -120,8 +120,9 @@ public:
     }
     std::string get_data() {
         std::string temp = "@DATA\n";
-        for (unsigned int i = 1; i < _data.size(); i++) 
-            temp = temp + _data[i]->to_string();
+        for (std::vector<std::unique_ptr<DataRow>>::const_iterator it = _data.begin(); 
+            it != _data.end(); it++) 
+            temp = temp + (*it)->to_string();
         return temp;
     }
 private:

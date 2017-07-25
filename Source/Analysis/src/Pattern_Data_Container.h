@@ -48,7 +48,7 @@ namespace CCD {
 struct TreeNode
 {
     unsigned long count;
-    short children[10];
+    int children[20];
 };
 
 class Pattern_Data : public Data_Container
@@ -73,7 +73,7 @@ private:
 	std::shared_ptr<Bin_Strategy> _binner;	// bin allocator
 
     void add_pattern(std::list<unsigned short>::iterator current, std::list<unsigned short>::iterator end,
-        short id, unsigned short level);
+        int id, unsigned short level);
     std::shared_ptr< std::vector<std::vector<TreeNode> > > _tree;
     
 };

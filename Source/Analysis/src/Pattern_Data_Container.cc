@@ -58,7 +58,7 @@ Pattern_Data::Pattern_Data(unsigned short pattern_length,
     std::shared_ptr<std::vector<std::vector<TreeNode> > > 
         tmp_tree(new std::vector< std::vector< TreeNode> >(pattern_length+1));
     _tree.swap(tmp_tree);
-    (*_tree)[0].push_back({0, {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}});
+    (*_tree)[0].push_back({0, {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}});
 	_pattern_length = pattern_length;
 }
 
@@ -67,7 +67,7 @@ void Pattern_Data::add_feature(double feature)
 	unsigned short bin_number = _binner->get_bin_number(feature);
 	unsigned short bin_count = _binner->get_bin_count();
 	// sanity check: if the bin number is out of bounds
-	if (bin_number < 0 || bin_number > bin_count) 
+	if (bin_number < 0 || bin_number >= bin_count) 
 	{
 		printf("Weird bin number : %d (0 - %d)\n", bin_number, bin_count);
 		return;
@@ -96,14 +96,14 @@ void Pattern_Data::add_feature(double feature)
 
 // append
 void Pattern_Data::add_pattern(std::list<unsigned short>::iterator current, 
-    std::list<unsigned short>::iterator end, short id, unsigned short level)
+    std::list<unsigned short>::iterator end, int id, unsigned short level)
 {
     (*_tree)[level][id].count++;
     if (current == end) return;
-    short next_id = (*_tree)[level][id].children[*current];
+    int next_id = (*_tree)[level][id].children[*current];
     if(next_id == -1)
     {
-        TreeNode newchild = {0, {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}};
+        TreeNode newchild = {0, {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}};
     //    newchild.count = 0;
     //    memset(newchild.children, 10 * sizeof (unsigned short), 0);
         (*_tree)[level+1].push_back(newchild);

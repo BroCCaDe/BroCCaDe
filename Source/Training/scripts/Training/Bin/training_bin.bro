@@ -4,7 +4,13 @@
 
 event connection_state_remove (c: connection)
 {
-	BinTraining::RemoveConn(c$uid, TTL);
+#	BinTraining::RemoveConn(c$uid, TTL);
+	BinTraining::RemoveConn(c$uid, PACKET_LENGTH);
+}
+
+event bro_init()
+{
+    BinTraining::SetBinCount([5,6,7,8,9,10,11,12,13,14,15]);
 }
 
 #event IAT::feature_event(UID:string, id:conn_id, value: double)
@@ -22,12 +28,16 @@ function get_direction(a : addr, b : addr) : BinTraining::Direction
     return BinTraining::BACKWARD;
 }
 
+event PacketLength_feature_event(UID:string, id:conn_id, direction:BinTraining::Direction, value: double) {
+	BinTraining::add_feature(UID, direction, value, PACKET_LENGTH);
+}
 
 event new_packet (c: connection, p: pkt_hdr)
 {
 	if ( p ?$ ip )
 	{
-		event TTL_feature_event(c$uid, c$id, get_direction(p$ip$src, c$id$orig_h) , p$ip$ttl);
+        event PacketLength_feature_event(c$uid, c$id, get_direction(p$ip$src, c$id$orig_h), p$ip$len);
+#		event TTL_feature_event(c$uid, c$id, get_direction(p$ip$src, c$id$orig_h), p$ip$ttl);
 	}
 }
 

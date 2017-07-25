@@ -39,6 +39,7 @@
 #include <memory>		// contains unique_ptr and shared_ptr
 #include "Data_Container.h"	// the superclass for histogram (Data_Container)
 #include "Bin_Strategy.h"	// contains the superclass for the bin allocator
+#include <unordered_map>
 
 namespace CCD {
 
@@ -64,15 +65,20 @@ public:
 	unsigned long get_total_data() {return _total_data;}
 
 	// get the count of a particular bin
-	unsigned long get_bin(unsigned short bin_index) {return _bins[bin_index];}
+	unsigned long get_bin(unsigned int bin_index) {return _bins[bin_index];}
 
 	// get the number of bins
-	unsigned short get_bin_count() {return _bin_count;}
+	unsigned int get_bin_count() {return _bin_count;}
+
+    std::unordered_map<int, unsigned long>::iterator begin() {return _bins.begin();}
+    std::unordered_map<int, unsigned long>::iterator end() {return _bins.end();}
 private:
 	std::shared_ptr<Bin_Strategy> _binner;	// bin allocator
-	std::unique_ptr<unsigned long[]> _bins; // count for each bin
+//	std::unique_ptr<unsigned long[]> _bins; // count for each bin
+//    std::vector<unsigned int> _occupied_bin;// flag indicating which bin is filled
+    std::unordered_map<int, unsigned long> _bins;
 	unsigned long _total_data;		// total data across all bins
-	unsigned short _bin_count;		// the number of bins
+	unsigned int _bin_count;		// the number of bins
 };
 
 }

@@ -45,17 +45,20 @@ using namespace CCD;
 
 double Entropy::calculate_metric()
 {
-	unsigned short i;
+	unsigned int i;
 	Histogram* ptr = static_cast<Histogram*> (_data.get());
-	unsigned short bin_count = ptr->get_bin_count();    // get the number of bins
+//	unsigned int bin_count = ptr->get_bin_count();    // get the number of bins
+    double total_data = ptr->get_total_data();
 	double entropy = 0.0;
 #ifdef DEBUG_H
 	printf("Entropy: total data %lu\n", ptr->get_total_data());
 #endif
 	// iterates over all of the bin
-	for (i = 0; i < bin_count; i++)
+//	for (i = 0; i < bin_count; i++)
+    for (auto it = ptr->begin(); it != ptr->end(); it++)
 	{
-		double p_i = ptr->get_bin_probability(i);       // p_i
+//		double p_i = ptr->get_bin_probability(i);       // p_i
+        double p_i = it->second / total_data;           // p_i
 #ifdef DEBUG_H
 		printf("%.2f ", p_i);
 #endif

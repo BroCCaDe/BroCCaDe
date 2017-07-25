@@ -51,7 +51,9 @@ plugin::Configuration Plugin::Configure()
 	config.version.minor = 1;
 
 	_tag_count = DEFAULT_TAG_COUNT;
-	_bin_count = DEFAULT_BIN_COUNT;
+	_bin_counts.push_back(DEFAULT_BIN_COUNT);
+    _ks_data_count = KS_TRAINING_DATA_NUMBER;
+    _prefix = "";
 
 	return config;
 	}
@@ -71,53 +73,75 @@ void print_pairs(std::vector< std::pair<double, double> > pairs, std::string fil
 	f.close();
 }
 
-void print_data(std::vector<double> data, std::string file_name)
+void print_data(std::vector<double> data, std::string file_name, unsigned int count)
 {
 	if (data.size() <= 0) return;
 	std::vector<double>::const_iterator it;
 	ofstream f;
   	f.open (file_name);
 	if (!f.is_open()) {printf("(data) can't open file\n"); return;}
-	f << KS_TRAINING_DATA_NUMBER << "\n";
-	for (it = data.begin(); it != data.begin()+KS_TRAINING_DATA_NUMBER; it++) f << *it << "\n"; 
+	f << count << "\n";
+	for (it = data.begin(); it != data.begin()+count; it++) f << *it << "\n"; 
 	f.close();
 }
 
-void plugin::Training_Bin::Plugin::RemoveConnection(StringVal* UID, Val* tag_val)
+void plugin::Training_Bin::Plugin::SetBinCount(Val* bin_counts)
 {
-	std::string UID_str((const char*) UID->Bytes());
+    _bin_counts.clear();
+    std::vector<Val*>* bin_count_vector = bin_counts->AsVector();
+    for (std::vector<Val*>::iterator it = bin_count_vector->begin();
+        it != bin_count_vector->end(); it++) {
+        _bin_counts.push_back((*it)->AsCount());
+    }
+}
+
+void plugin::Training_Bin::Plugin::SetKSDataCount(unsigned int count)
+{
+    _ks_data_count = count;
+}
+
+void plugin::Training_Bin::Plugin::ChangePrefix(StringVal* prefix)
+{
+    std::string temp((const char*) prefix->Bytes());
+    _prefix.swap(temp);
+}
+
+
+void plugin::Training_Bin::Plugin::RemoveConnection(Val* tag_val)
+{
+	std::string UID_str("ALL");
     std::unordered_map<std::string, std::shared_ptr<BiFlow> >::iterator 
 			got = _flow_dict.find(UID_str);
     int tag = tag_val->AsEnum();
 
     if (got != _flow_dict.end())
 	{
-        for (int direction = 0; direction < 2; direction++)
-        {
-            std::shared_ptr<IntervalTraining> flow = got->second->get(direction, tag);
+        std::shared_ptr<IntervalTraining> flow = got->second->get(0, tag);
 
-            // weed out small training data
-            if (flow->get_data_length() >= KS_TRAINING_DATA_THRESHOLD)
-            {
-	            std::string name = "KS_data_" + UID_str + "_" + to_string(direction) + "_" + to_string(tag);
-	            print_data(flow->get_data(), name);
-            }
+        // weed out small training data
+        if (flow->get_data_length() >= KS_TRAINING_DATA_THRESHOLD)
+        {
+            std::string name = _prefix + "_KS";
+            print_data(flow->get_data(), name, _ks_data_count);
+        }
+        for (std::vector<unsigned int>::iterator it = _bin_counts.begin();
+            it != _bin_counts.end(); it++) 
+        {
             if (flow->get_data_length() >= BIN_TRAINING_DATA_THRESHOLD)
             {
-	            std::string name = "Interval_data_" + UID_str + "_" + to_string(direction) + "_" + to_string(tag);
-	            print_pairs(flow->get_equiprobable_interval(_bin_count), name);
+                std::string name = _prefix + "_Interval_" + to_string(*it);
+                print_pairs(flow->get_equiprobable_interval(*it), name);
             }
         }
 	    _flow_dict.erase(UID_str);
 	}
 }
 
-void plugin::Training_Bin::Plugin::add_feature(StringVal* UID, 
-	Val* direction_val, double feature, Val* tag_val)
+void plugin::Training_Bin::Plugin::add_feature(double feature, Val* tag_val)
 {
-	std::string UID_str((const char*) UID->Bytes());
+//	std::string UID_str((const char*) UID->Bytes());
+    std::string UID_str = "ALL";
 	int tag = tag_val->AsEnum();
-    int direction = direction_val->AsEnum();
 
 	// sanity check for tag
 	if (tag < 0)
@@ -142,11 +166,11 @@ void plugin::Training_Bin::Plugin::add_feature(StringVal* UID,
 		if (!result.second) 
 			printf("error in initializing training per flow\n");
 
-        flow = biflow->get(direction, tag);
+        flow = biflow->get(0, tag);
 	}
 	else
 	{ 
-		flow = got->second->get(direction, tag);
+		flow = got->second->get(0, tag);
 	}
 
 	flow->add_feature(feature);

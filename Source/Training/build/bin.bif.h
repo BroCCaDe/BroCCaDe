@@ -8,11 +8,9 @@
 #endif
 #endif
 
-namespace BifEnum { namespace BinTraining { enum Direction {
-	FORWARD = 0,
-	BACKWARD = 1,
-}; } }
-namespace BifType { namespace Enum{ namespace BinTraining {  extern EnumType * Direction;  } } }
+namespace BifFunc { namespace BinTraining { extern Val* bro_SetBinCount(Frame* frame, val_list*); }  }
+namespace BifFunc { namespace BinTraining { extern Val* bro_ChangePrefix(Frame* frame, val_list*); }  }
+namespace BifFunc { namespace BinTraining { extern Val* bro_SetKSDataCount(Frame* frame, val_list*); }  }
 namespace BifFunc { namespace BinTraining { extern Val* bro_RemoveConn(Frame* frame, val_list*); }  }
 namespace BifFunc { namespace BinTraining { extern Val* bro_add_feature(Frame* frame, val_list*); }  }
 

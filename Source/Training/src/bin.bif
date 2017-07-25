@@ -42,26 +42,32 @@ typedef plugin::Training_Bin::Plugin plugin_t;
 static plugin_t *plugin_ref = &plugin::Training_Bin::plugin;
 %%}
 
-%%{#ifndef AUX_PLUGIN_DIRECTION_ENUM
-#define AUX_PLUGIN_DIRECTION_ENUM
-%%}
+function SetBinCount%(bin_count : any%): bool
+    %{
+        plugin_ref->SetBinCount(bin_count);
+        return new Val(1, TYPE_BOOL);
+    %}
 
-enum Direction %{
-    FORWARD = 0,
-    BACKWARD = 1,
-%}
+function ChangePrefix%(prefix : string%): bool
+    %{
+        plugin_ref->ChangePrefix(prefix);
+        return new Val(1, TYPE_BOOL);
+    %}
 
-%%{#endif
-%%}
+function SetKSDataCount%(ks_data_count : count%): bool
+    %{
+        plugin_ref->SetKSDataCount(ks_data_count);
+        return new Val(1, TYPE_BOOL);
+    %}
 
-function RemoveConn%(UID : string, tag: analysis_tag%): bool
+function RemoveConn%(tag: analysis_tag%): bool
 	%{
-		plugin_ref->RemoveConnection(UID, tag);
+		plugin_ref->RemoveConnection(tag);
 		return new Val(1, TYPE_BOOL);
 	%}
 
-function add_feature%(UID : string, direction: Direction, feature: double, tag: analysis_tag%): bool
+function add_feature%(feature: double, tag: analysis_tag%): bool
 	%{
-		plugin_ref->add_feature(UID, direction, feature, tag);
+		plugin_ref->add_feature(feature, tag);
 		return new Val(1, TYPE_BOOL);
 	%}
