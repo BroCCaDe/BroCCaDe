@@ -1,5 +1,5 @@
 /*******************************************************************************\
-* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murodch.edu.au)            *
+* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murdoch.edu.au)            *
 *                                                                               *
 * Redistribution and use in source and binary forms, with or without            *
 * modification, are permitted provided that the following conditions are met:   *
@@ -33,9 +33,9 @@
 \*******************************************************************************/
 
 #include "Pattern_Data_Container.h"
-#include "Bin_Strategy.h"           // bin allocator
-#include <list>                     // list
-#include <memory>                   // shared_ptr
+#include "Bin_Strategy.h"                   // bin allocator
+#include <list>                             // list
+#include <memory>                           // shared_ptr
 
 //#define DEBUG_H
 
@@ -45,16 +45,12 @@
 
 using namespace CCD;
 
-
-
 // Initialize the data container with the bin allocator and creating new tree root
 Pattern_Data::Pattern_Data(unsigned short pattern_length, 
 		std::shared_ptr<Bin_Strategy> binner)
 	: Data_Container()
 {
 	_binner = binner;
-//	std::shared_ptr<CountingTree> tmp_root(new CountingTree(binner->get_bin_count(), 0));
-//	_root.swap(tmp_root);
     std::shared_ptr<std::vector<std::vector<TreeNode> > > 
         tmp_tree(new std::vector< std::vector< TreeNode> >(pattern_length+1));
     _tree.swap(tmp_tree);
@@ -87,7 +83,6 @@ void Pattern_Data::add_feature(double feature)
 	if (_pattern.size() >= _pattern_length)
 	{
 		// add pattern to the tree
-		//_root->add_pattern(_pattern.begin(), _pattern.end());
         add_pattern(_pattern.begin(), _pattern.end(), 0, 0);
 		// and remove the last data point in the pattern
 		_pattern.pop_back();
@@ -104,8 +99,6 @@ void Pattern_Data::add_pattern(std::list<unsigned short>::iterator current,
     if(next_id == -1)
     {
         TreeNode newchild = {0, {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}};
-    //    newchild.count = 0;
-    //    memset(newchild.children, 10 * sizeof (unsigned short), 0);
         (*_tree)[level+1].push_back(newchild);
         next_id = (*_tree)[level][id].children[*current] = (*_tree)[level+1].size()-1;
     }

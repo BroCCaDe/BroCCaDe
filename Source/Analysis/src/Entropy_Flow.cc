@@ -1,5 +1,5 @@
 /*******************************************************************************\
-* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murodch.edu.au)            *
+* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murdoch.edu.au)            *
 *                                                                               *
 * Redistribution and use in source and binary forms, with or without            *
 * modification, are permitted provided that the following conditions are met:   *
@@ -32,13 +32,13 @@
 * Entropy_Flow.cc : Implements Entropy_Flow.h                                   *
 \*******************************************************************************/
 
-#include <vector>           // vector
-#include <math.h>           // log
+#include <vector>                                       // vector
+#include <math.h>                                       // log
 #include "Entropy_Flow.h"
-#include "Histogram.h"      // Histogram
+#include "Histogram.h"                                  // Histogram
 
 #ifdef DEBUG_H
-#include <stdio.h>          // printf
+#include <stdio.h>                                      // printf
 #endif
 
 using namespace CCD;
@@ -47,17 +47,15 @@ double Entropy::calculate_metric()
 {
 	unsigned int i;
 	Histogram* ptr = static_cast<Histogram*> (_data.get());
-//	unsigned int bin_count = ptr->get_bin_count();    // get the number of bins
+//	unsigned int bin_count = ptr->get_bin_count();      // get the number of bins
     double total_data = ptr->get_total_data();
 	double entropy = 0.0;
 #ifdef DEBUG_H
 	printf("Entropy: total data %lu\n", ptr->get_total_data());
 #endif
 	// iterates over all of the bin
-//	for (i = 0; i < bin_count; i++)
     for (auto it = ptr->begin(); it != ptr->end(); it++)
 	{
-//		double p_i = ptr->get_bin_probability(i);       // p_i
         double p_i = it->second / total_data;           // p_i
 #ifdef DEBUG_H
 		printf("%.2f ", p_i);

@@ -1,5 +1,5 @@
 /*******************************************************************************\
-* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murodch.edu.au)            *
+* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murdoch.edu.au)            *
 *                                                                               *
 * Redistribution and use in source and binary forms, with or without            *
 * modification, are permitted provided that the following conditions are met:   *
@@ -62,12 +62,7 @@ void plugin::PTunnel_FeatureExtraction::ExtractFeature(StringVal* UID, Val* conn
 	const u_char* bytes = payload->Bytes();
 	val_list* vl = new val_list;
 	unsigned int i; unsigned long feature = 0;
-/*
-	for (i = 0; i < len; i++) feature |= (*(bytes+position+i)) << (8*i);
-#ifdef DEBUG_H
-	printf("Received ICMP payload %04x %04x\n", feature, *((int*)bytes));
-#endif
-*/
+
 	BroString* newStr = new BroString(*(UID->AsString()));
 	vl->append(new StringVal(newStr));	                // Bro unique UID
 
@@ -85,6 +80,5 @@ void plugin::PTunnel_FeatureExtraction::ExtractFeature(StringVal* UID, Val* conn
     vl->append(new VectorVal(internal_type("FeatureAnalysis::feature_vector")->AsVectorType()));
     for (i = 0; i < len; i++) (*vl)[3]->AsVectorVal()->Assign(i, new Val((double)(*(bytes+position+i)), TYPE_DOUBLE));
 
-//	vl->append(new Val((double)feature, TYPE_DOUBLE));
 	mgr.QueueEvent(FeatureExtraction::PTunnel_feature_event, vl);
 }

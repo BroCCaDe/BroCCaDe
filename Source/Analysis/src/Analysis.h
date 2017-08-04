@@ -1,5 +1,5 @@
 /*******************************************************************************\
-* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murodch.edu.au)            *
+* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murdoch.edu.au)            *
 *                                                                               *
 * Redistribution and use in source and binary forms, with or without            *
 * modification, are permitted provided that the following conditions are met:   *
@@ -42,8 +42,8 @@
 #ifndef AUX_PLUGIN_ANALYSIS_H
 #define AUX_PLUGIN_ANALYSIS_H
 
-#include "Data_Container.h"	// Data_Container
-#include <memory>		    // shared_ptr
+#include "Data_Container.h"	                // Data_Container
+#include <memory>		                    // shared_ptr
 
 namespace CCD {
 

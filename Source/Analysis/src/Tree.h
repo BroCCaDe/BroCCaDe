@@ -1,5 +1,5 @@
 /*******************************************************************************\
-* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murodch.edu.au)            *
+* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murdoch.edu.au)            *
 *                                                                               *
 * Redistribution and use in source and binary forms, with or without            *
 * modification, are permitted provided that the following conditions are met:   *
@@ -39,9 +39,9 @@
 #define AUX_PLUGINS_COUNTINGTREE_H
 
 #include "Bin_Strategy.h"	// Bin Allocator
-#include <list>			// list
-#include <vector>		// vector
-#include <memory>		// unique_ptr
+#include <list>			    // list
+#include <vector>		    // vector
+#include <memory>		    // unique_ptr
 
 namespace CCD {
 

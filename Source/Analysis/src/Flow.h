@@ -1,5 +1,5 @@
 /*******************************************************************************\
-* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murodch.edu.au)            *
+* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murdoch.edu.au)            *
 *                                                                               *
 * Redistribution and use in source and binary forms, with or without            *
 * modification, are permitted provided that the following conditions are met:   *
@@ -47,11 +47,11 @@
 #ifndef AUX_PLUGINS_FLOW_H
 #define AUX_PLUGINS_FLOW_H
 
-#include <vector>           // vector
-#include <memory>           // unique_ptr
-#include "Data_Container.h" // Data_Container
-#include "Analysis.h"       // superclass
-#include "Bin_Strategy.h"   // bin allocation
+#include <vector>                           // vector
+#include <memory>                           // unique_ptr
+#include "Data_Container.h"                 // Data_Container
+#include "Analysis.h"                       // superclass
+#include "Bin_Strategy.h"                   // bin allocation
 
 namespace CCD {
 
@@ -89,7 +89,7 @@ public:
 	std::vector<std::shared_ptr<std::vector<double> > > KS_normal_data;
 	std::vector<std::vector<std::shared_ptr<Bin_Strategy> >> binner;
     std::shared_ptr<Bin_Strategy> default_binner;
-    // static Null_Data_Container and Null_Analysis
+    // static Null_Data_Container and Null_Analysis because we can reuse them over and over
     std::shared_ptr<Null_Data> null_data;
     std::shared_ptr<NullAnalysis> null_analysis;
 };
@@ -122,6 +122,7 @@ public:
 	void add_feature(unsigned int tag, std::vector<unsigned int> aid, double feature);
 	bool end_adding_feature();                          // end
 
+    // get the results stored in the temporary variable. This implicitly reset the temorary variable
 	std::vector<std::unique_ptr<TempValue> > get_result();
 private:
 	// trigger the analysis identified by the tag and analysis ID.

@@ -1,5 +1,5 @@
 /*******************************************************************************\
-* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murodch.edu.au)            *
+* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murdoch.edu.au)            *
 *                                                                               *
 * Redistribution and use in source and binary forms, with or without            *
 * modification, are permitted provided that the following conditions are met:   *
@@ -55,7 +55,7 @@
 #define BRO_PLUGIN_ANALYSIS_DECISIONTREE
 
 #include <plugin/Plugin.h>
-#include <vector>           // vector
+#include <unordered_map>    // unordered_map
 #include <memory>           // unique_ptr
 #include "classifier_c45.h" // c45 classifiers
 
@@ -65,8 +65,6 @@ namespace Analysis_DecisionTree {
 class Plugin : public ::plugin::Plugin
 {
 public:
-	// Re-initialize the container for the classifiers
-	void Init(unsigned int n);
 	// load a classifier identified by the file name
 	// on index specified by ID_val
 	int LoadModel(Val* ID_val, StringVal* model_name);
@@ -90,7 +88,7 @@ protected:
 	virtual plugin::Configuration Configure();
 private:
 	// vector of classifiers
-	std::vector<std::unique_ptr<c45_classifier>> _classifiers;
+	std::unordered_map<int, std::unique_ptr<c45_classifier>> _classifiers;
 };
 
 extern Plugin plugin;

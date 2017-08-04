@@ -23,7 +23,7 @@
  */
 
 /*******************************************************************************\
-* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murodch.edu.au)            *
+* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murdoch.edu.au)            *
 *                                                                               *
 * Redistribution and use in source and binary forms, with or without            *
 * modification, are permitted provided that the following conditions are met:   *
@@ -116,17 +116,6 @@ void c45_classifier::c45_print_model()
 	}
 }
 
-/*
-void c45_print_opts(struct di_oid *opts)
-{
-	di_classifier_c45_cnf_t *cnf = (di_classifier_c45_cnf_t *) opts;
-
-	printf("  model name: %s\n", cnf->model_name);
-	printf("  model:\n");
-	c45_print_model(opts, NULL);
-}
-*/
-
 c45_id_t c45_classifier::parse_id(unsigned int line_no, char *s, int type)
 {
 	char *p = NULL, *endptr;
@@ -158,8 +147,7 @@ c45_id_t c45_classifier::parse_id(unsigned int line_no, char *s, int type)
 	
 	p += 2;
 	ret.val = atoi(p);
-        //ret.val = strtonum(p, 0, max_id, (const char **) &endptr);
-        //if (endptr != NULL) {
+
 	if (ret.val < 0 || ret.val > max_id) {
               	errx(EX_DATAERR, "model line %u: invalid or out of range (0--%d) class/node id %s", line_no, max_id, p);
         }
@@ -177,7 +165,6 @@ int c45_classifier::c45_load_model()
 	c45_node_real_t *nodes;
 	uint16_t max_nodes = 3640; // (65545)/sizeof(c45_node_real_t);
 
-//	printf("actual model_str: |%s|\n", _model_name.c_str());
 
 	if (_model_name == "") {
 		errx(EX_DATAERR, "no classifier model specified");
@@ -234,7 +221,6 @@ int c45_classifier::c45_load_model()
 				}
 				if (x.val >= _nodes.size()) _nodes.resize(x.val+1);
                                 node = (c45_node_real_t *) &(_nodes[x.val]);
-//				printf("val = %d - %p - %p - %p\n", x.val, node, &(_nodes[x.val]), _nodes);
                                 _tree_len = (x.val + 1);
 
 				word=strtok(NULL, sep);

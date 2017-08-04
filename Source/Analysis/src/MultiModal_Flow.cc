@@ -1,5 +1,5 @@
 /*******************************************************************************\
-* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murodch.edu.au)            *
+* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murdoch.edu.au)            *
 *                                                                               *
 * Redistribution and use in source and binary forms, with or without            *
 * modification, are permitted provided that the following conditions are met:   *
@@ -32,9 +32,9 @@
 * MultiModal_Flow.cc : Implements MultiModal_Flow.h                                                   *
 \*******************************************************************************/
 
-#include <vector>		// vector
-#include <memory>		// shared_ptr
-#include "Histogram.h"		// Histogram
+#include <vector>		                                        // vector
+#include <memory>		                                        // shared_ptr
+#include "Histogram.h"		                                    // Histogram
 #include "MultiModal_Flow.h"	
 
 using namespace CCD;
@@ -42,22 +42,19 @@ using namespace CCD;
 double MultiModal::calculate_metric()
 {
 	Histogram* ptr = static_cast<Histogram*> (_data.get());
-//	unsigned int bin_count = ptr->get_bin_count();		// get the number of bins
 	unsigned long max_i = 0;
 	unsigned long sum_square_i = 0;
 #ifdef DEBUG
 	printf("MultiModal: total data %lu, bin count %u\n", ptr->get_total_data(), bin_count);
 #endif
-//	for (unsigned int i = 0; i < bin_count; i++)
     for (auto it = ptr->begin(); it != ptr->end(); it++)
 	{
-//		unsigned long n_i = ptr->get_bin(i);
         unsigned long n_i = it->second;
 #ifdef DEBUG
 		printf("%u ", n_i);
 #endif
-		sum_square_i += n_i * n_i;				// sum ((n_i)^2)
-		if (n_i > max_i) max_i = n_i;				// max (n_i)
+		sum_square_i += n_i * n_i;				                // sum ((n_i)^2)
+		if (n_i > max_i) max_i = n_i;				            // max (n_i)
 	}
 #ifdef DEBUG
 	printf("\n");

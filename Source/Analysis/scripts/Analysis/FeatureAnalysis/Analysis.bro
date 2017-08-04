@@ -1,5 +1,5 @@
 #################################################################################
-# Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murodch.edu.au)            #
+# Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murdoch.edu.au)            #
 #                                                                               #
 # Redistribution and use in source and binary forms, with or without            #
 # modification, are permitted provided that the following conditions are met:   #
@@ -32,6 +32,7 @@
 
 @load /opt/bro/lib/bro/plugins/Feature_IAT/lib/bif
 @load /opt/bro/lib/bro/plugins/Training/lib/bif
+@load /opt/bro/lib/bro/plugins/BinTraining/lib/bif
 
 global aid : vector of FeatureAnalysis::Analysis_ID;
 
@@ -50,12 +51,12 @@ event bro_init()
     local aid_EN_MM : vector of FeatureAnalysis::Analysis_ID;
     aid_EN_MM[0] = FeatureAnalysis::ENTROPY_ANALYSIS;
     aid_EN_MM[1] = FeatureAnalysis::MULTIMODAL_ANALYSIS;
-    FeatureAnalysis::LoadNormalData(TTL, "/home/hendra/Experiment/trace/09-0230/HASH_TTL_KS");
-    FeatureAnalysis::LoadInterval(TTL, aid_CCE, "/home/hendra/Experiment/trace/09-0230/HASH_TTL_Interval_16");
+    FeatureAnalysis::LoadNormalData(TTL, "/home/hendra/Experiment/trace/06-1500/ALL_TTL_KS");
+    FeatureAnalysis::LoadInterval(TTL, aid_CCE, "/home/hendra/Experiment/trace/06-1500/ALL_TTL_Interval_5");
     FeatureAnalysis::SetBinNull(TTL, aid_EN_MM, 256);
-    FeatureAnalysis::LoadNormalData(INTERARRIVAL_TIME, "/home/hendra/Experiment/trace/09-0230/ALL_IAT_KS");
-    FeatureAnalysis::LoadInterval(INTERARRIVAL_TIME, aid_CCE, "/home/hendra/Experiment/trace/09-0230/ALL_IAT_Interval_20");
-    FeatureAnalysis::LoadInterval(INTERARRIVAL_TIME, aid_EN_MM, "/home/hendra/Experiment/trace/09-0230/ALL_IAT_Interval_20");
+    FeatureAnalysis::LoadNormalData(INTERARRIVAL_TIME, "/home/hendra/Experiment/trace/06-1500/ALL_IAT_KS");
+    FeatureAnalysis::LoadInterval(INTERARRIVAL_TIME, aid_CCE, "/home/hendra/Experiment/trace/06-1500/ALL_IAT_Interval_5");
+    FeatureAnalysis::LoadInterval(INTERARRIVAL_TIME, aid_EN_MM, "/home/hendra/Experiment/trace/06-1500/ALL_IAT_Interval_5");
 
 	FeatureTraining::ChangeRelation(FeatureAnalysis::IAT_SET, "metrics");
 	FeatureTraining::AddAttributes(FeatureAnalysis::IAT_SET, "KS");
@@ -112,10 +113,8 @@ event FeatureAnalysis::metric_event(id : FeatureAnalysis::set_ID, direction:Feat
 
 event bro_done()
 {
-    print("cleaning up");
     for (id in training_set)
     {
-        FeatureTraining::print_training_data(id, "/home/hendra/Experiment/trace/09-0230/IAT_Non_CC_HASH_20.arff");
+        FeatureTraining::print_training_data(id, "/home/hendra/Experiment/trace/06-1500/IAT_Non_CC_ALL_5.arff");
     }
-    print("done printing");
 }

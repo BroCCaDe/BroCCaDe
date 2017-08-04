@@ -1,5 +1,5 @@
 /*******************************************************************************\
-* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murodch.edu.au)            *
+* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murdoch.edu.au)            *
 *                                                                               *
 * Redistribution and use in source and binary forms, with or without            *
 * modification, are permitted provided that the following conditions are met:   *
@@ -67,7 +67,10 @@ public:
 	
 	// cast the feature into a suitable return value
 	virtual unsigned short get_bin_number(double feature) 
-		{if (feature >= _bin_count) return _bin_count-1; return static_cast<unsigned short>(feature);}
+	{
+        if (feature >= _bin_count) return _bin_count-1; 
+        return static_cast<unsigned short>(feature);
+    }
 
 	virtual unsigned int get_bin_count() {return _bin_count;}
 private:

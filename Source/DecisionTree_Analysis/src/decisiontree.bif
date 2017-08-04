@@ -1,5 +1,5 @@
 #################################################################################
-# Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murodch.edu.au)            #
+# Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murdoch.edu.au)            #
 #                                                                               #
 # Redistribution and use in source and binary forms, with or without            #
 # modification, are permitted provided that the following conditions are met:   #
@@ -56,12 +56,6 @@ typedef plugin::Analysis_DecisionTree::Plugin plugin_t;
 static plugin_t *plugin_ref = &plugin::Analysis_DecisionTree::plugin;
 %%}
 
-function Init%(n : count%): bool
-	%{
-		plugin_ref->Init(n);
-		return new Val(1, TYPE_BOOL);
-	%}
-
 function LoadModel%(ID : FeatureAnalysis::set_ID, model_name : string%): bool
 	%{
 		plugin_ref->LoadModel(ID, model_name);
@@ -107,4 +101,3 @@ function Classify_and_send_record%(ID : FeatureAnalysis::set_ID, conn_ID : conn_
 	%}
 
 event class_result_event%(ID : FeatureAnalysis::set_ID, conn_ID : conn_id, c:int%);
-#event classify_event%(features: FeatureAnalysis::feature_vector%);

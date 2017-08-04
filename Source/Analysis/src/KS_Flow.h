@@ -1,5 +1,5 @@
 /*******************************************************************************\
-* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murodch.edu.au)            *
+* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murdoch.edu.au)            *
 *                                                                               *
 * Redistribution and use in source and binary forms, with or without            *
 * modification, are permitted provided that the following conditions are met:   *
@@ -36,9 +36,9 @@
 #ifndef AUX_PLUGINS_KS_FLOW_H
 #define AUX_PLUGINS_KS_FLOW_H
 
-#include <vector>		// vector
-#include "Data_Container.h"	// Raw_Data
-#include "Analysis.h"		// feature analyzer superclass
+#include <vector>		                                // vector
+#include "Data_Container.h"	                            // Raw_Data
+#include "Analysis.h"		                            // feature analyzer superclass
 
 // define the epsilon (smallest significant fraction)
 #ifndef AUX_PLUGINS_EPS_CONST

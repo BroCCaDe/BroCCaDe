@@ -1,5 +1,5 @@
 /*******************************************************************************\
-* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murodch.edu.au)            *
+* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murdoch.edu.au)            *
 *                                                                               *
 * Redistribution and use in source and binary forms, with or without            *
 * modification, are permitted provided that the following conditions are met:   *
@@ -36,9 +36,9 @@
 #ifndef AUX_PLUGINS_HISTOGRAM_H
 #define AUX_PLUGINS_HISTOGRAM_H
 
-#include <memory>		// contains unique_ptr and shared_ptr
-#include "Data_Container.h"	// the superclass for histogram (Data_Container)
-#include "Bin_Strategy.h"	// contains the superclass for the bin allocator
+#include <memory>		            // contains unique_ptr and shared_ptr
+#include "Data_Container.h"	        // the superclass for histogram (Data_Container)
+#include "Bin_Strategy.h"	        // contains the superclass for the bin allocator
 #include <unordered_map>
 
 namespace CCD {
@@ -74,11 +74,9 @@ public:
     std::unordered_map<int, unsigned long>::iterator end() {return _bins.end();}
 private:
 	std::shared_ptr<Bin_Strategy> _binner;	// bin allocator
-//	std::unique_ptr<unsigned long[]> _bins; // count for each bin
-//    std::vector<unsigned int> _occupied_bin;// flag indicating which bin is filled
     std::unordered_map<int, unsigned long> _bins;
-	unsigned long _total_data;		// total data across all bins
-	unsigned int _bin_count;		// the number of bins
+	unsigned long _total_data;		        // total data across all bins
+	unsigned int _bin_count;		        // the number of bins
 };
 
 }

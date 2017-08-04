@@ -1,5 +1,5 @@
 /*******************************************************************************\
-* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murodch.edu.au)            *
+* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murdoch.edu.au)            *
 *                                                                               *
 * Redistribution and use in source and binary forms, with or without            *
 * modification, are permitted provided that the following conditions are met:   *
@@ -181,9 +181,9 @@ void plugin::Analysis_FeatureAnalysis::Plugin::Load_Interval
     // <number of intervals>
     // <lower bound> <upper bound>
     // ...
-    ifstream f;	// input file stream
-    std::string line;	// temporary string to read the file
-    unsigned int N;		// number of intervals in the training data
+    ifstream f;	                    // input file stream
+    std::string line;	            // temporary string to read the file
+    unsigned int N;		            // number of intervals in the training data
 
   	f.open (file_name_interval);
     if (!f.is_open()) {cout << "(data) can't open file" << file_name_interval << "\n"; return;}
@@ -375,7 +375,7 @@ void plugin::Analysis_FeatureAnalysis::Plugin::CalculateMetric()
 			r->Assign(1, new Val(return_list[i]->_tag, TYPE_ENUM));
 			(*vl)[2]->AsVectorVal()->Assign(i, r);
 		}
-
+        // Build the connection ID
         RecordVal* conn_ID = new RecordVal(conn_id);
 		conn_ID->Assign(0, new AddrVal(*_current_src_ip));
 		conn_ID->Assign(1, new PortVal(_current_src_port, _current_src_proto));

@@ -1,5 +1,5 @@
 /*******************************************************************************\
-* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murodch.edu.au)            *
+* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murdoch.edu.au)            *
 *                                                                               *
 * Redistribution and use in source and binary forms, with or without            *
 * modification, are permitted provided that the following conditions are met:   *
@@ -70,7 +70,6 @@ public:
 	virtual ~Raw_Data() {}
 
 	virtual void add_feature(double feature) {
-//		printf("Raw_Data::add_feature got here\n");
 		_data.push_back(feature);
 	}
 
@@ -105,7 +104,7 @@ private:
 	std::vector<double> _data;	// the vector containing the data series
 	unsigned int _window_size; 	// the window size of the number of data
 	unsigned int _step_size; 	// indicate the interval of window size, i.e. the
-					// number of data to empty each calculation triggered
+					            // number of data to empty each calculation triggered
 };
 
 // Simple data container which just store one value
@@ -116,7 +115,6 @@ public:
 	virtual ~Null_Data() {}
 	
 	virtual void add_feature(double feature) {
-//		printf("Null_Data::add_feature got here\n");
 		_value = feature;
 	}
 	double get_data() {return _value;}

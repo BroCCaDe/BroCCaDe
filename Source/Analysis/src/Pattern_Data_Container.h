@@ -1,5 +1,5 @@
 /*******************************************************************************\
-* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murodch.edu.au)            *
+* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murdoch.edu.au)            *
 *                                                                               *
 * Redistribution and use in source and binary forms, with or without            *
 * modification, are permitted provided that the following conditions are met:   *
@@ -37,11 +37,11 @@
 #ifndef AUX_PLUGINS_PATTERN_DATA_CONTAINER_H
 #define AUX_PLUGINS_PATTERN_DATA_CONTAINER_H
 
-#include <list>			// list
-#include <memory>		// shared_ptr
-#include "Tree.h"		// pattern tree
-#include "Bin_Strategy.h"	// abstract Bin allocator
-#include "Data_Container.h"	// abstract Data_Container
+#include <list>			                            // list
+#include <memory>		                            // shared_ptr
+#include "Tree.h"		                            // pattern tree
+#include "Bin_Strategy.h"	                        // abstract Bin allocator
+#include "Data_Container.h"	                        // abstract Data_Container
 
 namespace CCD {
 
@@ -61,19 +61,17 @@ public:
 	// return a boolean indicating whether the calculation is triggered
 	virtual void add_feature(double feature);
 
-//	std::shared_ptr<CountingTree> get_root() {return _root;}
     std::shared_ptr< std::vector<std::vector<TreeNode> > > get_tree() {return _tree;}
 private:
 	unsigned short _pattern_length;		
 
 	// The internal of the data container is represented as a tree of depth equal to the
 	// pattern length. On each node, possible children are possible bin values.
-//	std::shared_ptr<CountingTree> _root;	// the root of the tree data structure
-	std::list<unsigned short> _pattern;	// moving window of pattern
-	std::shared_ptr<Bin_Strategy> _binner;	// bin allocator
+	std::list<unsigned short> _pattern;	            // moving window of pattern
+	std::shared_ptr<Bin_Strategy> _binner;	        // bin allocator
 
-    void add_pattern(std::list<unsigned short>::iterator current, std::list<unsigned short>::iterator end,
-        int id, unsigned short level);
+    void add_pattern(std::list<unsigned short>::iterator current, 
+        std::list<unsigned short>::iterator end, int id, unsigned short level);
     std::shared_ptr< std::vector<std::vector<TreeNode> > > _tree;
     
 };

@@ -1,5 +1,5 @@
 /*******************************************************************************\
-* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murodch.edu.au)            *
+* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murdoch.edu.au)            *
 *                                                                               *
 * Redistribution and use in source and binary forms, with or without            *
 * modification, are permitted provided that the following conditions are met:   *
@@ -29,14 +29,14 @@
 * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    *
 * POSSIBILITY OF SUCH DAMAGE.                                                   *
 *                                                                               *
-* KS_Flow.cc : Implements KS_Flow.h                                                   *
+* KS_Flow.cc : Implements KS_Flow.h                                             *
 \*******************************************************************************/
 
-#include <vector>	// vector
-#include <math.h>	// exp, fabs, and sqrt
-#include <algorithm>	// sort
-#include <stdio.h>	// printf
-#include <memory>	// shared_ptr and unique_ptr
+#include <vector>	                                        // vector
+#include <math.h>	                                        // exp, fabs, and sqrt
+#include <algorithm>	                                    // sort
+#include <stdio.h>	                                        // printf
+#include <memory>	                                        // shared_ptr and unique_ptr
 #include "KS_Flow.h"	
 
 using namespace CCD;
@@ -90,8 +90,8 @@ double KS::probks(double alam)
 		term=fac*exp(a2*j*j);
 		sum += term;
 		if (fabs(term) <= EPS1*termbf || fabs(term) <= EPS2*sum) return sum;
-		fac = -fac; //Alternating signs in sum
+		fac = -fac;                                         //Alternating signs in sum
 		termbf=fabs(term);
 	}
-	return 1.0; //Get here only by failing to converge
+	return 1.0;                                             //Get here only by failing to converge
 }

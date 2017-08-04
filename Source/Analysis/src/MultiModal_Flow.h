@@ -1,5 +1,5 @@
 /*******************************************************************************\
-* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murodch.edu.au)            *
+* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murdoch.edu.au)            *
 *                                                                               *
 * Redistribution and use in source and binary forms, with or without            *
 * modification, are permitted provided that the following conditions are met:   *
@@ -41,10 +41,10 @@
 #ifndef AUX_PLUGINS_MULTIMODAL_FLOW_H
 #define AUX_PLUGINS_MULTIMODAL_FLOW_H
 
-#include <vector>           // vector
-#include <memory>           // shared_ptr
-#include "Analysis.h"       // superclass
-#include "Histogram.h"      // Histogram
+#include <vector>                               // vector
+#include <memory>                               // shared_ptr
+#include "Analysis.h"                           // superclass
+#include "Histogram.h"                          // Histogram
 
 namespace CCD {
 

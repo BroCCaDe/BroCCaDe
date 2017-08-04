@@ -1,5 +1,5 @@
 /*******************************************************************************\
-* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murodch.edu.au)            *
+* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murdoch.edu.au)            *
 *                                                                               *
 * Redistribution and use in source and binary forms, with or without            *
 * modification, are permitted provided that the following conditions are met:   *
@@ -41,9 +41,9 @@
 #ifndef AUX_PLUGINS_AUTOCORRELATION_FLOW_H
 #define AUX_PLUGINS_AUTOCORRELATION_FLOW_H
 
-#include <vector>		    // vector
-#include <memory>           // shared_ptr
-#include "Analysis.h"		// the superclass (flow analyzer)
+#include <vector>		                                // vector
+#include <memory>                                       // shared_ptr
+#include "Analysis.h"		                            // the superclass (flow analyzer)
 
 namespace CCD {
 
@@ -93,9 +93,9 @@ public:
 	// sum((data[i] - mean)^2) / N
 	void compute_variance(void);
 private:
-	std::vector<double> _data;	// data series
-	double _mean;			// calculated mean
-	double _var;			// calculated variance
+	std::vector<double> _data;	                        // data series
+	double _mean;			                            // calculated mean
+	double _var;			                            // calculated variance
 };
 
 }

@@ -1,5 +1,5 @@
 /*******************************************************************************\
-* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murodch.edu.au)            *
+* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murdoch.edu.au)            *
 *                                                                               *
 * Redistribution and use in source and binary forms, with or without            *
 * modification, are permitted provided that the following conditions are met:   *
@@ -139,7 +139,6 @@ void plugin::Training_Bin::Plugin::RemoveConnection(Val* tag_val)
 
 void plugin::Training_Bin::Plugin::add_feature(double feature, Val* tag_val)
 {
-//	std::string UID_str((const char*) UID->Bytes());
     std::string UID_str = "ALL";
 	int tag = tag_val->AsEnum();
 

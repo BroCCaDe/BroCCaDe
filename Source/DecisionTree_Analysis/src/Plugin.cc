@@ -1,5 +1,5 @@
 /*******************************************************************************\
-* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murodch.edu.au)            *
+* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murdoch.edu.au)            *
 *                                                                               *
 * Redistribution and use in source and binary forms, with or without            *
 * modification, are permitted provided that the following conditions are met:   *
@@ -39,8 +39,8 @@
 
 // Macro to check the boundary, i.e. the ID against the existing classifiers
 #define CHECK_BOUND(ID) \
-	if ((unsigned int) ID > _classifiers.size()) { \
-		printf("Plugin::DecisionTree : Invalid ID %d (larger than %lu)\n", ID, _classifiers.size()); \
+	if (_classifiers.find((unsigned int) ID) == _classifiers.end()) { \
+		printf("Plugin::DecisionTree : Invalid ID %d (not found)\n", ID); \
 		return -1; }
 
 // Check whether a model specified by the ID has / has not been loaded
@@ -84,19 +84,14 @@ plugin::Configuration Plugin::Configure()
 	config.version.major = 0;
 	config.version.minor = 1;
 
+    _classifiers.clear();
+
 	return config;
 	}
-
-void plugin::Analysis_DecisionTree::Plugin::Init(unsigned int n)
-{
-	_classifiers.clear();
-	_classifiers.resize(n);
-}
 
 int plugin::Analysis_DecisionTree::Plugin::LoadModel(Val* ID_val, StringVal* model_name)
 {
 	int ID = ID_val->AsEnum();
-	CHECK_BOUND(ID);
 	CHECK_MODEL(ID, !=, "Plugin::DecisionTree : Model (%d) has been loaded\n");
 
 	const char* model_file = (const char*) model_name->Bytes();
@@ -128,6 +123,8 @@ int plugin::Analysis_DecisionTree::Plugin::Classify(Val* ID_val, Val* conn_ID,
 		features_double[i] = features_vec[i]->AsDouble();
 
     int c = _classifiers[ID]->c45_classify(features_double);
+
+    //TODO: at the moment it is a fixed class (CC == 0), have to make sure that 0 is CC
 
     if (send_event)
     {

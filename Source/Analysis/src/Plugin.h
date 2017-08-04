@@ -1,5 +1,5 @@
 /*******************************************************************************\
-* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murodch.edu.au)            *
+* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murdoch.edu.au)            *
 *                                                                               *
 * Redistribution and use in source and binary forms, with or without            *
 * modification, are permitted provided that the following conditions are met:   *
@@ -97,8 +97,6 @@ private:
 	std::shared_ptr<CCD::FlowConfig> _flow_config;  // global config for all flows
 	// temporary holder is useful so that we don't have to do the lookup multiple times for the same flow.
 	std::shared_ptr<CCD::Flow> _current_flow;       // temporary holder
-//	std::unique_ptr<std::string> _current_UID;      // temporary holder's UID
-//	Val* _current_conn_id;          // temporary holder's 4 network tuple
     std::unique_ptr<IPAddr> _current_src_ip;
     std::unique_ptr<IPAddr> _current_dst_ip;
     uint32 _current_src_port;

@@ -1,5 +1,5 @@
 /*******************************************************************************\
-* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murodch.edu.au)            *
+* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murdoch.edu.au)            *
 *                                                                               *
 * Redistribution and use in source and binary forms, with or without            *
 * modification, are permitted provided that the following conditions are met:   *
@@ -32,19 +32,19 @@
 * Flow.cc : Implements Flow.h                                                   *
 \*******************************************************************************/
 
-#include <vector>			// vector
-#include <memory>			// unique_ptr and shared_ptr
-#include "Flow.h"
-#include "Histogram.h"			// Histogram
-#include "Data_Container.h"		// abstract class for data container
-#include "Pattern_Data_Container.h"	// CCE Pattern_Data
+#include <vector>			            // vector
+#include <memory>			            // unique_ptr and shared_ptr
+#include "Histogram.h"			        // Histogram
+#include "Data_Container.h"		        // abstract class for data container
+#include "Pattern_Data_Container.h"	    // CCE Pattern_Data
 #include "Regularity_Data_Container.h"	// Regularity Regularity_Data
-#include "KS_Flow.h"			// KS test
-#include "Entropy_Flow.h"		// Entropy
-#include "CCE_Flow.h"			// CCE
-#include "MultiModal_Flow.h"		// MultiModality
-#include "Autocorrelation_Flow.h"	// Autocorrelation
-#include "Regularity_Flow.h"		// Regularity
+#include "KS_Flow.h"			        // KS test
+#include "Entropy_Flow.h"		        // Entropy
+#include "CCE_Flow.h"			        // CCE
+#include "MultiModal_Flow.h"		    // MultiModality
+#include "Autocorrelation_Flow.h"	    // Autocorrelation
+#include "Regularity_Flow.h"		    // Regularity
+#include "Flow.h"
 
 //#define DEBUG_H
 
@@ -184,9 +184,6 @@ void Flow::add_analysis(unsigned int tag, unsigned int aid)
 				(_data [_current_set_ID][tag][type])));
 		else if (aid == _config->Null_analysis)
 			_analysis[_current_set_ID][tag][aid] = _config->null_analysis;
-//                std::shared_ptr<NullAnalysis>
-//				(new NullAnalysis(std::static_pointer_cast<Null_Data>
-//				(_data[_current_set_ID][tag][type])));
 	}
 
 	// store the result and the identifier (aid and tag)
