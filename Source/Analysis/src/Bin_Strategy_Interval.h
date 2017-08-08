@@ -63,6 +63,8 @@ public:
 private:
 	// each interval is represented as a pair of double <min, max>
 	std::vector<std::pair<double, double> > _intervals;
+    unsigned int search_in_interval(double value);
+    unsigned int binary_search_in_interval(double value);
 };
 
 }

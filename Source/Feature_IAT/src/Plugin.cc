@@ -50,9 +50,9 @@ plugin::Configuration Plugin::Configure()
 	config.description = "<Insert description>";
 	config.version.major = 0;
 	config.version.minor = 1;
-
-	_flow_dict = new std::unordered_map<std::string, double>();	
 	
+    _flow_dict.resize(2);    
+
 	return config;
 	}
 
@@ -60,28 +60,30 @@ void Plugin::RemoveConnection(StringVal* UID)
 {
 	BroString* newStr = new BroString(*(UID->AsString()));
 	std::string UID_str((const char*) newStr->Bytes());
-	_flow_dict->erase(UID_str);
+	_flow_dict[0].erase(UID_str);
+	_flow_dict[1].erase(UID_str);
 }
 
 void Plugin::ExtractFeature(StringVal* UID, Val* conn_ID, Val* direction, double duration) {
 	if (UID == NULL) {printf("UID is null\n"); return;}
 
 	std::string UID_str((const char*) UID->Bytes());
+    int dir = direction->AsEnum();
 	std::unordered_map<std::string, double>::iterator got = 
-		_flow_dict->find(UID_str);
+		_flow_dict[dir].find(UID_str);
 
 	// this is the first time we see, so no IAT is returned
-	if (got == _flow_dict->end())
+	if (got == _flow_dict[dir].end())
 	{
 		pair<std::unordered_map<std::string, double>::const_iterator, bool>
-			result = _flow_dict->emplace(UID_str, duration);
+			result = _flow_dict[dir].emplace(UID_str, duration);
 	}
 	else
 	{ 
 		// send the event : [ UID, id, feature ]
 		val_list* vl = new val_list;
 		BroString* newStr = new BroString(*(UID->AsString()));
-		vl->append(new StringVal(newStr));	                // Bro unique UID
+		vl->append(new StringVal(newStr));	                 // Bro unique UID
 
         RecordVal* conn_r = conn_ID->AsRecordVal(); 
         RecordVal* conn_ID_copy = new RecordVal(conn_id); 
@@ -92,7 +94,7 @@ void Plugin::ExtractFeature(StringVal* UID, Val* conn_ID, Val* direction, double
         PortVal* dst_port = conn_r->Lookup(3)->AsPortVal(); 
 	    conn_ID_copy->Assign(3, new PortVal(dst_port->Port(), dst_port->PortType())); 
 	    vl->append(conn_ID_copy);                           // 4 tuple network ID
-        vl->append(new Val(direction->AsEnum(), TYPE_ENUM));// direction
+        vl->append(new Val(dir, TYPE_ENUM));                // direction
 
 		// IAT is counted as the difference of the current flow's duration
 		// and the flow's duration when the last packet was received

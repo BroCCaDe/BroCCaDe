@@ -249,6 +249,8 @@ void plugin::Analysis_FeatureAnalysis::Plugin::SetStepSize(Val* Set_ID, unsigned
 		_flow_config->step_sizes.resize(_flow_config->set_IDs);
 	}
 	_flow_config->step_sizes[set_ID] = step_size;
+    _flow_config->KS_window_size = step_size;
+    _flow_config->Regularity_window_size = step_size;
 };
 
 // register the request for analysis which is distinguished by its analysis ID and tag

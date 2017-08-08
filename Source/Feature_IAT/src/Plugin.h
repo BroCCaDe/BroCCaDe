@@ -42,6 +42,7 @@
 
 #include <plugin/Plugin.h>
 #include <unordered_map>
+#include <vector>
 
 namespace plugin {
 namespace FeatureExtraction_IAT {
@@ -59,7 +60,7 @@ protected:
 	virtual plugin::Configuration Configure();
 private:
 	// maintain the last duration of each flow
-	std::unordered_map<std::string, double>* _flow_dict;	
+	std::vector<std::unordered_map<std::string, double>> _flow_dict;	
 };
 
 extern Plugin plugin;

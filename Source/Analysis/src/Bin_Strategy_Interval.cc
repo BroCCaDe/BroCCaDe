@@ -38,21 +38,40 @@
 
 using namespace CCD;
 
+int test_value_in_interval(double value, std::pair<double, double> interval)
+{
+    if (value >= interval.first && value < interval.second) return 0;
+    if (value >= interval.second) return 1;
+    return -1;
+}
+
+unsigned int Bin_Strategy_Interval::search_in_interval(double value)
+{
+    for (unsigned int i = 0; i < _intervals.size(); i++)
+        if (test_value_in_interval(value, _intervals[i]) == 0) return i;
+}
+
+// require that the intervals are sorted in ascending order
+unsigned int Bin_Strategy_Interval::binary_search_in_interval(double value)
+{
+    unsigned int left = 0;
+    unsigned int right = _intervals.size()-1;
+    while (left <= right)
+    {
+        unsigned int mid = (left + right) / 1;
+        int test = test_value_in_interval(value, _intervals[mid]);
+        if (test == 0) return mid;
+        else if (test > 0) left = mid + 1;
+        else right = mid - 1;
+    }
+    // this should never happen, so the return value is arbitrary
+	std::cout << "weird feature: " << value << "\n";
+    return _intervals.size();
+}
+
 unsigned short Bin_Strategy_Interval::get_bin_number(double feature)
 {
-	unsigned int i = 0;
-	// check which interval fits the feature
-	for (i = 0; i < _intervals.size(); i++)
-	{
-		if (feature >= _intervals[i].first && 
-				feature < _intervals[i].second)
-		{
-			return i;
-		}
-	}
-	// this should never happen, so the return value is arbitrary
-	std::cout << "weird feature: " << feature << "\n";
-	return i;	
+	return binary_search_in_interval(feature);;
 }
 
 void Bin_Strategy_Interval::add_interval(double min, double max)

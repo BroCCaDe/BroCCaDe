@@ -45,18 +45,21 @@ event bro_init()
 	aid[4] = FeatureAnalysis::AUTOCORRELATION_ANALYSIS;
 	aid[5] = FeatureAnalysis::REGULARITY_ANALYSIS;
 
+    FeatureAnalysis::SetStepSize(FeatureAnalysis::TTL_SET, 500);
+    FeatureAnalysis::SetStepSize(FeatureAnalysis::IAT_SET, 500);
     FeatureAnalysis::ConfigureInternalType();
+
     local aid_CCE : vector of FeatureAnalysis::Analysis_ID;
     aid_CCE[0] = FeatureAnalysis::CCE_ANALYSIS;
     local aid_EN_MM : vector of FeatureAnalysis::Analysis_ID;
     aid_EN_MM[0] = FeatureAnalysis::ENTROPY_ANALYSIS;
     aid_EN_MM[1] = FeatureAnalysis::MULTIMODAL_ANALYSIS;
-    FeatureAnalysis::LoadNormalData(TTL, "/home/hendra/Experiment/trace/06-1500/ALL_TTL_KS");
-    FeatureAnalysis::LoadInterval(TTL, aid_CCE, "/home/hendra/Experiment/trace/06-1500/ALL_TTL_Interval_5");
+    FeatureAnalysis::LoadNormalData(TTL, "/home/hendra/Experiment/trace/06-1530/ALL_TTL_KS");
+    FeatureAnalysis::LoadInterval(TTL, aid_CCE, "/home/hendra/Experiment/trace/06-1530/ALL_TTL_Interval_5");
     FeatureAnalysis::SetBinNull(TTL, aid_EN_MM, 256);
-    FeatureAnalysis::LoadNormalData(INTERARRIVAL_TIME, "/home/hendra/Experiment/trace/06-1500/ALL_IAT_KS");
-    FeatureAnalysis::LoadInterval(INTERARRIVAL_TIME, aid_CCE, "/home/hendra/Experiment/trace/06-1500/ALL_IAT_Interval_5");
-    FeatureAnalysis::LoadInterval(INTERARRIVAL_TIME, aid_EN_MM, "/home/hendra/Experiment/trace/06-1500/ALL_IAT_Interval_5");
+    FeatureAnalysis::LoadNormalData(INTERARRIVAL_TIME, "/home/hendra/Experiment/trace/06-1530/ALL_IAT_KS");
+    FeatureAnalysis::LoadInterval(INTERARRIVAL_TIME, aid_CCE, "/home/hendra/Experiment/trace/06-1530/ALL_IAT_Interval_5");
+    FeatureAnalysis::LoadInterval(INTERARRIVAL_TIME, aid_EN_MM, "/home/hendra/Experiment/trace/06-1530/ALL_IAT_Interval_65536");
 
 	FeatureTraining::ChangeRelation(FeatureAnalysis::IAT_SET, "metrics");
 	FeatureTraining::AddAttributes(FeatureAnalysis::IAT_SET, "KS");
@@ -107,7 +110,7 @@ event FeatureAnalysis::metric_event(id : FeatureAnalysis::set_ID, direction:Feat
 {
 	if (id in training_set)
 	{
-		FeatureTraining::AddDataRow(id, FeatureAnalysis::Extract_vector(v), "Non-CC");
+		FeatureTraining::AddDataRow(id, FeatureAnalysis::Extract_vector(v), "CC");
 	}
 }
 
@@ -115,6 +118,6 @@ event bro_done()
 {
     for (id in training_set)
     {
-        FeatureTraining::print_training_data(id, "/home/hendra/Experiment/trace/06-1500/IAT_Non_CC_ALL_5.arff");
+        FeatureTraining::print_training_data(id, "/home/hendra/Experiment/trace/06-1530/IAT_CC_ALL_5.arff");
     }
 }
