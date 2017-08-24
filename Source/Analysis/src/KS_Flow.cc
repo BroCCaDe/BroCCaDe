@@ -55,8 +55,6 @@ double KS::calculate_metric()
 #endif
 	kstwo(contained_data, *_normal_data, &d, &prob);
 
-	// everytime we calculate the metric we reset the data window
-	ptr->reset_window();
 	return d;
 }
 

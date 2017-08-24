@@ -4,10 +4,3 @@
 # 
 
 # @load ./bar.bro 
-
-@load ./FeatureExtraction.bro
-
-event bro_init()
-{
-  print("Loading Feature Extraction Script");
-}

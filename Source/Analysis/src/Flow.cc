@@ -45,6 +45,7 @@
 #include "Autocorrelation_Flow.h"	    // Autocorrelation
 #include "Regularity_Flow.h"		    // Regularity
 #include "Flow.h"
+#include <iostream>
 
 //#define DEBUG_H
 
