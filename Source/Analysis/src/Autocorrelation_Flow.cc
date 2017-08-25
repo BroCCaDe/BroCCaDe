@@ -33,7 +33,7 @@
 \*******************************************************************************/
 
 #include <vector>
-#include <math.h>
+#include <cmath>
 #include <algorithm>
 #include "Autocorrelation_Flow.h"
 #include "Data_Container.h"
@@ -119,7 +119,9 @@ double Autocorrelation::calculate_metric()
 	// sum the autocorrelation for all possible lag values
 	for (i = 0; i < _lag->size(); i++)
 	{
-		sum += abs(ac_compute.compute_autoc((*_lag)[i])); // autocorrelation for a particular lag
+        double ac_value = ac_compute.compute_autoc((*_lag)[i]);
+        printf("|%lf|\tabs=|%lf|\n", ac_value, std::abs(ac_value));
+		sum += std::abs(ac_value); // autocorrelation for a particular lag
 	}
-	return sum / (double) _lag->size(); // 1/N * sum(autocorrelation for all lags)
+	return sum / (double) (_lag->size()); // 1/N * sum(autocorrelation for all lags)
 }

@@ -30,7 +30,7 @@
 # POSSIBILITY OF SUCH DAMAGE.                                                   #
 #################################################################################
 
-# @load /opt/bro/lib/bro/plugins/Feature_IAT/lib/bif
+ @load /opt/bro/lib/bro/plugins/Feature_IAT/lib/bif
 # @load /opt/bro/lib/bro/plugins/Feature_PTunnel/lib/bif
 # @load /opt/bro/lib/bro/plugins/Feature_URG/lib/bif
 
@@ -46,17 +46,17 @@ event bro_init()
 	DecisionTree::LoadModel(FeatureAnalysis::PACKET_LENGTH_SET, "TreeModel-oneAnalysis");
 
 #    aid[|aid|] = FeatureAnalysis::KS_ANALYSIS;
-    aid[|aid|] = FeatureAnalysis::ENTROPY_ANALYSIS;
+#    aid[|aid|] = FeatureAnalysis::ENTROPY_ANALYSIS;
 #    aid[|aid|] = FeatureAnalysis::CCE_ANALYSIS;
 #    aid[|aid|] = FeatureAnalysis::MULTIMODAL_ANALYSIS;
-#    aid[|aid|] = FeatureAnalysis::AUTOCORRELATION_ANALYSIS;
+    aid[|aid|] = FeatureAnalysis::AUTOCORRELATION_ANALYSIS;
 #    aid[|aid|] = FeatureAnalysis::REGULARITY_ANALYSIS;
 
     FeatureAnalysis::SetStepSize(FeatureAnalysis::URGENT_SET, 1);
     FeatureAnalysis::SetStepSize(FeatureAnalysis::PTUNNEL_SET, 1);
-    FeatureAnalysis::SetStepSize(FeatureAnalysis::TTL_SET, 100);
-    FeatureAnalysis::SetStepSize(FeatureAnalysis::IAT_SET, 100);
-    FeatureAnalysis::SetStepSize(FeatureAnalysis::PACKET_LENGTH_SET, 100);
+    FeatureAnalysis::SetStepSize(FeatureAnalysis::TTL_SET, 250);
+    FeatureAnalysis::SetStepSize(FeatureAnalysis::IAT_SET, 250);
+    FeatureAnalysis::SetStepSize(FeatureAnalysis::PACKET_LENGTH_SET, 250);
     FeatureAnalysis::ConfigureInternalType();
 
     local aid_CCE : vector of FeatureAnalysis::Analysis_ID;
@@ -65,13 +65,13 @@ event bro_init()
     aid_EN_MM[0] = FeatureAnalysis::ENTROPY_ANALYSIS;
     aid_EN_MM[1] = FeatureAnalysis::MULTIMODAL_ANALYSIS;
     FeatureAnalysis::LoadNormalData(TTL, "/home/hendra/Experiment/trace/performance_test/ALL_TTL_KS");
-    FeatureAnalysis::LoadInterval(TTL, aid_CCE, "/home/hendra/Experiment/trace/performance_test/ALL_TTL_Interval_5");
+    FeatureAnalysis::LoadInterval(TTL, aid_CCE, "/home/hendra/Experiment/trace/performance_test/ALL_TTL_Interval_10");
     FeatureAnalysis::SetBinNull(TTL, aid_EN_MM, 256);
     FeatureAnalysis::LoadNormalData(INTERARRIVAL_TIME, "/home/hendra/Experiment/trace/performance_test/ALL_IAT_KS");
-    FeatureAnalysis::LoadInterval(INTERARRIVAL_TIME, aid_CCE, "/home/hendra/Experiment/trace/performance_test/ALL_IAT_Interval_5");
+    FeatureAnalysis::LoadInterval(INTERARRIVAL_TIME, aid_CCE, "/home/hendra/Experiment/trace/performance_test/ALL_IAT_Interval_10");
     FeatureAnalysis::LoadInterval(INTERARRIVAL_TIME, aid_EN_MM, "/home/hendra/Experiment/trace/performance_test/ALL_IAT_Interval_65536");
     FeatureAnalysis::LoadNormalData(PACKET_LENGTH, "/home/hendra/Experiment/trace/performance_test/ALL_PLEN_KS");
-    FeatureAnalysis::LoadInterval(PACKET_LENGTH, aid_CCE, "/home/hendra/Experiment/trace/performance_test/ALL_PLEN_Interval_5");
+    FeatureAnalysis::LoadInterval(PACKET_LENGTH, aid_CCE, "/home/hendra/Experiment/trace/performance_test/ALL_PLEN_Interval_10");
     FeatureAnalysis::SetBinNull(PACKET_LENGTH, aid_EN_MM, 65536);
 }
 
@@ -102,8 +102,8 @@ event PacketLength_feature_event(UID:string, id:conn_id, direction:FeatureAnalys
  {
      if ( p ?$ ip )
  	{
-        event TTL_feature_event(c$uid, c$id, get_direction(c$id$orig_h, p$ip$src), p$ip$ttl);
-#        IAT::ExtractFeature(c$uid, c$id, get_direction(c$id$orig_h, p$ip$src), c$duration);
+#        event TTL_feature_event(c$uid, c$id, get_direction(c$id$orig_h, p$ip$src), p$ip$ttl);
+        IAT::ExtractFeature(c$uid, c$id, get_direction(c$id$orig_h, p$ip$src), c$duration);
 #        event PacketLength_feature_event(c$uid, c$id, get_direction(c$id$orig_h, p$ip$src), p$ip$len);
      }
  }
@@ -141,5 +141,5 @@ event IAT::feature_event(UID:string, id:conn_id, direction:FeatureAnalysis::Dire
 event FeatureAnalysis::metric_event(id : FeatureAnalysis::set_ID, direction:FeatureAnalysis::Direction, 
     v : result_vector, conn_ID: conn_id)
 {
-    DecisionTree::Classify(id, conn_ID, FeatureAnalysis::Extract_vector(v));
+#    DecisionTree::Classify(id, conn_ID, FeatureAnalysis::Extract_vector(v));
 }

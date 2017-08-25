@@ -39,7 +39,7 @@
 
 #include <list>			                            // list
 #include <memory>		                            // shared_ptr
-#include "Tree.h"		                            // pattern tree
+//#include "Tree.h"		                            // pattern tree
 #include "Bin_Strategy.h"	                        // abstract Bin allocator
 #include "Data_Container.h"	                        // abstract Data_Container
 
