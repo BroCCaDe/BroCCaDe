@@ -58,7 +58,7 @@ unsigned int Bin_Strategy_Interval::binary_search_in_interval(double value)
     unsigned int right = _intervals.size()-1;
     while (left <= right)
     {
-        unsigned int mid = (left + right) / 1;
+        unsigned int mid = (left + right) / 2;
         int test = test_value_in_interval(value, _intervals[mid]);
         if (test == 0) return mid;
         else if (test > 0) left = mid + 1;
@@ -72,6 +72,7 @@ unsigned int Bin_Strategy_Interval::binary_search_in_interval(double value)
 unsigned short Bin_Strategy_Interval::get_bin_number(double feature)
 {
 	return binary_search_in_interval(feature);;
+    //return search_in_interval(feature);
 }
 
 void Bin_Strategy_Interval::add_interval(double min, double max)

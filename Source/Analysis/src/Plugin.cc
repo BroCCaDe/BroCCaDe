@@ -249,6 +249,7 @@ void plugin::Analysis_FeatureAnalysis::Plugin::SetStepSize(Val* Set_ID, unsigned
 		_flow_config->step_sizes.resize(_flow_config->set_IDs);
 	}
 	_flow_config->step_sizes[set_ID] = step_size;
+    // TODO : separate the window sizes for each calculation set
     _flow_config->KS_window_size = step_size;
     _flow_config->Regularity_window_size = step_size;
 };
@@ -373,8 +374,8 @@ void plugin::Analysis_FeatureAnalysis::Plugin::CalculateMetric()
 		{
 			RecordVal* r = new RecordVal(analysis_result_type);
 			r->Assign(0, new Val(return_list[i]->_value, TYPE_DOUBLE));
-			r->Assign(2, new Val(return_list[i]->_aid, TYPE_ENUM));
 			r->Assign(1, new Val(return_list[i]->_tag, TYPE_ENUM));
+			r->Assign(2, new Val(return_list[i]->_aid, TYPE_ENUM));
 			(*vl)[2]->AsVectorVal()->Assign(i, r);
 		}
         // Build the connection ID

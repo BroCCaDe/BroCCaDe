@@ -61,7 +61,7 @@ double Entropy::calculate_metric()
 		printf("%.2f ", p_i);
 #endif
 		if (p_i != 0.0) 
-		  entropy += p_i * log(p_i);                    // sum p_i log(p_i)
+		  entropy += p_i * log2(p_i);                    // sum p_i log(p_i)
 	}
 #ifdef DEBUG_H
 	printf("\n");

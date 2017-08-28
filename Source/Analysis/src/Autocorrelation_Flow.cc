@@ -33,7 +33,7 @@
 \*******************************************************************************/
 
 #include <vector>
-#include <math.h>
+#include <cmath>
 #include <algorithm>
 #include "Autocorrelation_Flow.h"
 #include "Data_Container.h"
@@ -52,7 +52,7 @@ void Autocorrelation_Calculation::compute_mean(void)
   _mean = 0.0;
   N = _data.size();
   for (i=0; i<N; i++)
-    _mean = _mean + (_data[i] / N);
+    _mean = _mean + (double) (_data[i] / (double) N);
 }
 
 //===========================================================================
@@ -67,7 +67,7 @@ void Autocorrelation_Calculation::compute_variance(void)
   _var = 0.0;
   N = _data.size();
   for (i=0; i<N; i++)
-    _var = _var + (pow((_data[i] - _mean), 2.0) / N);
+    _var = _var + (double) (pow((_data[i] - _mean), 2.0) / (double) N);
 }
 
 //===========================================================================
@@ -89,7 +89,7 @@ double Autocorrelation_Calculation::compute_autoc(unsigned int lag)
   N = _data.size();
   for (i=0; i<(N - lag); i++)
     autocv = autocv + ((_data[i] - _mean) * (_data[i+lag] - _mean));
-  autocv = (1.0 / (N - lag)) * autocv;
+  autocv = (1.0 / (double) (N - lag)) * autocv;
 
   // Autocorrelation is autocovariance divided by variance
   ac_value = autocv / _var;
@@ -119,7 +119,9 @@ double Autocorrelation::calculate_metric()
 	// sum the autocorrelation for all possible lag values
 	for (i = 0; i < _lag->size(); i++)
 	{
-		sum += abs(ac_compute.compute_autoc((*_lag)[i])); // autocorrelation for a particular lag
+        double ac_value = ac_compute.compute_autoc((*_lag)[i]);
+        printf("|%lf|\tabs=|%lf|\n", ac_value, std::abs(ac_value));
+		sum += std::abs(ac_value); // autocorrelation for a particular lag
 	}
-	return sum / _lag->size(); // 1/N * sum(autocorrelation for all lags)
+	return sum / (double) (_lag->size()); // 1/N * sum(autocorrelation for all lags)
 }
