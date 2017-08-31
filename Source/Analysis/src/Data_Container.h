@@ -105,6 +105,7 @@ private:
 	unsigned int _window_size; 	// the window size of the number of data
 	unsigned int _step_size; 	// indicate the interval of window size, i.e. the
 					            // number of data to empty each calculation triggered
+//    unsigned int _plus_removed; 
 };
 
 // Simple data container which just store one value

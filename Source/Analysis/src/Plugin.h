@@ -79,6 +79,10 @@ public:
     void Load_Interval(Val* tag_val, Val* aid_val, StringVal* Interval_data_file);
     void Set_Bin_Null(Val* tag_val, Val* aid_val, unsigned int bin_count);
 	void RemoveConnection(StringVal* UID);
+    void Set_KS_Window_Size(Val* Set_ID, unsigned int value);
+    void Set_Regularity_Parameters(Val* Set_ID, unsigned int window_number, unsigned int window_size);
+    void Set_CCE_Pattern_Size(Val* Set_ID, unsigned int value);
+    void Set_Autocorrelation_Lags(Val* Set_ID, unsigned int lag_max);
 
 	void RegisterAnalysis(StringVal* UID, Val* Set_ID, Val* conn_ID, Val* direction_val);
 	void AddFeature(double feature, Val* aid_val, Val* tag_val);
@@ -86,6 +90,7 @@ public:
 
     void ConfigureInternalType();
 	void SetStepSize(Val* Set_ID, unsigned int step_size);
+    EnumVal* GetDirection(Val* conn_source, Val* pkt_source);
 	Val* Extract(Val* v, Val* aid, Val* tag);
 	Val* ExtractVector(Val* v);
 protected:
@@ -109,6 +114,7 @@ private:
     VectorType* result_vector_type;
     RecordType* analysis_result_type;
     VectorType* feature_vector_type;
+    EnumType* direction_enum_type;
 };
 
 extern Plugin plugin;

@@ -99,7 +99,7 @@ void Flow::add_feature(unsigned int tag, std::vector<unsigned int> aid, double f
 					case RAW_DATA :
 					{
 						_data[_current_set_ID][tag][type] = std::shared_ptr<Raw_Data>
-							(new Raw_Data (_config->KS_window_size, 
+							(new Raw_Data (_config->KS_window_size[_current_set_ID], 
 							_config->step_sizes[_current_set_ID]));
 						break;	
 					}
@@ -113,15 +113,15 @@ void Flow::add_feature(unsigned int tag, std::vector<unsigned int> aid, double f
 					{
 						_data[_current_set_ID][tag][type] = 
 							std::shared_ptr<Pattern_Data> (new Pattern_Data (
-							_config->CCE_pattern_size, _config->binner[*it][tag]));
+							_config->CCE_pattern_size[_current_set_ID], _config->binner[*it][tag]));
 						break;
 					}
 					case REGULARITY_DATA :
 					{
 						_data[_current_set_ID][tag][type] = 
 							std::shared_ptr<Regularity_Data> (new Regularity_Data (
-								_config->Regularity_window_number,
-								_config->Regularity_window_size));
+								_config->Regularity_window_number[_current_set_ID],
+								_config->Regularity_window_size[_current_set_ID]));
 						break;
 					}
 					case NULL_DATA :
@@ -139,8 +139,10 @@ void Flow::add_feature(unsigned int tag, std::vector<unsigned int> aid, double f
 		// if the calculation is trigerred, then do the analysis based on the current data set
 		if (_steps[_current_set_ID] >= _config->step_sizes[_current_set_ID]) 
 		{
+            // actually trim the data now to reflect the correct window size
 			if (type == RAW_DATA)
-				_reset.push_back(std::static_pointer_cast<Raw_Data> (_data[_current_set_ID][tag][type]));
+                std::static_pointer_cast<Raw_Data> (_data[_current_set_ID][tag][type])->reset_window();
+//				_reset.push_back(std::static_pointer_cast<Raw_Data> (_data[_current_set_ID][tag][type]));
 			add_analysis(tag, *it);
 		}
 	}
@@ -171,14 +173,14 @@ void Flow::add_analysis(unsigned int tag, unsigned int aid)
 			_analysis[_current_set_ID][tag][aid] = std::shared_ptr<CCE>
 				(new CCE(std::static_pointer_cast<Pattern_Data>
 				(_data[_current_set_ID][tag][type])));
-		else if (aid == _config->MultiModal_analysis)
-				_analysis[_current_set_ID][tag][aid] = std::shared_ptr<MultiModal>
+		else if (aid == _config->MultiModal_analysis) {
+			_analysis[_current_set_ID][tag][aid] = std::shared_ptr<MultiModal>
 				(new MultiModal(std::static_pointer_cast<Histogram>
-				(_data[_current_set_ID][tag][type])));
+				(_data[_current_set_ID][tag][type]))); }
 		else if (aid == _config->Autocorrelation_analysis)
 			_analysis[_current_set_ID][tag][aid] = std::shared_ptr<Autocorrelation>
 				(new Autocorrelation(std::static_pointer_cast<Raw_Data>
-				(_data[_current_set_ID][tag][type]), _config->Autocorrelation_lags));
+				(_data[_current_set_ID][tag][type]), _config->Autocorrelation_lags[_current_set_ID]));
 		else if (aid == _config->Regularity_analysis)
 			_analysis[_current_set_ID][tag][aid] = std::shared_ptr<Regularity>
 				(new Regularity(std::static_pointer_cast<Regularity_Data>
@@ -200,13 +202,13 @@ bool Flow::end_adding_feature()
 	{
 		_steps[_current_set_ID] = 0;
 		calculation_trigger = true;
-		// reset affected data structure
+/*		// reset affected data structure
 		for(std::vector<std::shared_ptr<Raw_Data> >::iterator it = _reset.begin(); 
 			it != _reset.end(); it++)
 		{
 			(it->get())->reset_window();
 		}
-		_reset.clear();
+		_reset.clear(); */
 	}
 	_current_set_ID = -1;
 	return calculation_trigger;

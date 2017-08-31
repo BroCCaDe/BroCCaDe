@@ -76,13 +76,11 @@ plugin::Configuration Plugin::Configure()
 	_flow_config = std::shared_ptr<FlowConfig> (new FlowConfig());
 	_flow_config->default_binner = std::shared_ptr<Bin_Strategy_Null> (new Bin_Strategy_Null(256)) ;
     _flow_config->binner.resize(NUMBER_OF_ANALYSIS);
-	_flow_config->Autocorrelation_lags = std::shared_ptr<
-		std::vector<unsigned int> > (new std::vector<unsigned int>());
-
-	_flow_config->KS_window_size = DEFAULT_KS_WINDOW_SIZE;		
-	_flow_config->Regularity_window_number = DEFAULT_REGULARITY_WINDOW_NUMBER;  
-	_flow_config->Regularity_window_size = DEFAULT_REGULARITY_WINDOW_SIZE;	
-	_flow_config->CCE_pattern_size = DEFAULT_CCE_PATTERN_SIZE;
+	_flow_config->Autocorrelation_lags.resize(DEFAULT_SET_IDS, DEFAULT_NUM_LAG);
+	_flow_config->KS_window_size.resize(DEFAULT_SET_IDS, DEFAULT_KS_WINDOW_SIZE);		
+	_flow_config->Regularity_window_number.resize(DEFAULT_SET_IDS, DEFAULT_REGULARITY_WINDOW_NUMBER);  
+	_flow_config->Regularity_window_size.resize(DEFAULT_SET_IDS, DEFAULT_REGULARITY_WINDOW_SIZE);	
+	_flow_config->CCE_pattern_size.resize(DEFAULT_SET_IDS, DEFAULT_CCE_PATTERN_SIZE);
 	_flow_config->tag_count = DEFAULT_TAG_COUNT;
 	_flow_config->step_sizes.resize(DEFAULT_SET_IDS);
 	// hard coded for now: step size for URG analysis is for every packet
@@ -237,6 +235,7 @@ void plugin::Analysis_FeatureAnalysis::Plugin::ConfigureInternalType()
     result_vector_type = internal_type("result_vector")->AsVectorType();
     analysis_result_type = internal_type("analysis_result")->AsRecordType();
     feature_vector_type = internal_type("FeatureAnalysis::feature_vector")->AsVectorType();
+    direction_enum_type = internal_type("FeatureAnalysis::Direction")->AsEnumType();
 }
 
 // set the step size for all future Flow
@@ -244,15 +243,54 @@ void plugin::Analysis_FeatureAnalysis::Plugin::SetStepSize(Val* Set_ID, unsigned
 {
 	int set_ID = Set_ID->AsEnum();
 	if ((unsigned int) set_ID >= _flow_config->set_IDs) 
-	{
 		_flow_config->set_IDs = (unsigned int) set_ID + 1;
-		_flow_config->step_sizes.resize(_flow_config->set_IDs);
-	}
+    if (_flow_config->step_sizes.size() < _flow_config->set_IDs) 
+        _flow_config->step_sizes.resize(_flow_config->set_IDs);
 	_flow_config->step_sizes[set_ID] = step_size;
-    // TODO : separate the window sizes for each calculation set
-    _flow_config->KS_window_size = step_size;
-    _flow_config->Regularity_window_size = step_size;
-};
+}
+
+void plugin::Analysis_FeatureAnalysis::Plugin::Set_Regularity_Parameters(Val* Set_ID, unsigned int window_number, unsigned int window_size)
+{
+    int set_ID = Set_ID->AsEnum();
+	if ((unsigned int) set_ID >= _flow_config->set_IDs) 
+	    _flow_config->set_IDs = (unsigned int) set_ID + 1;
+    if (_flow_config->Regularity_window_size.size() < _flow_config->set_IDs) 
+        _flow_config->Regularity_window_size.resize(_flow_config->set_IDs);
+    if (_flow_config->Regularity_window_number.size() < _flow_config->set_IDs) 
+        _flow_config->Regularity_window_number.resize(_flow_config->set_IDs);
+    _flow_config->Regularity_window_size[set_ID] = window_size;
+    _flow_config->Regularity_window_number[set_ID] = window_number;
+}
+
+void plugin::Analysis_FeatureAnalysis::Plugin::Set_KS_Window_Size(Val* Set_ID, unsigned int window_size)
+{
+    int set_ID = Set_ID->AsEnum();
+	if ((unsigned int) set_ID >= _flow_config->set_IDs) 
+		_flow_config->set_IDs = (unsigned int) set_ID + 1;
+    if (_flow_config->KS_window_size.size() < _flow_config->set_IDs) 
+        _flow_config->KS_window_size.resize(_flow_config->set_IDs);
+    _flow_config->KS_window_size[set_ID] = window_size;
+}
+
+void plugin::Analysis_FeatureAnalysis::Plugin::Set_CCE_Pattern_Size(Val* Set_ID, unsigned int pattern_size)
+{
+    int set_ID = Set_ID->AsEnum();
+	if ((unsigned int) set_ID >= _flow_config->set_IDs) 
+		_flow_config->set_IDs = (unsigned int) set_ID + 1;
+    if (_flow_config->CCE_pattern_size.size() < _flow_config->set_IDs) 
+		_flow_config->CCE_pattern_size.resize(_flow_config->set_IDs);
+    _flow_config->CCE_pattern_size[set_ID] = pattern_size;
+}
+
+void plugin::Analysis_FeatureAnalysis::Plugin::Set_Autocorrelation_Lags(Val* Set_ID, unsigned int lag_max)
+{
+    int set_ID = Set_ID->AsEnum();
+	if ((unsigned int) set_ID >= _flow_config->set_IDs) 
+		_flow_config->set_IDs = (unsigned int) set_ID + 1;
+    if (_flow_config->Autocorrelation_lags.size() < _flow_config->set_IDs) 
+		_flow_config->Autocorrelation_lags.resize(_flow_config->set_IDs);
+    _flow_config->Autocorrelation_lags[set_ID] = lag_max;
+}
 
 // register the request for analysis which is distinguished by its analysis ID and tag
 void plugin::Analysis_FeatureAnalysis::Plugin::RegisterAnalysis(StringVal* UID, Val* Set_ID, Val* conn_ID, Val* direction_val)
@@ -388,6 +426,14 @@ void plugin::Analysis_FeatureAnalysis::Plugin::CalculateMetric()
 
 		mgr.QueueEvent(FeatureAnalysis::metric_event, vl);
 	}
+}
+
+EnumVal* plugin::Analysis_FeatureAnalysis::Plugin::GetDirection(Val* conn_source, Val* pkt_source)
+{
+    std::unique_ptr<IPAddr> Conn_ip(new IPAddr(conn_source->AsAddr()));
+    std::unique_ptr<IPAddr> Pkt_ip(new IPAddr(pkt_source->AsAddr()));
+    if (Conn_ip == Pkt_ip) return new EnumVal(0, direction_enum_type);
+    return new EnumVal(1, direction_enum_type);
 }
 
 // extract the value from the vector based on the analysis id and input tag

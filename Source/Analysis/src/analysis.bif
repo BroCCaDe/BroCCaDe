@@ -84,10 +84,39 @@ function Extract_vector%(v : result_vector%): FeatureAnalysis::feature_vector
         return plugin_ref->ExtractVector(v);
     %}
 
+function GetDirection%(conn_source : addr, pkt_source : addr%): FeatureAnalysis::Direction
+    %{
+        return plugin_ref->GetDirection(conn_source, pkt_source);
+    %}
+
 
 function SetStepSize%(id : set_ID, step_size : count%): bool
     %{
         plugin_ref->SetStepSize(id, step_size);
+        return new Val(1, TYPE_BOOL);
+    %}
+
+function SetKSWindowSize%(id : set_ID, window_size : count%): bool
+    %{
+        plugin_ref->Set_KS_Window_Size(id, window_size);
+        return new Val(1, TYPE_BOOL);
+    %}
+
+function SetRegularityParameters%(id : set_ID, window_number : count, window_size : count%): bool
+    %{
+        plugin_ref->Set_Regularity_Parameters(id, window_number, window_size);
+        return new Val(1, TYPE_BOOL);
+    %}
+
+function SetCCEPatternSize%(id : set_ID, pattern_size : count%): bool
+    %{
+        plugin_ref->Set_CCE_Pattern_Size(id, pattern_size);
+        return new Val(1, TYPE_BOOL);
+    %}
+
+function SetAutocorrelationLags%(id : set_ID, lag_max : count%): bool
+    %{
+        plugin_ref->Set_Autocorrelation_Lags(id, lag_max);
         return new Val(1, TYPE_BOOL);
     %}
 
