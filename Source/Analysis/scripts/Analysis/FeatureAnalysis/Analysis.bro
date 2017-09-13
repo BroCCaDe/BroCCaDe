@@ -82,7 +82,7 @@ event bro_init()
     FeatureAnalysis::SetBinNull(TTL, aid_EN_MM, 256);
     FeatureAnalysis::LoadNormalData(INTERARRIVAL_TIME, "/home/hendra/Experiment/trace/performance_test/ALL_IAT_KS_100");
     FeatureAnalysis::LoadInterval(INTERARRIVAL_TIME, aid_CCE, "/home/hendra/Experiment/trace/performance_test/ALL_IAT_Interval_5");
-    FeatureAnalysis::LoadInterval(INTERARRIVAL_TIME, aid_EN_MM, "/home/hendra/Experiment/trace/performance_test/ALL_IAT_Interval_16384");
+    FeatureAnalysis::LoadInterval(INTERARRIVAL_TIME, aid_EN_MM, "/home/hendra/Experiment/trace/performance_test/ALL_IAT_Interval_5");
     FeatureAnalysis::LoadNormalData(PACKET_LENGTH, "/home/hendra/Experiment/trace/performance_test/ALL_PLEN_KS_100");
     FeatureAnalysis::LoadInterval(PACKET_LENGTH, aid_CCE, "/home/hendra/Experiment/trace/performance_test/ALL_PLEN_Interval_5");
     FeatureAnalysis::SetBinNull(PACKET_LENGTH, aid_EN_MM, 65536);
