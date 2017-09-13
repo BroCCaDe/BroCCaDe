@@ -49,6 +49,7 @@ unsigned int Bin_Strategy_Interval::search_in_interval(double value)
 {
     for (unsigned int i = 0; i < _intervals.size(); i++)
         if (test_value_in_interval(value, _intervals[i]) == 0) return i;
+    return _intervals.size();
 }
 
 // require that the intervals are sorted in ascending order

@@ -118,10 +118,10 @@ double Autocorrelation::calculate_metric()
     if (_lag == 0) _lag = DEFAULT_NUM_LAG;
 
 	// sum the autocorrelation for all possible lag values
-	for (i = 0; i < _lag && i < contained_data.size(); i++)
+	for (i = 0; i <= _lag && i < contained_data.size(); i++)
 	{
         double ac_value = ac_compute.compute_autoc(i);
 		sum += std::abs(ac_value); // autocorrelation for a particular lag
 	}
-	return sum / (double) (_lag); // 1/N * sum(autocorrelation for all lags)
+	return sum / (double) (_lag + 1.0); // 1/N * sum(autocorrelation for all lags)
 }

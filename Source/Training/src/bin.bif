@@ -54,7 +54,7 @@ function ChangePrefix%(prefix : string%): bool
         return new Val(1, TYPE_BOOL);
     %}
 
-function SetKSDataCount%(ks_data_count : count%): bool
+function SetKSDataCount%(ks_data_count : any%): bool
     %{
         plugin_ref->SetKSDataCount(ks_data_count);
         return new Val(1, TYPE_BOOL);

@@ -58,7 +58,7 @@ public:
 	void RemoveConnection(Val* tag);
 	void add_feature(double feature, Val* tag);
     void SetBinCount(Val* bin_counts);
-    void SetKSDataCount(unsigned int count);
+    void SetKSDataCount(Val* bin_counts);
     void ChangePrefix(StringVal* prefix);
 protected:
 	// Overridden from plugin::Plugin.
@@ -67,7 +67,7 @@ private:
 	virtual plugin::Configuration Configure();
 	unsigned int _tag_count;
 	std::vector<unsigned int> _bin_counts;
-    unsigned int _ks_data_count;
+    std::vector<unsigned int> _ks_data_count;
     std::string _prefix;
 };
 

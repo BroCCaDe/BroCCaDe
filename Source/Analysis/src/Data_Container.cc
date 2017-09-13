@@ -49,7 +49,7 @@ void Raw_Data::reset_window()
 {
 	unsigned int _data_len = _data.size();
 	// check if the data needs to be flushed
-	if (_data_len >= _window_size)
+	if (_data_len > _window_size)
 	{
 		// if yes, then flush down to (window_size)
 		unsigned int removed_data = _data_len - _window_size;
