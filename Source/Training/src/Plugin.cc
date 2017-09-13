@@ -126,8 +126,8 @@ void plugin::Training_Bin::Plugin::RemoveConnection(Val* tag_val)
         // weed out small training data
         if (flow->get_data_length() >= KS_TRAINING_DATA_THRESHOLD)
         {
-            for (std::vector<unsigned int>::iterator it = _bin_counts.begin();
-                it != _bin_counts.end(); it++) 
+            for (std::vector<unsigned int>::iterator it = _ks_data_count.begin();
+                it != _ks_data_count.end(); it++) 
             {
                 std::string name = _prefix + "_KS_" + to_string(*it);
                 print_data(flow->get_data(), name, *it);
