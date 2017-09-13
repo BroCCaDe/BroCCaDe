@@ -62,14 +62,14 @@ event bro_init()
 #    FeatureAnalysis::SetRegularityParameters(FeatureAnalysis::TTL_SET, 15, 100);
 #    FeatureAnalysis::SetCCEPatternSize(FeatureAnalysis::TTL_SET, 5);
 #    FeatureAnalysis::SetAutocorrelationLags(FeatureAnalysis::TTL_SET, 5);
-#    FeatureAnalysis::SetKSWindowSize(FeatureAnalysis::IAT_SET, 500);
-#    FeatureAnalysis::SetRegularityParameters(FeatureAnalysis::IAT_SET, 15, 100);
-#    FeatureAnalysis::SetCCEPatternSize(FeatureAnalysis::IAT_SET, 5);
-#    FeatureAnalysis::SetAutocorrelationLags(FeatureAnalysis::IAT_SET, 5);
-    FeatureAnalysis::SetKSWindowSize(FeatureAnalysis::PACKET_LENGTH_SET, 500);
-    FeatureAnalysis::SetRegularityParameters(FeatureAnalysis::PACKET_LENGTH_SET, 15, 100);
-    FeatureAnalysis::SetCCEPatternSize(FeatureAnalysis::PACKET_LENGTH_SET, 5);
-    FeatureAnalysis::SetAutocorrelationLags(FeatureAnalysis::PACKET_LENGTH_SET, 5);
+    FeatureAnalysis::SetKSWindowSize(FeatureAnalysis::IAT_SET, 500);
+    FeatureAnalysis::SetRegularityParameters(FeatureAnalysis::IAT_SET, 15, 100);
+    FeatureAnalysis::SetCCEPatternSize(FeatureAnalysis::IAT_SET, 5);
+    FeatureAnalysis::SetAutocorrelationLags(FeatureAnalysis::IAT_SET, 5);
+#    FeatureAnalysis::SetKSWindowSize(FeatureAnalysis::PACKET_LENGTH_SET, 500);
+#    FeatureAnalysis::SetRegularityParameters(FeatureAnalysis::PACKET_LENGTH_SET, 15, 100);
+#    FeatureAnalysis::SetCCEPatternSize(FeatureAnalysis::PACKET_LENGTH_SET, 5);
+#    FeatureAnalysis::SetAutocorrelationLags(FeatureAnalysis::PACKET_LENGTH_SET, 5);
     FeatureAnalysis::ConfigureInternalType();
 
     local aid_CCE : vector of FeatureAnalysis::Analysis_ID;
@@ -110,8 +110,8 @@ event PacketLength_feature_event(UID:string, id:conn_id, direction:FeatureAnalys
      if ( p ?$ ip )
  	{
 #        event TTL_feature_event(c$uid, c$id, FeatureAnalysis::GetDirection(c$id$orig_h, p$ip$src), p$ip$ttl);
-#        IAT::ExtractFeature(c$uid, c$id, FeatureAnalysis::GetDirection(c$id$orig_h, p$ip$src), c$duration);
-        event PacketLength_feature_event(c$uid, c$id, FeatureAnalysis::GetDirection(c$id$orig_h, p$ip$src), p$ip$len);
+        IAT::ExtractFeature(c$uid, c$id, FeatureAnalysis::GetDirection(c$id$orig_h, p$ip$src), c$duration);
+#        event PacketLength_feature_event(c$uid, c$id, FeatureAnalysis::GetDirection(c$id$orig_h, p$ip$src), p$ip$len);
      }
  }
 

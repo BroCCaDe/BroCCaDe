@@ -52,7 +52,7 @@ plugin::Configuration Plugin::Configure()
 
 	_tag_count = DEFAULT_TAG_COUNT;
 	_bin_counts.push_back(DEFAULT_BIN_COUNT);
-    _ks_data_count = KS_TRAINING_DATA_NUMBER;
+    _ks_data_count.push_back(KS_TRAINING_DATA_NUMBER);
     _prefix = "";
 
 	return config;
