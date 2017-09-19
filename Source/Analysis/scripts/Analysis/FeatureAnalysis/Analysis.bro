@@ -32,25 +32,25 @@
 
 @load /opt/bro/lib/bro/plugins/Feature_IAT/lib/bif
 @load /opt/bro/lib/bro/plugins/Feature_PTunnel/lib/bif
- @load /opt/bro/lib/bro/plugins/Feature_URG/lib/bif
+# @load /opt/bro/lib/bro/plugins/Feature_URG/lib/bif
 
 global aid : vector of FeatureAnalysis::Analysis_ID;
 global aid_null : vector of FeatureAnalysis::Analysis_ID = vector (FeatureAnalysis::NULL_ANALYSIS);
 
 event bro_init()
 {
-	DecisionTree::LoadModel(FeatureAnalysis::IAT_SET, "TreeModel1");
-    DecisionTree::LoadModel(FeatureAnalysis::TTL_SET, "TreeModel1");
-	DecisionTree::LoadModel(FeatureAnalysis::PTUNNEL_SET, "TreeModel-PingTunnel");
-	DecisionTree::LoadModel(FeatureAnalysis::URGENT_SET, "TreeModel-URG");
-	DecisionTree::LoadModel(FeatureAnalysis::PACKET_LENGTH_SET, "TreeModel1");
+    DecisionTree::LoadModel(FeatureAnalysis::IAT_SET, "TreeModel-IAT_ALL_5_50");
+    DecisionTree::LoadModel(FeatureAnalysis::TTL_SET, "TreeModel-TTL_ALL_5_50");
+    DecisionTree::LoadModel(FeatureAnalysis::PTUNNEL_SET, "TreeModel-PingTunnel");
+	  DecisionTree::LoadModel(FeatureAnalysis::URGENT_SET, "TreeModel-URG");
+	  DecisionTree::LoadModel(FeatureAnalysis::PACKET_LENGTH_SET, "TreeModel-PLEN_ALL_5_50");
 
-#    aid[|aid|] = FeatureAnalysis::KS_ANALYSIS;
+    aid[|aid|] = FeatureAnalysis::KS_ANALYSIS;
     aid[|aid|] = FeatureAnalysis::ENTROPY_ANALYSIS;
-#    aid[|aid|] = FeatureAnalysis::CCE_ANALYSIS;
-#    aid[|aid|] = FeatureAnalysis::MULTIMODAL_ANALYSIS;
-#    aid[|aid|] = FeatureAnalysis::AUTOCORRELATION_ANALYSIS;
-#    aid[|aid|] = FeatureAnalysis::REGULARITY_ANALYSIS;
+    aid[|aid|] = FeatureAnalysis::CCE_ANALYSIS;
+    aid[|aid|] = FeatureAnalysis::MULTIMODAL_ANALYSIS;
+    aid[|aid|] = FeatureAnalysis::AUTOCORRELATION_ANALYSIS;
+    aid[|aid|] = FeatureAnalysis::REGULARITY_ANALYSIS;
 #    aid[|aid|] = FeatureAnalysis::NULL_ANALYSIS;
 
     FeatureAnalysis::SetStepSize(FeatureAnalysis::URGENT_SET, 1);
@@ -58,18 +58,18 @@ event bro_init()
     FeatureAnalysis::SetStepSize(FeatureAnalysis::TTL_SET, 50);
     FeatureAnalysis::SetStepSize(FeatureAnalysis::IAT_SET, 50);
     FeatureAnalysis::SetStepSize(FeatureAnalysis::PACKET_LENGTH_SET, 50);
-    FeatureAnalysis::SetKSWindowSize(FeatureAnalysis::TTL_SET, 100);
-    FeatureAnalysis::SetRegularityParameters(FeatureAnalysis::TTL_SET, 15, 100);
-    FeatureAnalysis::SetCCEPatternSize(FeatureAnalysis::TTL_SET, 5);
-    FeatureAnalysis::SetAutocorrelationLags(FeatureAnalysis::TTL_SET, 5);
-    FeatureAnalysis::SetKSWindowSize(FeatureAnalysis::IAT_SET, 100);
-    FeatureAnalysis::SetRegularityParameters(FeatureAnalysis::IAT_SET, 15, 100);
-    FeatureAnalysis::SetCCEPatternSize(FeatureAnalysis::IAT_SET, 5);
-    FeatureAnalysis::SetAutocorrelationLags(FeatureAnalysis::IAT_SET, 5);
+#    FeatureAnalysis::SetKSWindowSize(FeatureAnalysis::TTL_SET, 100);
+#    FeatureAnalysis::SetRegularityParameters(FeatureAnalysis::TTL_SET, 10, 100);
+#    FeatureAnalysis::SetCCEPatternSize(FeatureAnalysis::TTL_SET, 5);
+#    FeatureAnalysis::SetAutocorrelationLags(FeatureAnalysis::TTL_SET, 100);
+#    FeatureAnalysis::SetKSWindowSize(FeatureAnalysis::IAT_SET, 100);
+#    FeatureAnalysis::SetRegularityParameters(FeatureAnalysis::IAT_SET, 10, 100);
+#    FeatureAnalysis::SetCCEPatternSize(FeatureAnalysis::IAT_SET, 5);
+#    FeatureAnalysis::SetAutocorrelationLags(FeatureAnalysis::IAT_SET, 100);
     FeatureAnalysis::SetKSWindowSize(FeatureAnalysis::PACKET_LENGTH_SET, 100);
-    FeatureAnalysis::SetRegularityParameters(FeatureAnalysis::PACKET_LENGTH_SET, 15, 100);
+    FeatureAnalysis::SetRegularityParameters(FeatureAnalysis::PACKET_LENGTH_SET, 10, 100);
     FeatureAnalysis::SetCCEPatternSize(FeatureAnalysis::PACKET_LENGTH_SET, 5);
-    FeatureAnalysis::SetAutocorrelationLags(FeatureAnalysis::PACKET_LENGTH_SET, 5);
+    FeatureAnalysis::SetAutocorrelationLags(FeatureAnalysis::PACKET_LENGTH_SET, 100);
     FeatureAnalysis::ConfigureInternalType();
 
     local aid_CCE : vector of FeatureAnalysis::Analysis_ID;
@@ -82,7 +82,7 @@ event bro_init()
     FeatureAnalysis::SetBinNull(TTL, aid_EN_MM, 256);
     FeatureAnalysis::LoadNormalData(INTERARRIVAL_TIME, "/home/hendra/Experiment/trace/performance_test/ALL_IAT_KS_100");
     FeatureAnalysis::LoadInterval(INTERARRIVAL_TIME, aid_CCE, "/home/hendra/Experiment/trace/performance_test/ALL_IAT_Interval_5");
-    FeatureAnalysis::LoadInterval(INTERARRIVAL_TIME, aid_EN_MM, "/home/hendra/Experiment/trace/performance_test/ALL_IAT_Interval_5");
+    FeatureAnalysis::LoadInterval(INTERARRIVAL_TIME, aid_EN_MM, "/home/hendra/Experiment/trace/performance_test/ALL_IAT_Interval_65536");
     FeatureAnalysis::LoadNormalData(PACKET_LENGTH, "/home/hendra/Experiment/trace/performance_test/ALL_PLEN_KS_100");
     FeatureAnalysis::LoadInterval(PACKET_LENGTH, aid_CCE, "/home/hendra/Experiment/trace/performance_test/ALL_PLEN_Interval_5");
     FeatureAnalysis::SetBinNull(PACKET_LENGTH, aid_EN_MM, 65536);
@@ -109,17 +109,17 @@ event PacketLength_feature_event(UID:string, id:conn_id, direction:FeatureAnalys
  {
      if ( p ?$ ip )
  	{
-        event TTL_feature_event(c$uid, c$id, FeatureAnalysis::GetDirection(c$id$orig_h, p$ip$src), p$ip$ttl);
-        IAT::ExtractFeature(c$uid, c$id, FeatureAnalysis::GetDirection(c$id$orig_h, p$ip$src), c$duration);
+#        event TTL_feature_event(c$uid, c$id, FeatureAnalysis::GetDirection(c$id$orig_h, p$ip$src), p$ip$ttl);
+#        IAT::ExtractFeature(c$uid, c$id, FeatureAnalysis::GetDirection(c$id$orig_h, p$ip$src), c$duration);
         event PacketLength_feature_event(c$uid, c$id, FeatureAnalysis::GetDirection(c$id$orig_h, p$ip$src), p$ip$len);
      }
  }
 
- event icmp_echo_reply(c: connection, icmp: icmp_conn, id: count, seq: count, payload: string) {
-     FeatureExtraction::ExtractHeaderFeature(c$uid, c$id, FeatureAnalysis::BACKWARD, payload, 0, 4);}
+# event icmp_echo_reply(c: connection, icmp: icmp_conn, id: count, seq: count, payload: string) {
+#     FeatureExtraction::ExtractHeaderFeature(c$uid, c$id, FeatureAnalysis::BACKWARD, payload, 0, 4);}
 
- event icmp_echo_request(c: connection, icmp: icmp_conn, id: count, seq: count, payload: string) {
-     FeatureExtraction::ExtractHeaderFeature(c$uid, c$id, FeatureAnalysis::FORWARD, payload, 0, 4);}
+# event icmp_echo_request(c: connection, icmp: icmp_conn, id: count, seq: count, payload: string) {
+#     FeatureExtraction::ExtractHeaderFeature(c$uid, c$id, FeatureAnalysis::FORWARD, payload, 0, 4);}
 
 event IAT::feature_event(UID:string, id:conn_id, direction:FeatureAnalysis::Direction, value: double) {
 	FeatureAnalysis::RegisterAnalysis(UID, FeatureAnalysis::IAT_SET, id, direction);
@@ -127,23 +127,23 @@ event IAT::feature_event(UID:string, id:conn_id, direction:FeatureAnalysis::Dire
 	FeatureAnalysis::CalculateMetric();
 }
 
- event FeatureExtraction::URG_feature_event(UID : string, id : conn_id, direction:FeatureAnalysis::Direction, 
-     URG_flag : count, URG_ptr : count) 
- {
- 	FeatureAnalysis::RegisterAnalysis(UID, FeatureAnalysis::URGENT_SET, id, direction);
- 	FeatureAnalysis::AddFeature(URG_flag, aid_null, URG_FLAG);
- 	FeatureAnalysis::AddFeature(URG_ptr, aid_null, URG_POINTER);
- 	FeatureAnalysis::CalculateMetric();
- }
+# event FeatureExtraction::URG_feature_event(UID : string, id : conn_id, direction:FeatureAnalysis::Direction, 
+#     URG_flag : count, URG_ptr : count) 
+# {
+# 	FeatureAnalysis::RegisterAnalysis(UID, FeatureAnalysis::URGENT_SET, id, direction);
+# 	FeatureAnalysis::AddFeature(URG_flag, aid_null, URG_FLAG);
+# 	FeatureAnalysis::AddFeature(URG_ptr, aid_null, URG_POINTER);
+# 	FeatureAnalysis::CalculateMetric();
+# }
 
- event FeatureExtraction::PTunnel_feature_event(UID : string, id : conn_id, direction:FeatureAnalysis::Direction, 
-    features : FeatureAnalysis::feature_vector)
- {
-	FeatureAnalysis::RegisterAnalysis(UID, FeatureAnalysis::PTUNNEL_SET, id, direction);
-    for (idx in features)
-	    FeatureAnalysis::AddFeature(features[idx], aid_null, ICMP_PAYLOAD_4_BYTES);
-	FeatureAnalysis::CalculateMetric();
- }
+# event FeatureExtraction::PTunnel_feature_event(UID : string, id : conn_id, direction:FeatureAnalysis::Direction, 
+#    features : FeatureAnalysis::feature_vector)
+# {
+#	FeatureAnalysis::RegisterAnalysis(UID, FeatureAnalysis::PTUNNEL_SET, id, direction);
+#    for (idx in features)
+#	    FeatureAnalysis::AddFeature(features[idx], aid_null, ICMP_PAYLOAD_4_BYTES);
+#	FeatureAnalysis::CalculateMetric();
+# }
 
 event FeatureAnalysis::metric_event(id : FeatureAnalysis::set_ID, direction:FeatureAnalysis::Direction, 
     v : result_vector, conn_ID: conn_id)

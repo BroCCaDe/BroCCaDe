@@ -432,7 +432,7 @@ EnumVal* plugin::Analysis_FeatureAnalysis::Plugin::GetDirection(Val* conn_source
 {
     std::unique_ptr<IPAddr> Conn_ip(new IPAddr(conn_source->AsAddr()));
     std::unique_ptr<IPAddr> Pkt_ip(new IPAddr(pkt_source->AsAddr()));
-    if (Conn_ip == Pkt_ip) return new EnumVal(0, direction_enum_type);
+    if (*Conn_ip == *Pkt_ip) return new EnumVal(0, direction_enum_type);
     return new EnumVal(1, direction_enum_type);
 }
 
