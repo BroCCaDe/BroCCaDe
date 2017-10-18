@@ -47,7 +47,7 @@
 
 namespace CCD {
 
-#define DEFAULT_NUM_LAG 1
+#define DEFAULT_NUM_LAG 10
 
 // Compute autocorrelation for various lags
 class Autocorrelation : public FeatureAnalyzer {
@@ -55,8 +55,7 @@ public:
 	// Constructor: specify the window size and step size for the data series
 	// If there are no lags specified, it contains 
 	// the sole DEFAULT_NUM_LAG
-	Autocorrelation(std::shared_ptr<Raw_Data> data, 
-		std::shared_ptr<std::vector<unsigned int>> lag) :
+	Autocorrelation(std::shared_ptr<Raw_Data> data, unsigned int lag) :
 		FeatureAnalyzer(data), _lag(lag) {}
 	virtual ~Autocorrelation() {};
 
@@ -64,7 +63,7 @@ public:
 	// calculate the mean, the variance, and autocorrelation for various lags.
 	virtual double calculate_metric();
 private:
-	std::shared_ptr<std::vector<unsigned int>> _lag;	// array of lag values
+	unsigned int _lag;	// array of lag values
 };
 
 // This class is adapted from auto.c by Kenneth J. Christensen, University of South Florida.

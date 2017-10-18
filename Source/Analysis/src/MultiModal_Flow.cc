@@ -45,7 +45,7 @@ double MultiModal::calculate_metric()
 	unsigned long max_i = 0;
 	unsigned long sum_square_i = 0;
 #ifdef DEBUG
-	printf("MultiModal: total data %lu, bin count %u\n", ptr->get_total_data(), bin_count);
+	printf("MultiModal: total data %lu, bin count %u\n", ptr->get_total_data(), ptr->get_bin_count());
 #endif
     for (auto it = ptr->begin(); it != ptr->end(); it++)
 	{

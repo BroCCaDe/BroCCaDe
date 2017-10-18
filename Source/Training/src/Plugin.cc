@@ -52,7 +52,7 @@ plugin::Configuration Plugin::Configure()
 
 	_tag_count = DEFAULT_TAG_COUNT;
 	_bin_counts.push_back(DEFAULT_BIN_COUNT);
-    _ks_data_count = KS_TRAINING_DATA_NUMBER;
+    _ks_data_count.push_back(KS_TRAINING_DATA_NUMBER);
     _prefix = "";
 
 	return config;
@@ -95,9 +95,14 @@ void plugin::Training_Bin::Plugin::SetBinCount(Val* bin_counts)
     }
 }
 
-void plugin::Training_Bin::Plugin::SetKSDataCount(unsigned int count)
+void plugin::Training_Bin::Plugin::SetKSDataCount(Val* data_counts)
 {
-    _ks_data_count = count;
+    _ks_data_count.clear();
+    std::vector<Val*>* data_count_vector = data_counts->AsVector();
+    for (std::vector<Val*>::iterator it = data_count_vector->begin();
+        it != data_count_vector->end(); it++) {
+        _ks_data_count.push_back((*it)->AsCount());
+    }
 }
 
 void plugin::Training_Bin::Plugin::ChangePrefix(StringVal* prefix)
@@ -121,13 +126,17 @@ void plugin::Training_Bin::Plugin::RemoveConnection(Val* tag_val)
         // weed out small training data
         if (flow->get_data_length() >= KS_TRAINING_DATA_THRESHOLD)
         {
-            std::string name = _prefix + "_KS";
-            print_data(flow->get_data(), name, _ks_data_count);
+            for (std::vector<unsigned int>::iterator it = _ks_data_count.begin();
+                it != _ks_data_count.end(); it++) 
+            {
+                std::string name = _prefix + "_KS_" + to_string(*it);
+                print_data(flow->get_data(), name, *it);
+            }
         }
-        for (std::vector<unsigned int>::iterator it = _bin_counts.begin();
-            it != _bin_counts.end(); it++) 
+        if (flow->get_data_length() >= BIN_TRAINING_DATA_THRESHOLD)
         {
-            if (flow->get_data_length() >= BIN_TRAINING_DATA_THRESHOLD)
+            for (std::vector<unsigned int>::iterator it = _bin_counts.begin();
+                it != _bin_counts.end(); it++) 
             {
                 std::string name = _prefix + "_Interval_" + to_string(*it);
                 print_pairs(flow->get_equiprobable_interval(*it), name);

@@ -61,11 +61,17 @@ class TempValue;
 class FlowConfig {
 public:
 	FlowConfig() {}
-	unsigned int KS_window_size;			// window size for KS raw data
-	unsigned int Regularity_window_number;  // number of window for regularity metric
-	unsigned int Regularity_window_size;    // the size of each window for regularity metric
-	unsigned int CCE_pattern_size;          // the length of pattern for CCE
+	std::vector<unsigned int> KS_window_size;			// window size for KS raw data
+	std::vector<unsigned int> Regularity_window_number;  // number of window for regularity metric
+	std::vector<unsigned int> Regularity_window_size;    // the size of each window for regularity metric
+	std::vector<unsigned int> CCE_pattern_size;          // the length of pattern for CCE
 	std::vector<unsigned int> step_sizes;   // step size for each calculation set
+	std::vector<unsigned int> Autocorrelation_lags;
+	// lags for autocorrelation calculation
+//	std::shared_ptr<std::vector<unsigned int> > Autocorrelation_lags;
+	std::vector<std::shared_ptr<std::vector<double> > > KS_normal_data;
+	std::vector<std::vector<std::shared_ptr<Bin_Strategy> >> binner;
+
 	unsigned int tag_count;                 // maximum number of analysis tags (dynamic)
 	unsigned int type_count;                // maximum number of data container type (static)
 	unsigned int set_IDs;                   // maximum known value of set_ID
@@ -83,11 +89,7 @@ public:
 	unsigned int MultiModal_analysis;       // analysis ID for Multi-Modality
 	unsigned int Null_analysis;             // analysis ID for null analysis
 
-	// lags for autocorrelation calculation
-	std::shared_ptr<std::vector<unsigned int> > Autocorrelation_lags;
 	// normal data to test against. Used for KS test
-	std::vector<std::shared_ptr<std::vector<double> > > KS_normal_data;
-	std::vector<std::vector<std::shared_ptr<Bin_Strategy> >> binner;
     std::shared_ptr<Bin_Strategy> default_binner;
     // static Null_Data_Container and Null_Analysis because we can reuse them over and over
     std::shared_ptr<Null_Data> null_data;

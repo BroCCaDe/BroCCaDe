@@ -113,15 +113,21 @@ double Autocorrelation::calculate_metric()
 
 	// check if there are no lags, add the default value
 	// bounded by the size of the data
-	if (_lag->size() == 0) _lag->push_back((DEFAULT_NUM_LAG > contained_data.size()) ? 
-		contained_data.size() : DEFAULT_NUM_LAG);
+//	if (_lag->size() == 0) _lag->push_back((DEFAULT_NUM_LAG > contained_data.size()) ? 
+//		contained_data.size() : DEFAULT_NUM_LAG);
+    if (_lag == 0) _lag = DEFAULT_NUM_LAG;
 
 	// sum the autocorrelation for all possible lag values
-	for (i = 0; i < _lag->size(); i++)
+	for (i = 0; i <= _lag && i < contained_data.size(); i++)
 	{
-        double ac_value = ac_compute.compute_autoc((*_lag)[i]);
-        printf("|%lf|\tabs=|%lf|\n", ac_value, std::abs(ac_value));
+#ifdef DEBUG
+        printf("%d ", i);
+#endif
+        double ac_value = ac_compute.compute_autoc(i);
 		sum += std::abs(ac_value); // autocorrelation for a particular lag
 	}
-	return sum / (double) (_lag->size()); // 1/N * sum(autocorrelation for all lags)
+#ifdef DEBUG
+        printf("\n");
+#endif
+	return sum / (double) (_lag + 1.0); // 1/N * sum(autocorrelation for all lags)
 }

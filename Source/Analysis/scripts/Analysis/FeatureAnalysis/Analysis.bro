@@ -30,8 +30,8 @@
 # POSSIBILITY OF SUCH DAMAGE.                                                   #
 #################################################################################
 
- @load /opt/bro/lib/bro/plugins/Feature_IAT/lib/bif
-# @load /opt/bro/lib/bro/plugins/Feature_PTunnel/lib/bif
+@load /opt/bro/lib/bro/plugins/Feature_IAT/lib/bif
+@load /opt/bro/lib/bro/plugins/Feature_PTunnel/lib/bif
 # @load /opt/bro/lib/bro/plugins/Feature_URG/lib/bif
 
 global aid : vector of FeatureAnalysis::Analysis_ID;
@@ -39,24 +39,37 @@ global aid_null : vector of FeatureAnalysis::Analysis_ID = vector (FeatureAnalys
 
 event bro_init()
 {
-	DecisionTree::LoadModel(FeatureAnalysis::IAT_SET, "TreeModel-oneAnalysis");
-    DecisionTree::LoadModel(FeatureAnalysis::TTL_SET, "TreeModel-oneAnalysis");
-	DecisionTree::LoadModel(FeatureAnalysis::PTUNNEL_SET, "TreeModel-PingTunnel");
-	DecisionTree::LoadModel(FeatureAnalysis::URGENT_SET, "TreeModel-URG");
-	DecisionTree::LoadModel(FeatureAnalysis::PACKET_LENGTH_SET, "TreeModel-oneAnalysis");
+    DecisionTree::LoadModel(FeatureAnalysis::IAT_SET, "TreeModel-IAT_ALL_5_50");
+    DecisionTree::LoadModel(FeatureAnalysis::TTL_SET, "TreeModel-TTL_ALL_5_50");
+    DecisionTree::LoadModel(FeatureAnalysis::PTUNNEL_SET, "TreeModel-PingTunnel");
+	  DecisionTree::LoadModel(FeatureAnalysis::URGENT_SET, "TreeModel-URG");
+	  DecisionTree::LoadModel(FeatureAnalysis::PACKET_LENGTH_SET, "TreeModel-PLEN_ALL_5_50");
 
-#    aid[|aid|] = FeatureAnalysis::KS_ANALYSIS;
-#    aid[|aid|] = FeatureAnalysis::ENTROPY_ANALYSIS;
-#    aid[|aid|] = FeatureAnalysis::CCE_ANALYSIS;
-#    aid[|aid|] = FeatureAnalysis::MULTIMODAL_ANALYSIS;
+    aid[|aid|] = FeatureAnalysis::KS_ANALYSIS;
+    aid[|aid|] = FeatureAnalysis::ENTROPY_ANALYSIS;
+    aid[|aid|] = FeatureAnalysis::CCE_ANALYSIS;
+    aid[|aid|] = FeatureAnalysis::MULTIMODAL_ANALYSIS;
     aid[|aid|] = FeatureAnalysis::AUTOCORRELATION_ANALYSIS;
-#    aid[|aid|] = FeatureAnalysis::REGULARITY_ANALYSIS;
+    aid[|aid|] = FeatureAnalysis::REGULARITY_ANALYSIS;
+#    aid[|aid|] = FeatureAnalysis::NULL_ANALYSIS;
 
     FeatureAnalysis::SetStepSize(FeatureAnalysis::URGENT_SET, 1);
     FeatureAnalysis::SetStepSize(FeatureAnalysis::PTUNNEL_SET, 1);
-    FeatureAnalysis::SetStepSize(FeatureAnalysis::TTL_SET, 250);
-    FeatureAnalysis::SetStepSize(FeatureAnalysis::IAT_SET, 250);
-    FeatureAnalysis::SetStepSize(FeatureAnalysis::PACKET_LENGTH_SET, 250);
+    FeatureAnalysis::SetStepSize(FeatureAnalysis::TTL_SET, 50);
+    FeatureAnalysis::SetStepSize(FeatureAnalysis::IAT_SET, 50);
+    FeatureAnalysis::SetStepSize(FeatureAnalysis::PACKET_LENGTH_SET, 50);
+#    FeatureAnalysis::SetKSWindowSize(FeatureAnalysis::TTL_SET, 100);
+#    FeatureAnalysis::SetRegularityParameters(FeatureAnalysis::TTL_SET, 10, 100);
+#    FeatureAnalysis::SetCCEPatternSize(FeatureAnalysis::TTL_SET, 5);
+#    FeatureAnalysis::SetAutocorrelationLags(FeatureAnalysis::TTL_SET, 100);
+#    FeatureAnalysis::SetKSWindowSize(FeatureAnalysis::IAT_SET, 100);
+#    FeatureAnalysis::SetRegularityParameters(FeatureAnalysis::IAT_SET, 10, 100);
+#    FeatureAnalysis::SetCCEPatternSize(FeatureAnalysis::IAT_SET, 5);
+#    FeatureAnalysis::SetAutocorrelationLags(FeatureAnalysis::IAT_SET, 100);
+    FeatureAnalysis::SetKSWindowSize(FeatureAnalysis::PACKET_LENGTH_SET, 100);
+    FeatureAnalysis::SetRegularityParameters(FeatureAnalysis::PACKET_LENGTH_SET, 10, 100);
+    FeatureAnalysis::SetCCEPatternSize(FeatureAnalysis::PACKET_LENGTH_SET, 5);
+    FeatureAnalysis::SetAutocorrelationLags(FeatureAnalysis::PACKET_LENGTH_SET, 100);
     FeatureAnalysis::ConfigureInternalType();
 
     local aid_CCE : vector of FeatureAnalysis::Analysis_ID;
@@ -64,26 +77,20 @@ event bro_init()
     local aid_EN_MM : vector of FeatureAnalysis::Analysis_ID;
     aid_EN_MM[0] = FeatureAnalysis::ENTROPY_ANALYSIS;
     aid_EN_MM[1] = FeatureAnalysis::MULTIMODAL_ANALYSIS;
-    FeatureAnalysis::LoadNormalData(TTL, "/home/hendra/Experiment/trace/performance_test/ALL_TTL_KS");
-    FeatureAnalysis::LoadInterval(TTL, aid_CCE, "/home/hendra/Experiment/trace/performance_test/ALL_TTL_Interval_10");
+    FeatureAnalysis::LoadNormalData(TTL, "/home/hendra/Experiment/trace/performance_test/ALL_TTL_KS_100");
+    FeatureAnalysis::LoadInterval(TTL, aid_CCE, "/home/hendra/Experiment/trace/performance_test/ALL_TTL_Interval_5");
     FeatureAnalysis::SetBinNull(TTL, aid_EN_MM, 256);
-    FeatureAnalysis::LoadNormalData(INTERARRIVAL_TIME, "/home/hendra/Experiment/trace/performance_test/ALL_IAT_KS");
-    FeatureAnalysis::LoadInterval(INTERARRIVAL_TIME, aid_CCE, "/home/hendra/Experiment/trace/performance_test/ALL_IAT_Interval_10");
+    FeatureAnalysis::LoadNormalData(INTERARRIVAL_TIME, "/home/hendra/Experiment/trace/performance_test/ALL_IAT_KS_100");
+    FeatureAnalysis::LoadInterval(INTERARRIVAL_TIME, aid_CCE, "/home/hendra/Experiment/trace/performance_test/ALL_IAT_Interval_5");
     FeatureAnalysis::LoadInterval(INTERARRIVAL_TIME, aid_EN_MM, "/home/hendra/Experiment/trace/performance_test/ALL_IAT_Interval_65536");
-    FeatureAnalysis::LoadNormalData(PACKET_LENGTH, "/home/hendra/Experiment/trace/performance_test/ALL_PLEN_KS");
-    FeatureAnalysis::LoadInterval(PACKET_LENGTH, aid_CCE, "/home/hendra/Experiment/trace/performance_test/ALL_PLEN_Interval_10");
+    FeatureAnalysis::LoadNormalData(PACKET_LENGTH, "/home/hendra/Experiment/trace/performance_test/ALL_PLEN_KS_100");
+    FeatureAnalysis::LoadInterval(PACKET_LENGTH, aid_CCE, "/home/hendra/Experiment/trace/performance_test/ALL_PLEN_Interval_5");
     FeatureAnalysis::SetBinNull(PACKET_LENGTH, aid_EN_MM, 65536);
 }
 
 event connection_state_remove (c: connection)
 {
 	FeatureAnalysis::RemoveConn(c$uid);
-}
-
-function get_direction(a : addr, b : addr) : FeatureAnalysis::Direction
-{
-    if (a == b) return FeatureAnalysis::FORWARD;
-    return FeatureAnalysis::BACKWARD;
 }
 
 event TTL_feature_event(UID:string, id:conn_id, direction:FeatureAnalysis::Direction, value: double) {
@@ -102,9 +109,9 @@ event PacketLength_feature_event(UID:string, id:conn_id, direction:FeatureAnalys
  {
      if ( p ?$ ip )
  	{
-#        event TTL_feature_event(c$uid, c$id, get_direction(c$id$orig_h, p$ip$src), p$ip$ttl);
-        IAT::ExtractFeature(c$uid, c$id, get_direction(c$id$orig_h, p$ip$src), c$duration);
-#        event PacketLength_feature_event(c$uid, c$id, get_direction(c$id$orig_h, p$ip$src), p$ip$len);
+#        event TTL_feature_event(c$uid, c$id, FeatureAnalysis::GetDirection(c$id$orig_h, p$ip$src), p$ip$ttl);
+#        IAT::ExtractFeature(c$uid, c$id, FeatureAnalysis::GetDirection(c$id$orig_h, p$ip$src), c$duration);
+        event PacketLength_feature_event(c$uid, c$id, FeatureAnalysis::GetDirection(c$id$orig_h, p$ip$src), p$ip$len);
      }
  }
 

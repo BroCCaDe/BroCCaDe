@@ -61,14 +61,23 @@ double Regularity::calculate_metric()
 
 	for (j = 0; j < n; j++) // forall j
 	{
+#ifdef DEBUG_H
+        printf("|%lf| ", stdev[j]);
+#endif
 		for (i = 0; i < j; i++) // forall i < j
 		{
             if (stdev[i] == 0.0) continue;
 			// |sigma_j - sigma_i| / sigma_i
 			double r = std::abs(stdev[j] - stdev[i]) / stdev[i];
+#ifdef DEBUG_H
+            printf("(%lf) ", r);
+#endif
 			sum += r;
 			sum_square += r * r;
 		}
+#ifdef DEBUG_H
+        printf("\n");
+#endif
 	}
 	
 	// stdev (|sigma_j - sigma_i| / sigma_i) for all j, i < j
