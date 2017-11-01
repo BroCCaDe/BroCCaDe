@@ -29,9 +29,15 @@
 * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE    *
 * POSSIBILITY OF SUCH DAMAGE.                                                   *
 *                                                                               *
-* Pattern_Data_Container.h : Data container for CCE. Its main purpose is to     *
-*       wrap the pattern tree data structure to interface with the general      *
-*       analysis tool and holds the bin allocator                               *
+* Pattern_Data_Container.h                                                      *
+*   Data container for CCE. Its main purpose is to store the tree data          *
+*   structure, interface with the general analysis tool and holds the bin       *
+*   allocator                                                                   *
+*                                                                               *
+* TreeNode                                                                      *
+*   Our tree data structure is not the conventional tree structure but it is    *
+*   optimized to take advantage of C++ iterator in that we store each level in  *
+*   a flat vector                                                               *
 \*******************************************************************************/
 
 #ifndef AUX_PLUGINS_PATTERN_DATA_CONTAINER_H
@@ -39,7 +45,6 @@
 
 #include <list>			                            // list
 #include <memory>		                            // shared_ptr
-//#include "Tree.h"		                            // pattern tree
 #include "Bin_Strategy.h"	                        // abstract Bin allocator
 #include "Data_Container.h"	                        // abstract Data_Container
 

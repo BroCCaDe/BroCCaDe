@@ -50,7 +50,6 @@ public:
 		unsigned short window_size);
 	virtual ~Regularity_Data() {_stdev.clear();}
 
-	// return a boolean indicating whether the calculation is triggered
 	virtual void add_feature(double feature);
 
 	std::vector<double> get_stdev() {return _stdev;}

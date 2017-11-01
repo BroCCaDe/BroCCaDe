@@ -2,10 +2,9 @@
 *                        Feature Extraction : Inter Arrival Time                        *
 *****************************************************************************************
 
-This work was supported by a grant from the Comcast Innovation Fund.
+V 0.1
 
-This plugin extracts the inter arrival time from each incoming packet of a flow. Each 
-flow is distinguished by a unique identifier that Bro attaches to each flow / connection.
+This plugin extracts the inter arrival time from each incoming packet of a flow. 
 
 *****************************************************************************************
 *                                   Build the Plugin                                    *
@@ -16,10 +15,11 @@ plugin, just ``configure'' and ``make'' the plugin from the plugin root director
 prerequisites to build the plugin is to have the Bro source code and have satisfied Bro 
 prerequisites to compile. In the plugin root directory, we just need to type
 
-    ./configure --bro-dist=<Bro-dist>
+    ./configure --bro-dist=<bro-dist>
     make
 
-to configure and build the plugin. The result of this is a directory called ``build'' 
+to configure and build the plugin where ``<bro-dist>'' is the downloaded Bro source code. 
+The result of this is a directory called ``build'' 
 which contains all of the required files for Bro to recognize that it is a plugin. So the
 next step is then to make Bro to actually recognize the plugin. There are two ways to do 
 this, either we point Bro to the directory containing the build files, or we can copy the 
@@ -27,25 +27,60 @@ build files to a directory where Bro will search for available plugins. Where <B
 the location for the installed Bro, the default location where Bro searches for plugins 
 will be in
 
-    <Bro>/lib/bro/plugins
+    <bro>/lib/bro/plugins
 
-so from the plugin root directory, we can type
+where ``<bro>'' is the directory where Bro is installed on the system. So from the 
+plugin root directory, we can type
 
-    cp -r build/. <Bro>/lib/bro/plugins/<plugin-directory-name>
+    cp -r build/. <bro>/lib/bro/plugins/<plugin-directory-name>
 
-or alternatively set the environment
+, where <plugin-directory-name> is an arbitrary directory name used to distinguish the 
+plugin, or alternatively set the environment
 
     export BRO_PLUGIN_PATH=<plugin-root-directory>/build
+
+where <plugin-root-directory> is the plugin folder.
 
 *****************************************************************************************
 *                                   Using the Plugin                                    *
 *****************************************************************************************
 
-Currently the script is calculating inter arrival time for each incoming packet. If 
-the flow of interest is already identified, the number of flows can be reduced 
-considerably by using targeted script instead of extracting the feature of all of the 
-incoming packets.
+Currently the script is calculating inter arrival time for each incoming packet. This is
+done by comparing the current flow's duration against the flow's duration of the last 
+packet in the direction where the packet is heading to obtain the inter arrival time 
+feature value. Note that the first packet in the flow will not trigger the calculation.
 
-In the analysis script, need to handle this event:
+In the analysis script, we need to calculate the inter-arrival time per flow by calling
+the function
 
-    IAT::feature_event(UID:string, id:conn_id, value: double)
+    IAT::ExtractFeature(UID:string, id:conn_id, dir:FeatureAnalysis::Direction, 
+        duration:interval);
+
+for every incoming packet. ``UID'' is the BRO unique identifier for each flow, ``id'' is 
+the 5-tuples ID of source and destination IP address, protocol, and source and destination 
+port, ``dir'' is the direction (forward or backward with respect to the flow), and 
+``duration'' is the current connection's duration. When the plugin has calculated the 
+inter arrival time, it will raise the event
+
+    IAT::feature_event(UID:string, id:conn_id, direction:FeatureAnalysis::Direction, 
+        feature:double);
+
+which can be analyzed by the analysis plugin. The value of interest in the event is 
+``feature'', which is the inter arrival time calculated by the plugin.
+
+*****************************************************************************************
+*                               Misc and Acknowledgement                                *
+*****************************************************************************************
+
+Contact
+
+  Hendra Gunadi (hendra.gunadi@murdoch.edu.au)
+  Sebastian Zander (s.zander@murdoch.edu.au)
+  School of Engineering and IT
+  Murdoch University, Australia 
+  Project website : http://www.it.murdoch.edu.au/nsrg/cc_detection_ids/
+
+Acknowledgement
+
+  This work was supported by a grant from the Comcast Innovation Fund. 
+  http://innovationfund.comcast.com/  

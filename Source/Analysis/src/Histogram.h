@@ -70,6 +70,7 @@ public:
 	// get the number of bins
 	unsigned int get_bin_count() {return _bin_count;}
 
+    // expose the iterator to the internal data structure
     std::unordered_map<int, unsigned long>::iterator begin() {return _bins.begin();}
     std::unordered_map<int, unsigned long>::iterator end() {return _bins.end();}
 private:

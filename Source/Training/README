@@ -2,10 +2,17 @@
 *                               Training : KS and Bin                                   *
 *****************************************************************************************
 
-This work was supported by a grant from the Comcast Innovation Fund.
+V 0.1
 
-This plugin prints the normal data for Kolmogorov-Smirnov test and equiprobable bins used
-in determining the histogram (entropy and multimodal analysis) and CCE.
+Each traffic has different characteristic and usually there is no way to generalize it.
+This plugin is then used to gather such characteristic in the form of normal data for 
+Kolmogorov-Smirnov test and equiprobable bins used in determining the histogram (entropy 
+and multimodal analysis) and CCE. Normal data is legitimate traffic without covert 
+channels, especially used for KS test to compare the flow in question. Equiprobable bin
+is a strategy to set the boundary of the bins according to the distribution of the data,
+i.e. each bin (roughly) have the same number of data points. The equiprobable bin 
+intervals are represented as an right open interval in the form of a pair of double 
+indicating the minimum value and maximum value respectively.
 
 *****************************************************************************************
 *                                   Build the Plugin                                    *
@@ -16,10 +23,11 @@ plugin, just ``configure'' and ``make'' the plugin from the plugin root director
 prerequisites to build the plugin is to have the Bro source code and have satisfied Bro 
 prerequisites to compile. In the plugin root directory, we just need to type
 
-    ./configure --bro-dist=<Bro-dist>
+    ./configure --bro-dist=<bro-dist>
     make
 
-to configure and build the plugin. The result of this is a directory called ``build'' 
+to configure and build the plugin where ``<bro-dist>'' is the downloaded Bro source code. 
+The result of this is a directory called ``build'' 
 which contains all of the required files for Bro to recognize that it is a plugin. So the
 next step is then to make Bro to actually recognize the plugin. There are two ways to do 
 this, either we point Bro to the directory containing the build files, or we can copy the 
@@ -27,20 +35,93 @@ build files to a directory where Bro will search for available plugins. Where <B
 the location for the installed Bro, the default location where Bro searches for plugins 
 will be in
 
-    <Bro>/lib/bro/plugins
+    <bro>/lib/bro/plugins
 
-so from the plugin root directory, we can type
+where ``<bro>'' is the directory where Bro is installed on the system. So from the 
+plugin root directory, we can type
 
-    cp -r build/. <Bro>/lib/bro/plugins/<plugin-directory-name>
+    cp -r build/. <bro>/lib/bro/plugins/<plugin-directory-name>
 
-or alternatively set the environment
+, where <plugin-directory-name> is an arbitrary directory name used to distinguish the 
+plugin, or alternatively set the environment
 
     export BRO_PLUGIN_PATH=<plugin-root-directory>/build
+
+where <plugin-root-directory> is the plugin folder.
 
 *****************************************************************************************
 *                                   Using the Plugin                                    *
 *****************************************************************************************
 
-There is already a script which hooks into inter arrival time event. If there is a need
-to extend the traning of KS data and equiprobable bins, then just add the handler to that
-particular event.
+The plugin is used to output files containing the normal data for KS and equiprobable bin
+intervals used for entropy, CCE, and multi modality. Initially, set up the prefix to the 
+output file by calling the function
+
+    ChangePrefix (prefix : string)
+
+and then set the parameters for equiprobable binning and normal data. The prefix is used
+to automatically distinguish outputs based on its parameters, i.e. the prefix is inserted
+to the output file name. Equiprobable bin will require a list of bin numbers in the form 
+of a vector
+
+    SetBinCount (bin_count : vector of int)
+
+For example, pass a vector of [8096, 16192, 65536] if you want the plugin to outputs 
+8096, 16192, 65536 equiprobable bin intervals respectively. The normal data for KS will 
+require a list of window sizes and the number of normal data to print.
+
+    SetKSDataCount (ks_data_count : vector of int, ks_max_counter : int)
+
+The plugin will then output ``ks_max_counter'' normal data with ``ks_data_count'' data
+points in each normal data. Each incoming feature is then recorded in the training data 
+by calling
+
+    add_feature (UID : string, direction : FeatureAnalysis::Direction, feature: double, 
+        tag: analysis_tag)
+
+where ``UID'' is the unique BRO identifier, ``direction'' is the direction (forward or 
+backward with respect to the flow), ``feature'' is the feature value, and ``tag'' is the
+enumeration of feature value we are interested in, e.g. 
+
+  FeatureAnalysis::INTERARRIVAL_TIME for inter arrival time,
+  FeatureAnalysis::PACKET_LENGTH, for packet length, etc. 
+
+Upon Bro removing connections (event connection_state_remove), call the function
+
+    RemoveConn (UID : string, direction : FeatureAnalysis::Direction, tag: analysis_tag)
+
+to output normal data if the flow is long enough. By default it is considered long 
+enough when there are more than 1000 data points. However the threshold can be modified 
+by using the function
+
+    ChangeThreshold (min_KS : int, min_bin : int)
+
+where ``min_KS'' determine whether a flow is long enough for KS normal data and 
+``min_bin'' determine whether there are enough overall data points. At the end of Bro 
+executions (event bro_done), we also have to call RemoveConn with "ALL" as the UID to 
+print the equiprobable bin intervals, e.g.
+
+event bro_done()
+{
+    BinTraining::RemoveConn("ALL", FeatureAnalysis::BACKWARD, 
+        FeatureAnalysis::PACKET_LENGTH);
+}
+
+when we want to get the equiprobable bin intervals for packet length values.
+
+*****************************************************************************************
+*                               Misc and Acknowledgement                                *
+*****************************************************************************************
+
+Contact
+
+  Hendra Gunadi (hendra.gunadi@murdoch.edu.au)
+  Sebastian Zander (s.zander@murdoch.edu.au)
+  School of Engineering and IT
+  Murdoch University, Australia 
+  Project website : http://www.it.murdoch.edu.au/nsrg/cc_detection_ids/
+
+Acknowledgement
+
+  This work was supported by a grant from the Comcast Innovation Fund. 
+  http://innovationfund.comcast.com/  

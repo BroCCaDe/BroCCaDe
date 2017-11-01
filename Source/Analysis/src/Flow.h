@@ -32,16 +32,21 @@
 * Flow.h : the core of the extension, maintain information needed for each flow,*
 *       both the data containers and the analysis engines.                      *
 * Contents:                                                                     *
-*   * class FlowConfig : this class is used to hold config information shared   *
-*           across all flows.                                                   *
-*   * class Flow : triggers metric calculation when a certain number of features*
-*           are added to the flow. The process of adding feature is             *
-*           transactional, i.e. there are clear markings of beginning and end.  *
-*           Currently it is assumed that the transaction will go without problem*
-*           so there will be undefined behaviour when a problem occured         *
-*   * class TempValue : this is a data structure that holds the outstanding     *
-*           metric values calculated by the Flow class, distinguished by the    *
-*           analysis id and analysis tag.                                       *
+*   * class FlowConfig                                                          *
+*       this class is used to hold config information shared across all flows.  *
+*   * class Flow                                                                *
+*       triggers metric calculation when a certain number of features are added *
+*       to the flow. The process of adding feature is transactional, i.e. there *
+*       are clear markings of beginning and end. Currently it is assumed that   *
+*       the transaction will go without problem so there will be undefined      *
+*       behaviour when a problem occured                                        *
+*   * class BiFlow                                                              *
+*       Bro store the connection record as a bidirectional flow, so we also     *
+*       store the data as bidirectional flow since we are reusing Bro unique ID *
+*   * class TempValue                                                           *
+*       this is a data structure that holds the outstanding metric values       *
+*       calculated by the Flow class, distinguished by the analysis id and      *
+*       analysis tag.                                                           *
 \*******************************************************************************/
 
 #ifndef AUX_PLUGINS_FLOW_H
@@ -62,14 +67,14 @@ class FlowConfig {
 public:
 	FlowConfig() {}
 	std::vector<unsigned int> KS_window_size;			// window size for KS raw data
-	std::vector<unsigned int> Regularity_window_number;  // number of window for regularity metric
-	std::vector<unsigned int> Regularity_window_size;    // the size of each window for regularity metric
-	std::vector<unsigned int> CCE_pattern_size;          // the length of pattern for CCE
-	std::vector<unsigned int> step_sizes;   // step size for each calculation set
-	std::vector<unsigned int> Autocorrelation_lags;
-	// lags for autocorrelation calculation
-//	std::shared_ptr<std::vector<unsigned int> > Autocorrelation_lags;
-	std::vector<std::shared_ptr<std::vector<double> > > KS_normal_data;
+	std::vector<unsigned int> Regularity_window_number; // number of window for regularity metric
+	std::vector<unsigned int> Regularity_window_size;   // the size of each window for regularity metric
+	std::vector<unsigned int> CCE_pattern_size;         // the length of pattern for CCE
+	std::vector<unsigned int> step_sizes;               // step size for each calculation set
+	std::vector<unsigned int> Autocorrelation_lags;     // lags for autocorrelation calculation
+	// normal data to test against. Used for KS test
+	std::vector<std::shared_ptr<std::vector<std::vector<double>> > > KS_normal_data;
+    // Bin strategy for each calculation set and analysis tag
 	std::vector<std::vector<std::shared_ptr<Bin_Strategy> >> binner;
 
 	unsigned int tag_count;                 // maximum number of analysis tags (dynamic)
@@ -89,7 +94,8 @@ public:
 	unsigned int MultiModal_analysis;       // analysis ID for Multi-Modality
 	unsigned int Null_analysis;             // analysis ID for null analysis
 
-	// normal data to test against. Used for KS test
+
+    // Default bin strategy just in case we forget to set it
     std::shared_ptr<Bin_Strategy> default_binner;
     // static Null_Data_Container and Null_Analysis because we can reuse them over and over
     std::shared_ptr<Null_Data> null_data;
@@ -140,10 +146,11 @@ private:
 	std::vector<std::shared_ptr <Raw_Data> > _reset;    // raw data which needs window reset
 	std::shared_ptr<FlowConfig> _config;                // local reference to the global flow config
 	std::vector<unsigned int> _steps;                   // steps for each calculation set
-	std::vector<std::unique_ptr<TempValue> > _result;
+	std::vector<std::unique_ptr<TempValue> > _result;   // stored result
 	int _current_set_ID;                                // current calculation set ID
 };
 
+// Contains flows in forward and backward direction
 class BiFlow {
 public:
     BiFlow(std::shared_ptr<FlowConfig> config) : _config(config) {_flows.resize(2);}

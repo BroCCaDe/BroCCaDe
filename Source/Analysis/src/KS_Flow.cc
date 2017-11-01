@@ -43,8 +43,8 @@ using namespace CCD;
 
 double KS::calculate_metric()
 {
-	double d;
-	double prob;
+    double sum_d = 0.0;
+	//double prob;
 	Raw_Data* ptr = static_cast<Raw_Data*> (_data.get());
 	std::vector<double> contained_data = ptr->get_data();
 
@@ -52,40 +52,55 @@ double KS::calculate_metric()
 	std::sort(contained_data.begin(), contained_data.end());
 #ifdef DEBUG
 	printf ("KS : total data %d\n", ptr->get_data_len());
+    for (std::vector<std::vector<double>>::iterator it = _normal_data->begin();
+        it != _normal_data->end(); it++)
+    {
+        printf("[");
+        for (std::vector<double>::iterator it2 = it->begin(); it2 != it->end(); it2++)
+        {
+            printf("%lf ", *it2);
+        }
+        printf("]\n");
+    }
+    for (std::vector<double>::iterator it = contained_data.begin(); it != contained_data.end(); it++)
+        printf("%lf ", *it);
+    printf("\n");
 #endif
-	kstwo(contained_data, *_normal_data, &d, &prob);
-
-	return d;
+	//kstwo(contained_data, *_normal_data, &d, &prob);
+    for (std::vector<std::vector<double>>::iterator it = _normal_data->begin();
+        it != _normal_data->end(); it++) {sum_d += kstwo(contained_data, *it); }
+	return sum_d / (double) (_normal_data->size());
 }
 
 // modified from numerical recipes by assuming that data1 and data2 are already sorted
-void KS::kstwo(std::vector<double> data1, std::vector<double> data2, double *d, double *prob)
+//void KS::kstwo(std::vector<double> data1, std::vector<double> data2, double *d, double *prob)
+double KS::kstwo(std::vector<double> data1, std::vector<double> data2)
 {
 	unsigned long j1=0,j2=0;
 	unsigned int n1, n2;
-	double d1,d2,dt,en1,en2,en,fn1=0.0,fn2=0.0;
+	double d1,d2,dt,en1,en2,fn1=0.0,fn2=0.0, d=0.0;
 
 	n1 = data1.size();
 	n2 = data2.size();
 	en1=n1;
 	en2=n2;
-	*d=0.0;
 	while (j1 < n1 && j2 < n2) {
 #ifdef DEBUG
 	printf ("(%d,%d) ", j1, j2);
 #endif
 		if ((d1=data1[j1]) <= (d2=data2[j2])) fn1=j1++/en1;
 		if (d2 <= d1) fn2=j2++/en2;
-		if ((dt=fabs(fn2-fn1)) > *d) *d=dt;
+		if ((dt=fabs(fn2-fn1)) > d) d=dt;
 	}
 #ifdef DEBUG
 	printf ("\n");
 #endif
-	en=sqrt(en1*en2/(en1+en2));
-	*prob=probks((en+0.12+0.11/en)*(*d));
+    return d;
+	//en=sqrt(en1*en2/(en1+en2));
+	//*prob=probks((en+0.12+0.11/en)*(*d));
 }
 
-double KS::probks(double alam)
+/*double KS::probks(double alam)
 {
 	int j;
 	float a2,fac=2.0,sum=0.0,term,termbf=0.0;
@@ -98,4 +113,4 @@ double KS::probks(double alam)
 		termbf=fabs(term);
 	}
 	return 1.0;                                             //Get here only by failing to converge
-}
+}*/

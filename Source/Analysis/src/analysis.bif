@@ -31,17 +31,48 @@
 #                                                                               #
 # analysis.bif : interface between Bro script and the analysis plugin.          #
 # Content:                                                                      #
-#   * Analysis_ID       : enum of analysis ID used in the plugin as well        #
-#   * Extract           : extract a value from vector of metric result (record) #
-#   * Extract_vector    : extract vector of double values from the vector of    #
-#                         metric result (record)                                #
-#   * SetStepSize       : set the number of data to trigger metric calculation  #
-#   * RemoveConn        : remove a connection from the dictionary               #
-#   * RegisterAnalysis  : indicate the beginning of a transaction to add feature#
-#   * AddFeature        : add the feature associated with the analyzers         #
-#   * CalculateMetric   : indicate the end of a transaction to add feature      #
-#   * metric_event      : an event definition which contains the result of      #
-#                         metric calculation                                    #
+#   * Analysis_ID                                                               #
+#       enum of analysis ID used in the plugin as well                          #
+#   * Direction                                                                 #
+#       enum of the packet direction (relative to the connection)               #
+#   * GetDirection                                                              #
+#       Determine the packet direction by comparing the value of packet source  #
+#       and the source of the Bro connection record                             #
+#   * ConfigureInternalType                                                     #
+#       Tell the plugin to cache Bro type internally to avoid the overhead of   #
+#       looking up the type each time.                                          #
+#   * Extract                                                                   #
+#       extract a value from vector of metric result                            #
+#   * Extract_vector                                                            #
+#       extract vector of double values from the vector of metric result        #
+#   * SetStepSize                                                               #
+#       set the number of data to trigger metric calculation                    #
+#   * SetKSWindowSize                                                           #
+#       Set the maximum size of window for KS and Autocorrelation metrics       #
+#   * SetRegularityParameters                                                   #
+#       Set the window number and the window size for regularity metric         #
+#   * SetCCEPatternSize                                                         #
+#       Set the depth of CCE tree                                               #
+#   * SetAutocorrelationLags                                                    #
+#       Set the number of autocorrelation lags (1 .. n)                         #
+#   * AddNormalData                                                             #
+#       Add a vector of values (from file) which constitutes the normal data to #
+#       compare against in the KS metric calculation                            #
+#   * LoadInterval                                                              #
+#       Set the equiprobable bin interval for CCE                               #
+#   * SetBinNull                                                                #
+#       Set the fine grained bin interval (each value as its own bin) for TTL   #
+#       and Packet length features, Entropy and Multi Modality metrics          # 
+#   * RemoveConn                                                                #
+#       remove a connection from the dictionary                                 #
+#   * RegisterAnalysis                                                          #
+#       indicate the beginning of a transaction to add feature                  #
+#   * AddFeature                                                                #
+#       add the feature associated with the analyzers                           #
+#   * CalculateMetric                                                           #
+#       indicate the end of a transaction to add feature                        #
+#   * metric_event                                                              #
+#       an event definition which contains the result of metric calculation     #
 #################################################################################
 
 module FeatureAnalysis;
@@ -69,97 +100,51 @@ static plugin_t *plugin_ref = &plugin::Analysis_FeatureAnalysis::plugin;
 %%}
 
 function ConfigureInternalType%(%): bool
-    %{
-        plugin_ref->ConfigureInternalType();
-        return new Val(1, TYPE_BOOL);
-    %}
+    %{ plugin_ref->ConfigureInternalType(); return new Val(1, TYPE_BOOL); %}
 
 function Extract%(v : result_vector, aid : Analysis_ID, tag : analysis_tag%): double
-    %{
-        return plugin_ref->Extract(v, aid, tag);
-    %}
+    %{ return plugin_ref->Extract(v, aid, tag); %}
 
 function Extract_vector%(v : result_vector%): FeatureAnalysis::feature_vector
-    %{
-        return plugin_ref->ExtractVector(v);
-    %}
+    %{ return plugin_ref->ExtractVector(v); %}
 
 function GetDirection%(conn_source : addr, pkt_source : addr%): FeatureAnalysis::Direction
-    %{
-        return plugin_ref->GetDirection(conn_source, pkt_source);
-    %}
-
+    %{ return plugin_ref->GetDirection(conn_source, pkt_source); %}
 
 function SetStepSize%(id : set_ID, step_size : count%): bool
-    %{
-        plugin_ref->SetStepSize(id, step_size);
-        return new Val(1, TYPE_BOOL);
-    %}
+    %{ plugin_ref->SetStepSize(id, step_size); return new Val(1, TYPE_BOOL); %}
 
 function SetKSWindowSize%(id : set_ID, window_size : count%): bool
-    %{
-        plugin_ref->Set_KS_Window_Size(id, window_size);
-        return new Val(1, TYPE_BOOL);
-    %}
+    %{ plugin_ref->Set_KS_Window_Size(id, window_size); return new Val(1, TYPE_BOOL); %}
 
 function SetRegularityParameters%(id : set_ID, window_number : count, window_size : count%): bool
-    %{
-        plugin_ref->Set_Regularity_Parameters(id, window_number, window_size);
-        return new Val(1, TYPE_BOOL);
-    %}
+    %{ plugin_ref->Set_Regularity_Parameters(id, window_number, window_size); return new Val(1, TYPE_BOOL); %}
 
 function SetCCEPatternSize%(id : set_ID, pattern_size : count%): bool
-    %{
-        plugin_ref->Set_CCE_Pattern_Size(id, pattern_size);
-        return new Val(1, TYPE_BOOL);
-    %}
+    %{ plugin_ref->Set_CCE_Pattern_Size(id, pattern_size); return new Val(1, TYPE_BOOL); %}
 
 function SetAutocorrelationLags%(id : set_ID, lag_max : count%): bool
-    %{
-        plugin_ref->Set_Autocorrelation_Lags(id, lag_max);
-        return new Val(1, TYPE_BOOL);
-    %}
+    %{ plugin_ref->Set_Autocorrelation_Lags(id, lag_max); return new Val(1, TYPE_BOOL); %}
 
-function LoadNormalData%(tag : analysis_tag, KS_data_file : string%): bool
-    %{
-        plugin_ref->Load_Normal_Data(tag, KS_data_file);
-        return new Val(1, TYPE_BOOL);
-    %}
+function AddNormalData%(tag : analysis_tag, KS_data_file : string%): bool
+    %{ plugin_ref->Add_Normal_Data(tag, KS_data_file); return new Val(1, TYPE_BOOL); %}
 
 function LoadInterval%(tag : analysis_tag, aid : any, Interval_data_file : string%): bool
-    %{
-        plugin_ref->Load_Interval(tag, aid, Interval_data_file);
-        return new Val(1, TYPE_BOOL);
-    %}
+    %{ plugin_ref->Load_Interval(tag, aid, Interval_data_file); return new Val(1, TYPE_BOOL); %}
 
 function SetBinNull%(tag : analysis_tag, aid : any, bin_count : count%): bool
-    %{
-        plugin_ref->Set_Bin_Null(tag, aid, bin_count);
-        return new Val(1, TYPE_BOOL);
-    %}
+    %{ plugin_ref->Set_Bin_Null(tag, aid, bin_count); return new Val(1, TYPE_BOOL); %}
 
 function RemoveConn%(UID : string%): bool
-    %{
-        plugin_ref->RemoveConnection(UID);
-        return new Val(1, TYPE_BOOL);
-    %}
+    %{ plugin_ref->RemoveConnection(UID); return new Val(1, TYPE_BOOL); %}
 
 function RegisterAnalysis%(UID : string, id : set_ID, conn_ID : conn_id, direction : Direction %): bool
-    %{
-        plugin_ref->RegisterAnalysis(UID, id, conn_ID, direction);
-        return new Val(1, TYPE_BOOL);
-    %}
+    %{ plugin_ref->RegisterAnalysis(UID, id, conn_ID, direction); return new Val(1, TYPE_BOOL); %}
 
 function AddFeature%(feature: double, aid : any, tag : analysis_tag%): bool
-    %{
-        plugin_ref->AddFeature(feature, aid, tag);
-        return new Val(1, TYPE_BOOL);
-    %}
+    %{ plugin_ref->AddFeature(feature, aid, tag); return new Val(1, TYPE_BOOL); %}
 
 function CalculateMetric %(%): bool
-    %{
-        plugin_ref->CalculateMetric();
-        return new Val(1, TYPE_BOOL);
-    %}
+    %{ plugin_ref->CalculateMetric(); return new Val(1, TYPE_BOOL); %}
 
 event metric_event%(id : set_ID, direction : Direction, v : result_vector, conn_ID: conn_id%);

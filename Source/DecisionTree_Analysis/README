@@ -2,11 +2,10 @@
 *                                Decision Tree Classifier                               *
 *****************************************************************************************
 
-This work was supported by a grant from the Comcast Innovation Fund.
+V 0.1
 
-This plugin implements C45 decision tree classifier which can be used to classify a flow
-based on the input to the plugin. It is quite general in a sense it does not restrict 
-whether the input is vector of calculated metric values or a feature vector.
+This plugin implements a C45 decision tree classifier which can be used to classify a 
+flow based on the input to the plugin.
 
 *****************************************************************************************
 *                                   Build the Plugin                                    *
@@ -17,10 +16,11 @@ plugin, just ``configure'' and ``make'' the plugin from the plugin root director
 prerequisites to build the plugin is to have the Bro source code and have satisfied Bro 
 prerequisites to compile. In the plugin root directory, we just need to type
 
-    ./configure --bro-dist=<Bro-dist>
+    ./configure --bro-dist=<bro-dist>
     make
 
-to configure and build the plugin. The result of this is a directory called ``build'' 
+to configure and build the plugin where ``<bro-dist>'' is the downloaded Bro source code. 
+The result of this is a directory called ``build'' 
 which contains all of the required files for Bro to recognize that it is a plugin. So the
 next step is then to make Bro to actually recognize the plugin. There are two ways to do 
 this, either we point Bro to the directory containing the build files, or we can copy the 
@@ -28,39 +28,70 @@ build files to a directory where Bro will search for available plugins. Where <B
 the location for the installed Bro, the default location where Bro searches for plugins 
 will be in
 
-    <Bro>/lib/bro/plugins
+    <bro>/lib/bro/plugins
 
-so from the plugin root directory, we can type
+where ``<bro>'' is the directory where Bro is installed on the system. So from the 
+plugin root directory, we can type
 
-    cp -r build/. <Bro>/lib/bro/plugins/<plugin-directory-name>
+    cp -r build/. <bro>/lib/bro/plugins/<plugin-directory-name>
 
-or alternatively set the environment
+, where <plugin-directory-name> is an arbitrary directory name used to distinguish the 
+plugin, or alternatively set the environment
 
     export BRO_PLUGIN_PATH=<plugin-root-directory>/build
+
+where <plugin-root-directory> is the plugin folder.
 
 *****************************************************************************************
 *                                   Using the Plugin                                    *
 *****************************************************************************************
 
-The plugin itself needs to be initialized with the number of tree classifiers with the
-
-    DecisionTree::Init(int n) 
-
-function. The tree models are then loaded with the function
+The plugin itself needs to load the tree model with the function
 	
-    DecisionTree::LoadModel(FeatureAnalysis::Analysis_ID id, string name)
+    DecisionTree::LoadModel(FeatureAnalysis::set_ID id, string name)
 
 where ``name'' is the file name containing the model description as specified in [1] and
-``id'' is the set of analysis.
+``id'' is the enumeration for the set of analysis, e.g. IAT_SET which in the example is 
+applying various analysis metric to analyze inter arrival time for the possibility of a
+covert channel. Since there may be a lot of covert channels that we are interested in, we
+can load corresponding model to deal with individual covert channel.
 
 The input to the decision tree classifier is any one of the three:
-    * vector of metric values (Classify)
-    * vector of metric values and accompanying feature names (Classify_with_strings)
-    * record of metric values where the field name is the feature name (Classify_record)
+    * vector of metric values (Classify), e.g. [1, 2, 3]
+    * vector of metric values and accompanying feature names (Classify_with_strings), e.g.
+        values=[1, 2, 3], names=["analysisA", "analysisB", "analysisC"]
+    * record of metric values where the field name is the feature name (Classify_record),
+        e.g. {analysisA=1, analysisB=2, analysisC=3}
 
-A note for the input with record is that the record has to contain at least the feature
-names specified in the model otherwise Bro will terminate complaining that there is no
-such field exists.
+Note that there are some restrictions in place for each of the input type:
+    * if the input is a vector of metric values, then the number of features and the
+        length of the vector have to match. Otherwise the plugin not further the 
+        classification process and return an error, but Bro does not terminate.
+    * if the input is a vector of metric values accompanied by vector of veature names,
+        the number of features and the length of the vector have to match. The vector of
+        feature names also has to contain at least the feature names specified in the 
+        model. If at least one of the restriction is breached, the plugin not further the 
+        classification process and return an error, but Bro does not terminate.
+    * if the input is a record, the record has to contain at least the feature names 
+        specified in the model otherwise Bro will terminate complaining that no such 
+        field exists.
 
 [1] Sebastian Zander and Grenville Armitage. Design of DIFFUSE v0.4 - DIstributed 
     Firewall and Flow-shaper Using Statistical Evidence
+
+*****************************************************************************************
+*                               Misc and Acknowledgement                                *
+*****************************************************************************************
+
+Contact
+
+  Hendra Gunadi (hendra.gunadi@murdoch.edu.au)
+  Sebastian Zander (s.zander@murdoch.edu.au)
+  School of Engineering and IT
+  Murdoch University, Australia 
+  Project website : http://www.it.murdoch.edu.au/nsrg/cc_detection_ids/
+
+Acknowledgement
+
+  This work was supported by a grant from the Comcast Innovation Fund. 
+  http://innovationfund.comcast.com/  

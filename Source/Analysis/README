@@ -2,8 +2,6 @@
 *                                    Analysis Plugin                                    *
 *****************************************************************************************
 
-This work was supported by a grant from the Comcast Innovation Fund.
-
 This plugin is the core building block for the covert channel detection framework
 extension in Bro. There are various analysis method implemented in this plugin:
     * Kolmogorov-Smirnov Test (KS)
@@ -13,8 +11,9 @@ extension in Bro. There are various analysis method implemented in this plugin:
     * Autocorrelation
     * Regularity metric
 and also Null analysis which serves as a mean to pass the value of extracted feature 
-directly. Currently there is no way to modularly add an analysis engine, and we have to 
-modify the plugin to add desired analysis engine and data container.
+directly. Currently there is no way to extend the analysis plugin with additional metric
+in a modular fashion, and we have to modify the plugin to add the desired analysis engine 
+and data container.
 
 *****************************************************************************************
 *                                   Build the Plugin                                    *
@@ -25,10 +24,11 @@ plugin, just ``configure'' and ``make'' the plugin from the plugin root director
 prerequisites to build the plugin is to have the Bro source code and have satisfied Bro 
 prerequisites to compile. In the plugin root directory, we just need to type
 
-    ./configure --bro-dist=<Bro-dist>
+    ./configure --bro-dist=<bro-dist>
     make
 
-to configure and build the plugin. The result of this is a directory called ``build'' 
+to configure and build the plugin where ``<bro-dist>'' is the downloaded Bro source code. 
+The result of this is a directory called ``build'' 
 which contains all of the required files for Bro to recognize that it is a plugin. So the
 next step is then to make Bro to actually recognize the plugin. There are two ways to do 
 this, either we point Bro to the directory containing the build files, or we can copy the 
@@ -36,45 +36,102 @@ build files to a directory where Bro will search for available plugins. Where <B
 the location for the installed Bro, the default location where Bro searches for plugins 
 will be in
 
-    <Bro>/lib/bro/plugins
+    <bro>/lib/bro/plugins
 
-so from the plugin root directory, we can type
+where ``<bro>'' is the directory where Bro is installed on the system. So from the 
+plugin root directory, we can type
 
-    cp -r build/. <Bro>/lib/bro/plugins/<plugin-directory-name>
+    cp -r build/. <bro>/lib/bro/plugins/<plugin-directory-name>
 
-or alternatively set the environment
+, where <plugin-directory-name> is an arbitrary directory name used to distinguish the 
+plugin, or alternatively set the environment
 
     export BRO_PLUGIN_PATH=<plugin-root-directory>/build
+
+where <plugin-root-directory> is the plugin folder.
+
+*****************************************************************************************
+*                                  Extend the Plugin                                    *
+*****************************************************************************************
+
+Extending the analysis plugin can be done by extending the class FeatureAnalyzer and 
+Data_Container, each is defined in Analysis.h and Data_Container.h respectively. Then 
+there are several other places that need attention:
+    * analysis.bif: We need to add an enumeration to the analysis metric so that it is
+        visible from the script level.
+    * Analysis.h: In the case where we implement a new data container, we need to add an
+        enumeration here.
+    * Flow.h: Since the enumeration is located in analysis.bif, we need to also add a
+        reference to the new analysis metric to the flow configuration file.
+    * Plugin.cc: Here we need to match the analysis metric enumeration and the reference
+        contained in the flow configuration, also we need to map the analysis metric to
+        the data container used.
+    * Flow.cc: This is the core of adding the feature value to the data container and 
+        metric calculation when it is triggered. We need to add the case handling for
+        the new analysis metric (and corresponding data container)
 
 *****************************************************************************************
 *                                   Using Bro Script                                    *
 *****************************************************************************************
 
-There is already analysis script which contains the analysis of the following events:
+There is already an analysis script which contains the analysis of the following events:
     * Packet Length : KS, Entropy, CCE, MultiModal, Autocorrelation, Regularity
     * Interarrival Time : KS, Entropy, CCE, MultiModal, Autocorrelation, Regularity
     * URG_flag and URG_ptr : Null
     * 4 bytes ICMP Payload (for Ping Tunnel) : Null
 
-Modify the vector containing the analysis ID to remove the analysis or add an analysis.
-If the feature is simple enough, i.e. can be obtained from Bro basic scripts, then we 
-only need add an event handler, create new corresponding feature event in the script, and
-add the analysis tag enumeration in types.bro. For reference, see the packet length 
-feature which is extracted from the new_packet event. The location of both scripts:
+The script is located at
 
-    <plugin>/scripts/Analysis/FeatureAnalysis/Analysis.bro
+    <plugin-root-directory>/scripts/Analysis/FeatureAnalysis/Analysis.bro
+
+Modify the vector containing the analysis ID (enumeration of the analysis metric) to 
+remove the analysis or add an analysis. If the feature is simple enough, i.e. can be 
+obtained from Bro basic scripts, then we only need to add an event handler, create new 
+corresponding feature event in the script, and add the analysis tag enumeration in 
+types.bro. Types.bro is a script that is used to hold types and definitions, i.e. it is 
+just another script. For reference, see the packet length feature which is extracted from 
+the new_packet event. The location of types.bro:
+
     <plugin>/scripts/types.bro
 
 Upon receiving the metric values, we can either handle it directly in Bro script, or pass
 it to the decision tree plugin to be classified. The input to the decision tree 
 classifier is any one of the three:
-    * vector of metric values (Classify)
-    * vector of metric values and accompanying feature names (Classify_with_strings)
-    * record of metric values where the field name is the feature name (Classify_record)
+    * vector of metric values (Classify), e.g. [1, 2, 3]
+    * vector of metric values and accompanying feature names (Classify_with_strings), e.g.
+        values=[1, 2, 3], names=["analysisA", "analysisB", "analysisC"]
+    * record of metric values where the field name is the feature name (Classify_record),
+        e.g. {analysisA=1, analysisB=2, analysisC=3}
 
-and the decision tree will raise an event 
+There are two variants for each input type, one is returning a value directly and the other
+one is raising an event. For example, for the input type of metric values there are two
+corresponding functions:
+
+    * function Classify%(ID : FeatureAnalysis::set_ID, conn_ID : conn_id, 
+        features: FeatureAnalysis::feature_vector%): int
+    * function Classify_and_send%(ID : FeatureAnalysis::set_ID, conn_ID : conn_id, 
+        features: FeatureAnalysis::feature_vector%): bool
+
+In particular, the event that is raised as a result of decision tree classifier is
 
     DecisionTree::class_result_event(id : FeatureAnalysis::set_ID,  conn_ID : 
         conn_id, c : int)
 
 where c is the classification according to the decision tree.
+
+*****************************************************************************************
+*                               Misc and Acknowledgement                                *
+*****************************************************************************************
+
+Contact
+
+  Hendra Gunadi (hendra.gunadi@murdoch.edu.au)
+  Sebastian Zander (s.zander@murdoch.edu.au)
+  School of Engineering and IT
+  Murdoch University, Australia 
+  Project website : http://www.it.murdoch.edu.au/nsrg/cc_detection_ids/
+
+Acknowledgement
+
+  This work was supported by a grant from the Comcast Innovation Fund. 
+  http://innovationfund.comcast.com/  

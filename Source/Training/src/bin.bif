@@ -30,9 +30,18 @@
 # POSSIBILITY OF SUCH DAMAGE.                                                   #
 #                                                                               #
 # bin.bif : interface between the plugin and Bro script.                        #
-# Contents :                                                                    #
-#   * RemoveConn        : remove a connection from the dictionary               # 
-#   * add_feature       : add a feature value to the training data              #
+# Content :                                                                     #
+#   * RemoveConnection                                                          #
+#       Remove the connection from the dictionary and print the outputs if      #
+#       the conditions are fulfilled                                            #
+#   * add_feature                                                               #
+#       Add the data point both to individual flows and aggregate flow (ALL)    #
+#   * SetBinCount                                                               #
+#       Set the bin numbers                                                     #
+#   * SetKSDataCount                                                            #
+#       Set the data number for the normal data sizes and how many normal data  #
+#   * ChangePrefix                                                              #
+#       Change the prefix to the output file                                    #
 #################################################################################
 
 module BinTraining;
@@ -43,31 +52,19 @@ static plugin_t *plugin_ref = &plugin::Training_Bin::plugin;
 %%}
 
 function SetBinCount%(bin_count : any%): bool
-    %{
-        plugin_ref->SetBinCount(bin_count);
-        return new Val(1, TYPE_BOOL);
-    %}
+    %{ plugin_ref->SetBinCount(bin_count); return new Val(1, TYPE_BOOL); %}
+
+function ChangeThreshold%(min_KS : int, min_bin : int%): bool
+    %{ plugin_ref->ChangeThreshold(min_KS, min_bin); return new Val(1, TYPE_BOOL); %}
 
 function ChangePrefix%(prefix : string%): bool
-    %{
-        plugin_ref->ChangePrefix(prefix);
-        return new Val(1, TYPE_BOOL);
-    %}
+    %{ plugin_ref->ChangePrefix(prefix); return new Val(1, TYPE_BOOL); %}
 
-function SetKSDataCount%(ks_data_count : any%): bool
-    %{
-        plugin_ref->SetKSDataCount(ks_data_count);
-        return new Val(1, TYPE_BOOL);
-    %}
+function SetKSDataCount%(ks_data_count : any, ks_max_counter : int%): bool
+    %{ plugin_ref->SetKSDataCount(ks_data_count, ks_max_counter); return new Val(1, TYPE_BOOL); %}
 
-function RemoveConn%(tag: analysis_tag%): bool
-	%{
-		plugin_ref->RemoveConnection(tag);
-		return new Val(1, TYPE_BOOL);
-	%}
+function RemoveConn%(UID : string, direction : FeatureAnalysis::Direction, tag: analysis_tag%): bool
+	%{ plugin_ref->RemoveConnection(UID, direction, tag); return new Val(1, TYPE_BOOL);	%}
 
-function add_feature%(feature: double, tag: analysis_tag%): bool
-	%{
-		plugin_ref->add_feature(feature, tag);
-		return new Val(1, TYPE_BOOL);
-	%}
+function add_feature%(UID : string, direction : FeatureAnalysis::Direction, feature: double, tag: analysis_tag%): bool
+	%{ plugin_ref->add_feature(UID, direction, feature, tag); return new Val(1, TYPE_BOOL);	%}

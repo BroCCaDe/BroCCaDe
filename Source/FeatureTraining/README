@@ -2,10 +2,12 @@
 *                                      Training                                         *
 *****************************************************************************************
 
-This work was supported by a grant from the Comcast Innovation Fund.
+V 0.1
 
 This plugin prints the metrics calculated from the analysis plugin out to a file. The 
-file is in the arff format to be used as an input to Weka.
+file is in the arff format to be used as an input to Weka, a collection of machine 
+learning algorithms which we use to train decision tree classifier 
+(https://www.cs.waikato.ac.nz/ml/weka/).
 
 *****************************************************************************************
 *                                   Build the Plugin                                    *
@@ -16,10 +18,11 @@ plugin, just ``configure'' and ``make'' the plugin from the plugin root director
 prerequisites to build the plugin is to have the Bro source code and have satisfied Bro 
 prerequisites to compile. In the plugin root directory, we just need to type
 
-    ./configure --bro-dist=<Bro-dist>
+    ./configure --bro-dist=<bro-dist>
     make
 
-to configure and build the plugin. The result of this is a directory called ``build'' 
+to configure and build the plugin where ``<bro-dist>'' is the downloaded Bro source code. 
+The result of this is a directory called ``build'' 
 which contains all of the required files for Bro to recognize that it is a plugin. So the
 next step is then to make Bro to actually recognize the plugin. There are two ways to do 
 this, either we point Bro to the directory containing the build files, or we can copy the 
@@ -27,29 +30,79 @@ build files to a directory where Bro will search for available plugins. Where <B
 the location for the installed Bro, the default location where Bro searches for plugins 
 will be in
 
-    <Bro>/lib/bro/plugins
+    <bro>/lib/bro/plugins
 
-so from the plugin root directory, we can type
+where ``<bro>'' is the directory where Bro is installed on the system. So from the 
+plugin root directory, we can type
 
-    cp -r build/. <Bro>/lib/bro/plugins/<plugin-directory-name>
+    cp -r build/. <bro>/lib/bro/plugins/<plugin-directory-name>
 
-or alternatively set the environment
+, where <plugin-directory-name> is an arbitrary directory name used to distinguish the 
+plugin, or alternatively set the environment
 
     export BRO_PLUGIN_PATH=<plugin-root-directory>/build
+
+where <plugin-root-directory> is the plugin folder.
 
 *****************************************************************************************
 *                                   Using the Plugin                                    *
 *****************************************************************************************
 
-On the analysis script which handles the metric for training, we pass on the information
-to the this plugin. Each analysis set is distinguished by its ID. Each training data will
-need to specify:
-    * Relation name : specified by calling FeatureTraining::ChangeRelation
-    * Attributes    : added by calling FeatureTraining::AddAttributes
-    * Class names   : these are a special attribute and is assumed to be always present.
-        They are appended to the training data by calling FeatureTraining::AddClass
+In the analysis script which handles the metric for training, we pass on the information
+to the this plugin. Each analysis set is distinguished by its ID, where analysis set
+(shipped by default) refers to the handling of possible covert channels embedded through 
+ping tunnel, inter arrival time, packet length, and urgent pointer. The analysis set can
+be extended. For each training data we will need to specify:
+    * Relation name : The name of the data set. It is specified by calling 
+        FeatureTraining::ChangeRelation()
+    * Attributes    : added by calling FeatureTraining::AddAttributes(). We use 
+        attributes to label the analysis metric.
+    * Class names   : these are a special attribute and always have to be present. This
+        attribute signify the possible output class from the decision tree classifier. In
+        our plugin, we always have two classes: CC and non-CC. They are appended to the 
+        training data by calling FeatureTraining::AddClass()
     * Data          : each data row is appended to the training data by calling
-        FeatureTraining::AddDataRow
+        FeatureTraining::AddDataRow(). A row is a comma delimited values corresponding to
+        the attributes and class names.
+
+Here is an example of the output arff file. For a more comprehensive explanation of the
+arff format see https://www.cs.waikato.ac.nz/ml/weka/arff.html
+
+#########################################################################################
+#                                                                                       #
+# @RELATION metrics                                                                     #
+#                                                                                       #
+# @ATTRIBUTES KS NUMERIC                                                                #
+# @ATTRIBUTES Entropy NUMERIC                                                           #
+# @ATTRIBUTES CCE NUMERIC                                                               #
+# @ATTRIBUTES MultiModal NUMERIC                                                        #
+# @ATTRIBUTES Autocorrelation NUMERIC                                                   #
+# @ATTRIBUTES Regularity NUMERIC                                                        #
+# @ATTRIBUTES class {Non-CC,CC}                                                         #
+#                                                                                       #
+# @DATA                                                                                 #
+# 0.220000,-0.000000,0.000000,1.000000,1.000000,0.000000,Non-CC                         #
+# 0.410000,0.999537,0.000000,1.903612,0.190332,0.004455,CC                              #
+# ...                                                                                   #
+#                                                                                       #
+#########################################################################################
 
 The training data can be printed to a file anytime by calling 
-    FeatureTraining::print_training_data.
+    FeatureTraining::print_training_data().
+
+*****************************************************************************************
+*                               Misc and Acknowledgement                                *
+*****************************************************************************************
+
+Contact
+
+  Hendra Gunadi (hendra.gunadi@murdoch.edu.au)
+  Sebastian Zander (s.zander@murdoch.edu.au)
+  School of Engineering and IT
+  Murdoch University, Australia 
+  Project website : http://www.it.murdoch.edu.au/nsrg/cc_detection_ids/
+
+Acknowledgement
+
+  This work was supported by a grant from the Comcast Innovation Fund. 
+  http://innovationfund.comcast.com/  

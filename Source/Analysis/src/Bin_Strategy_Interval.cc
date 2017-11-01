@@ -36,6 +36,8 @@
 #include <vector>                   // vector
 #include <iostream>                 // cout
 
+#define EPS 1E-3
+
 using namespace CCD;
 
 int test_value_in_interval(double value, std::pair<double, double> interval)
@@ -45,6 +47,7 @@ int test_value_in_interval(double value, std::pair<double, double> interval)
     return -1;
 }
 
+// sequential search
 unsigned int Bin_Strategy_Interval::search_in_interval(double value)
 {
     for (unsigned int i = 0; i < _intervals.size(); i++)
@@ -52,7 +55,7 @@ unsigned int Bin_Strategy_Interval::search_in_interval(double value)
     return _intervals.size();
 }
 
-// require that the intervals are sorted in ascending order
+// binary search : require that the intervals are sorted in ascending order
 unsigned int Bin_Strategy_Interval::binary_search_in_interval(double value)
 {
     unsigned int left = 0;
@@ -74,6 +77,25 @@ unsigned short Bin_Strategy_Interval::get_bin_number(double feature)
 {
 	return binary_search_in_interval(feature);;
     //return search_in_interval(feature);
+}
+
+bool interval_comp(pair<double, double> i, pair<double, double> j) {return (i.first < j.first);}
+
+void Bin_Strategy_Interval::sort_intervals()
+{
+    std::sort(_intervals.begin(), intervals.end(), interval_comp);
+}
+
+bool Bin_Strategy_Interval::sanity_check()
+{
+    ssize_t N = _intervals.size();
+    for (ssize_t i = 0; i < N - 1; i++)
+    {
+        // if there is a gap, or if there is an overlap
+        if (_intervals[i+1].first - _intervals[i].second > EPS ||
+            _intervals[i+1].first - _intervals[i].second < -EPS) return false;
+    }
+    return true;
 }
 
 void Bin_Strategy_Interval::add_interval(double min, double max)

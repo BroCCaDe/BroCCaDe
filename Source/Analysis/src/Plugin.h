@@ -33,16 +33,42 @@
 *       of the plugin is to lookup flow of interest and interface it with the   *
 *       Bro script. It implements all the functions specified in analysis.bif.h *
 * Content:                                                                      *
-*   * Extract           : extract a value from vector of metric result (record) *
-*   * Extract_vector    : extract vector of double values from the vector of    *
-*                         metric result (record)                                *
-*   * SetStepSize       : set the number of data to trigger metric calculation  *
-*   * RemoveConn        : remove a connection from the dictionary               *
-*   * RegisterAnalysis  : indicate the beginning of a transaction to add feature*
-*   * AddFeature        : add the feature associated with the analyzers         *
-*   * CalculateMetric   : indicate the end of a transaction to add feature      *
-*   * metric_event      : an event definition which contains the result of      *
-*                         metric calculation                                    *
+*   * GetDirection                                                              *
+*       Determine the packet direction by comparing the value of packet source  *
+*       and the source of the Bro connection record                             *
+*   * ConfigureInternalType                                                     *
+*       Tell the plugin to cache Bro type internally to avoid the overhead of   *
+*       looking up the type each time.                                          *
+*   * Extract                                                                   *
+*       extract a value from vector of metric result                            *
+*   * Extract_vector                                                            *
+*       extract vector of double values from the vector of metric result        *
+*   * SetStepSize                                                               *
+*       set the number of data to trigger metric calculation                    *
+*   * Set_KS_Window_Size                                                        *
+*       Set the maximum size of window for KS and Autocorrelation metrics       *
+*   * Set_Regularity_Parameters                                                 *
+*       Set the window number and the window size for regularity metric         *
+*   * Set_CCE_Pattern_Size                                                      *
+*       Set the depth of CCE tree                                               *
+*   * Set_Autocorrelation_Lags                                                  *
+*       Set the number of autocorrelation lags (1 .. n)                         *
+*   * Add_Normal_Data                                                           *
+*       Add a vector of values (from file) which constitutes the normal data to *
+*       compare against in the KS metric calculation                            *
+*   * Load_Interval                                                             *
+*       Set the equiprobable bin interval for CCE                               *
+*   * Set_Bin_Null                                                              *
+*       Set the fine grained bin interval (each value as its own bin) for TTL   *
+*       and Packet length features, Entropy and Multi Modality metrics          * 
+*   * RemoveConnection                                                          *
+*       remove a connection from the dictionary                                 *
+*   * RegisterAnalysis                                                          *
+*       indicate the beginning of a transaction to add feature                  *
+*   * AddFeature                                                                *
+*       add the feature associated with the analyzers                           *
+*   * CalculateMetric                                                           *
+*       indicate the end of a transaction to add feature                        *
 \*******************************************************************************/
 
 #ifndef BRO_PLUGIN_ANALYSIS_FEATUREANALYSIS_H
@@ -75,7 +101,7 @@ using namespace BifEnum::FeatureAnalysis;
 class Plugin : public ::plugin::Plugin
 {
 public:
-	void Load_Normal_Data(Val* tag_val, StringVal* KS_data_file);
+	void Add_Normal_Data(Val* tag_val, StringVal* KS_data_file);
     void Load_Interval(Val* tag_val, Val* aid_val, StringVal* Interval_data_file);
     void Set_Bin_Null(Val* tag_val, Val* aid_val, unsigned int bin_count);
 	void RemoveConnection(StringVal* UID);
@@ -101,7 +127,7 @@ private:
 	std::unordered_map <std::string, std::shared_ptr<CCD::BiFlow> > _flow_dict;
 	std::shared_ptr<CCD::FlowConfig> _flow_config;  // global config for all flows
 	// temporary holder is useful so that we don't have to do the lookup multiple times for the same flow.
-	std::shared_ptr<CCD::Flow> _current_flow;       // temporary holder
+	std::shared_ptr<CCD::Flow> _current_flow;       // temporary holder for 5 tuple ID
     std::unique_ptr<IPAddr> _current_src_ip;
     std::unique_ptr<IPAddr> _current_dst_ip;
     uint32 _current_src_port;
@@ -111,6 +137,7 @@ private:
 	unsigned int _current_set_ID;			        // temporary holder's set_ID
     unsigned int _current_direction;                // temporary holder's direction
 
+    // cache for Bro type
     VectorType* result_vector_type;
     RecordType* analysis_result_type;
     VectorType* feature_vector_type;

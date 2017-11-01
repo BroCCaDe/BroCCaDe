@@ -69,7 +69,7 @@ void URG_parser::DeliverPacket(int len, const u_char* data, bool is_orig,
 		val_list *vl = new val_list;
 		vl->append(new StringVal((_conn->GetUID()).Base62("C")));   // pass the UID
 		vl->append(id_val);                                         // conn_ID
-        vl->append(new Val((is_orig) ? 0 : 1, TYPE_ENUM));           // Direction
+        vl->append(new Val((is_orig) ? 0 : 1, TYPE_ENUM));          // Direction
 		vl->append(new Val(tp->urg, TYPE_COUNT));                   // URG_flag
 		vl->append(new Val(ntohs(tp->urg_ptr), TYPE_COUNT));        // URG_ptr
 		mgr.QueueEvent(FeatureExtraction::URG_feature_event, vl);

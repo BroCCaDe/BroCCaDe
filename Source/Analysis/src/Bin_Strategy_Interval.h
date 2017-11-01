@@ -60,6 +60,12 @@ public:
 
 	// add an interval into the list of intervals
 	void add_interval(double min, double max);
+
+    // sanity check : gaps between intervals and overlapping values
+    bool sanity_check();
+
+    // sort the intervals
+    void sort_intervals();
 private:
 	// each interval is represented as a pair of double <min, max>
 	std::vector<std::pair<double, double> > _intervals;

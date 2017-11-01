@@ -48,31 +48,16 @@ static plugin_t *plugin_ref = &plugin::Feature_Training::plugin;
 %%}
 
 function ChangeRelation%(ID : FeatureAnalysis::set_ID, name : string%): bool
-	%{
-		plugin_ref->ChangeRelation(ID, name);
-		return new Val(1, TYPE_BOOL);
-	%}
+	%{ plugin_ref->ChangeRelation(ID, name); return new Val(1, TYPE_BOOL); %}
 
 function AddAttributes%(ID : FeatureAnalysis::set_ID, name : string%): bool
-	%{
-		plugin_ref->Add_Attributes(ID, name);
-		return new Val(1, TYPE_BOOL);
-	%}
+	%{ plugin_ref->Add_Attributes(ID, name); return new Val(1, TYPE_BOOL); %}
 
 function AddClass%(ID : FeatureAnalysis::set_ID, name : string%): bool
-	%{
-		plugin_ref->Add_Class(ID, name);
-		return new Val(1, TYPE_BOOL);
-	%}
+	%{ plugin_ref->Add_Class(ID, name); return new Val(1, TYPE_BOOL); %}
 
 function AddDataRow%(ID : FeatureAnalysis::set_ID, values : FeatureAnalysis::feature_vector, name : string%): bool
-	%{
-		plugin_ref->Add_DataRow(ID, values, name);
-		return new Val(1, TYPE_BOOL);
-	%}
+	%{ plugin_ref->Add_DataRow(ID, values, name); return new Val(1, TYPE_BOOL); %}
 
 function print_training_data%(ID : FeatureAnalysis::set_ID, file_name : string%): bool
-	%{
-		plugin_ref->print(ID, file_name);
-		return new Val(1, TYPE_BOOL);
-	%}
+	%{ plugin_ref->print(ID, file_name); return new Val(1, TYPE_BOOL); %}

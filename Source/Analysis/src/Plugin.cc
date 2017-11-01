@@ -34,7 +34,6 @@
 
 #include "Plugin.h"
 #include "analysis.bif.h"
-#include "Flow.h"                   // Flow
 #include "Bin_Strategy_Interval.h"  // abstract Bin allocator
 #include <vector>                   // vector
 #include <unordered_map>            // unordered_map
@@ -42,6 +41,8 @@
 #include <cfloat>                   // DBL_MAX
 #include <fstream>                  // ifstream
 #include <memory>                   // shared_ptr and unique_ptr
+#include <algorithm>                // sort
+#include "Flow.h"                   // Flow
 #include "Analysis.h"
 #include "KS_Flow.h"
 #include "Entropy_Flow.h"
@@ -74,15 +75,22 @@ plugin::Configuration Plugin::Configure()
 
 	// initialize the config data for the flow analysis
 	_flow_config = std::shared_ptr<FlowConfig> (new FlowConfig());
+
+    // Bin strategies
 	_flow_config->default_binner = std::shared_ptr<Bin_Strategy_Null> (new Bin_Strategy_Null(256)) ;
     _flow_config->binner.resize(NUMBER_OF_ANALYSIS);
-	_flow_config->Autocorrelation_lags.resize(DEFAULT_SET_IDS, DEFAULT_NUM_LAG);
-	_flow_config->KS_window_size.resize(DEFAULT_SET_IDS, DEFAULT_KS_WINDOW_SIZE);		
-	_flow_config->Regularity_window_number.resize(DEFAULT_SET_IDS, DEFAULT_REGULARITY_WINDOW_NUMBER);  
-	_flow_config->Regularity_window_size.resize(DEFAULT_SET_IDS, DEFAULT_REGULARITY_WINDOW_SIZE);	
-	_flow_config->CCE_pattern_size.resize(DEFAULT_SET_IDS, DEFAULT_CCE_PATTERN_SIZE);
+    
+	_flow_config->Autocorrelation_lags.resize(DEFAULT_SET_IDS, DEFAULT_NUM_LAG);    // AC lags
+	_flow_config->KS_window_size.resize(DEFAULT_SET_IDS, DEFAULT_KS_WINDOW_SIZE);   // KS window
+	_flow_config->Regularity_window_number.resize(DEFAULT_SET_IDS, DEFAULT_REGULARITY_WINDOW_NUMBER);  // Regularity window number
+	_flow_config->Regularity_window_size.resize(DEFAULT_SET_IDS, DEFAULT_REGULARITY_WINDOW_SIZE);	// Regularity window size
+	_flow_config->CCE_pattern_size.resize(DEFAULT_SET_IDS, DEFAULT_CCE_PATTERN_SIZE);   // CCE pattern size
+    // default values for Set ID, number of analysis, and tag count
 	_flow_config->tag_count = DEFAULT_TAG_COUNT;
-	_flow_config->step_sizes.resize(DEFAULT_SET_IDS);
+	_flow_config->set_IDs = DEFAULT_SET_IDS;
+	_flow_config->type_count = DATA_CONTAINER_TYPE_COUNT;
+	_flow_config->number_of_analysis = NUMBER_OF_ANALYSIS;
+	_flow_config->step_sizes.resize(DEFAULT_SET_IDS);                               // step sizes
 	// hard coded for now: step size for URG analysis is for every packet
 	_flow_config->step_sizes[0] = 1; 		
 	// hard coded for now
@@ -90,10 +98,7 @@ plugin::Configuration Plugin::Configure()
 	// hard coded for now: step size for PTunnel analysis is for every ICMP payload
 	_flow_config->step_sizes[2] = 1; 		
 
-	_flow_config->set_IDs = DEFAULT_SET_IDS;
-	_flow_config->type_count = DATA_CONTAINER_TYPE_COUNT;
-	_flow_config->number_of_analysis = NUMBER_OF_ANALYSIS;
-
+    // get the enumeration from analysis.bif
 	_flow_config->KS_analysis = KS_ANALYSIS;
 	_flow_config->Entropy_analysis = ENTROPY_ANALYSIS;
 	_flow_config->CCE_analysis = CCE_ANALYSIS;
@@ -102,6 +107,7 @@ plugin::Configuration Plugin::Configure()
 	_flow_config->Regularity_analysis = REGULARITY_ANALYSIS;
 	_flow_config->Null_analysis = NULL_ANALYSIS;
 
+    // mapping from analysis to its data container
 	_flow_config->map_analysis_data.resize(NUMBER_OF_ANALYSIS);
 	_flow_config->map_analysis_data[KS_ANALYSIS] = RAW_DATA;
 	_flow_config->map_analysis_data[ENTROPY_ANALYSIS] = HISTOGRAM_DATA;
@@ -117,13 +123,21 @@ plugin::Configuration Plugin::Configure()
 	return config;
 	}
 
-void plugin::Analysis_FeatureAnalysis::Plugin::Load_Normal_Data(Val* tag_val, StringVal* KS_data_file)
+void plugin::Analysis_FeatureAnalysis::Plugin::Add_Normal_Data(Val* tag_val, StringVal* KS_data_file)
 {
     int tag = tag_val->AsEnum();
-    if (tag >= _flow_config->KS_normal_data.size()) _flow_config->KS_normal_data.resize(tag+1);
 	std::string file_name((const char*) KS_data_file->Bytes());
-    _flow_config->KS_normal_data[tag] = std::shared_ptr<std::vector<double> > 
-		(new std::vector<double>());
+
+    // dynamically resize if the tag is outside of known tags (sanity check and resize for tag)
+    if (tag >= _flow_config->KS_normal_data.size()) _flow_config->KS_normal_data.resize(tag+1);
+
+    // initialize the normal data vector if it does not exists
+    if (_flow_config->KS_normal_data[tag].get() == NULL) 
+        _flow_config->KS_normal_data[tag] = std::shared_ptr<std::vector<std::vector<double>>>(
+        new std::vector<std::vector<double>>());
+
+    ssize_t idx = _flow_config->KS_normal_data[tag]->size();
+    _flow_config->KS_normal_data[tag]->resize(idx + 1); // add the normal data to the list of normal data
 
 	ifstream f;	        // input file stream
 	std::string line;	// temporary string to read the file
@@ -143,17 +157,12 @@ void plugin::Analysis_FeatureAnalysis::Plugin::Load_Normal_Data(Val* tag_val, St
 		for (unsigned int i = 0; i < N; i++)
 		{
 			getline(f, line);
-			try
-			{
-				_flow_config->KS_normal_data[tag]->push_back(stod(line));
-			}
-			catch (std::invalid_argument& e)
-			{
-				cout << e.what() << "\n";
-			}
+			try { (*(_flow_config->KS_normal_data[tag]))[idx].push_back(stod(line)); }  // add data point
+			catch (std::invalid_argument& e) { cout << e.what() << "\n"; }
 		}
 	}
 	f.close();
+    std::sort((*(_flow_config->KS_normal_data[tag]))[idx].begin(), (*(_flow_config->KS_normal_data[tag]))[idx].end());  // sort
 }
 
 void plugin::Analysis_FeatureAnalysis::Plugin::Set_Bin_Null
@@ -164,7 +173,9 @@ void plugin::Analysis_FeatureAnalysis::Plugin::Set_Bin_Null
     for (unsigned int i = 0; i < aid_vector->size(); i++)
 	{
 		unsigned int aid = (*aid_vector)[i]->AsEnum();
+        // sanity check and resize for tag
         if (tag >= _flow_config->binner[aid].size()) _flow_config->binner[aid].resize(tag+1, _flow_config->default_binner);
+        // set the bin strategy for a specific analysis ID and tag
         _flow_config->binner[aid][tag] = std::shared_ptr<Bin_Strategy_Null> (new Bin_Strategy_Null(bin_count));
     }
 }
@@ -196,27 +207,26 @@ void plugin::Analysis_FeatureAnalysis::Plugin::Load_Interval
 		    {
 			    double left; 
 			    double right; 
+                // try to read 2 doubles from the line
 			    if (sscanf(line.c_str(), "%lf %lf", &left, &right) < 2)
 			    {
-				    cout << "Plugin.cc: can't read 2 doubles from the line \"" << 
-					    line << "\"\n";
+				    cout << "Plugin.cc: can't read 2 doubles from the line \"" << line << "\"\n";
 				    continue;
 			    }
 			    temp_binner->add_interval(left, right);
 		    }
-		    catch (std::invalid_argument& e)
-		    {
-			    cout << e.what() << "\n";
-		    }
+		    catch (std::invalid_argument& e) { cout << e.what() << "\n"; }
 	    }
     }
     f.close();
 
+    // set the loaded intervals as the bin strategy for a particular analysis and tag
     int tag = tag_val->AsEnum();
     std::vector<Val*>* aid_vector = aid_val->AsVector();
     for (unsigned int i = 0; i < aid_vector->size(); i++)
 	{
 		unsigned int aid = (*aid_vector)[i]->AsEnum();
+        // sanity check and resize for tag
         if (tag >= _flow_config->binner[aid].size()) _flow_config->binner[aid].resize(tag+1, _flow_config->default_binner);
         _flow_config->binner[aid][tag] = temp_binner;
     }
@@ -242,22 +252,24 @@ void plugin::Analysis_FeatureAnalysis::Plugin::ConfigureInternalType()
 void plugin::Analysis_FeatureAnalysis::Plugin::SetStepSize(Val* Set_ID, unsigned int step_size)
 {
 	int set_ID = Set_ID->AsEnum();
-	if ((unsigned int) set_ID >= _flow_config->set_IDs) 
-		_flow_config->set_IDs = (unsigned int) set_ID + 1;
-    if (_flow_config->step_sizes.size() < _flow_config->set_IDs) 
-        _flow_config->step_sizes.resize(_flow_config->set_IDs);
-	_flow_config->step_sizes[set_ID] = step_size;
+    // sanity check and resize for set ID
+	if ((unsigned int) set_ID >= _flow_config->set_IDs) _flow_config->set_IDs = (unsigned int) set_ID + 1;
+    if (_flow_config->step_sizes.size() < _flow_config->set_IDs) _flow_config->step_sizes.resize(_flow_config->set_IDs);
+
+	_flow_config->step_sizes[set_ID] = step_size; // set the step size for a particular set ID
 }
 
 void plugin::Analysis_FeatureAnalysis::Plugin::Set_Regularity_Parameters(Val* Set_ID, unsigned int window_number, unsigned int window_size)
 {
     int set_ID = Set_ID->AsEnum();
-	if ((unsigned int) set_ID >= _flow_config->set_IDs) 
-	    _flow_config->set_IDs = (unsigned int) set_ID + 1;
+    // sanity check and resize for set ID
+	if ((unsigned int) set_ID >= _flow_config->set_IDs) _flow_config->set_IDs = (unsigned int) set_ID + 1;
     if (_flow_config->Regularity_window_size.size() < _flow_config->set_IDs) 
         _flow_config->Regularity_window_size.resize(_flow_config->set_IDs);
     if (_flow_config->Regularity_window_number.size() < _flow_config->set_IDs) 
         _flow_config->Regularity_window_number.resize(_flow_config->set_IDs);
+
+    // set the window size and window number for a particular set ID
     _flow_config->Regularity_window_size[set_ID] = window_size;
     _flow_config->Regularity_window_number[set_ID] = window_number;
 }
@@ -265,31 +277,38 @@ void plugin::Analysis_FeatureAnalysis::Plugin::Set_Regularity_Parameters(Val* Se
 void plugin::Analysis_FeatureAnalysis::Plugin::Set_KS_Window_Size(Val* Set_ID, unsigned int window_size)
 {
     int set_ID = Set_ID->AsEnum();
+    // sanity check and resize for set ID
 	if ((unsigned int) set_ID >= _flow_config->set_IDs) 
 		_flow_config->set_IDs = (unsigned int) set_ID + 1;
     if (_flow_config->KS_window_size.size() < _flow_config->set_IDs) 
         _flow_config->KS_window_size.resize(_flow_config->set_IDs);
-    _flow_config->KS_window_size[set_ID] = window_size;
+
+    _flow_config->KS_window_size[set_ID] = window_size; // set the window size for a particular set ID
 }
 
 void plugin::Analysis_FeatureAnalysis::Plugin::Set_CCE_Pattern_Size(Val* Set_ID, unsigned int pattern_size)
 {
     int set_ID = Set_ID->AsEnum();
+    // sanity check and resize for set ID
 	if ((unsigned int) set_ID >= _flow_config->set_IDs) 
 		_flow_config->set_IDs = (unsigned int) set_ID + 1;
     if (_flow_config->CCE_pattern_size.size() < _flow_config->set_IDs) 
 		_flow_config->CCE_pattern_size.resize(_flow_config->set_IDs);
-    _flow_config->CCE_pattern_size[set_ID] = pattern_size;
+
+
+    _flow_config->CCE_pattern_size[set_ID] = pattern_size; // set the CCE pattern size for a particular set ID
 }
 
 void plugin::Analysis_FeatureAnalysis::Plugin::Set_Autocorrelation_Lags(Val* Set_ID, unsigned int lag_max)
 {
     int set_ID = Set_ID->AsEnum();
+    // sanity check and resize for set ID
 	if ((unsigned int) set_ID >= _flow_config->set_IDs) 
 		_flow_config->set_IDs = (unsigned int) set_ID + 1;
     if (_flow_config->Autocorrelation_lags.size() < _flow_config->set_IDs) 
 		_flow_config->Autocorrelation_lags.resize(_flow_config->set_IDs);
-    _flow_config->Autocorrelation_lags[set_ID] = lag_max;
+
+    _flow_config->Autocorrelation_lags[set_ID] = lag_max;   // set the lag max for a particular set ID
 }
 
 // register the request for analysis which is distinguished by its analysis ID and tag
@@ -298,6 +317,7 @@ void plugin::Analysis_FeatureAnalysis::Plugin::RegisterAnalysis(StringVal* UID, 
 	std::unique_ptr<std::string> UID_ptr(new std::string((const char*) UID->Bytes()));
     int set_ID = Set_ID->AsEnum();
 
+    // sanity check and resize for set ID
 	if ((unsigned int) set_ID >= _flow_config->set_IDs) 
 	{
 		_flow_config->set_IDs = (unsigned int) set_ID + 1;
@@ -318,9 +338,11 @@ void plugin::Analysis_FeatureAnalysis::Plugin::RegisterAnalysis(StringVal* UID, 
     _current_dst_port = dst_port->Port();
     _current_dst_proto = dst_port->PortType();
 
+    // hold current set ID and direction
 	_current_set_ID = set_ID;
     _current_direction = direction_val->AsEnum();
 
+    // find the bidirectional flow
 	std::unordered_map <std::string, std::shared_ptr<BiFlow> >::iterator 
 			got = _flow_dict.find(*UID_ptr);
 
@@ -424,14 +446,14 @@ void plugin::Analysis_FeatureAnalysis::Plugin::CalculateMetric()
 		conn_ID->Assign(3, new PortVal(_current_dst_port, _current_dst_proto));
         vl->append(conn_ID);
 
-		mgr.QueueEvent(FeatureAnalysis::metric_event, vl);
+		mgr.QueueEvent(FeatureAnalysis::metric_event, vl);  // queue the event
 	}
 }
 
 EnumVal* plugin::Analysis_FeatureAnalysis::Plugin::GetDirection(Val* conn_source, Val* pkt_source)
 {
-    std::unique_ptr<IPAddr> Conn_ip(new IPAddr(conn_source->AsAddr()));
-    std::unique_ptr<IPAddr> Pkt_ip(new IPAddr(pkt_source->AsAddr()));
+    std::unique_ptr<IPAddr> Conn_ip(new IPAddr(conn_source->AsAddr())); // Bro connection source
+    std::unique_ptr<IPAddr> Pkt_ip(new IPAddr(pkt_source->AsAddr()));   // Packet source
     if (*Conn_ip == *Pkt_ip) return new EnumVal(0, direction_enum_type);
     return new EnumVal(1, direction_enum_type);
 }

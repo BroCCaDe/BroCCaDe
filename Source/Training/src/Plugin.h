@@ -32,6 +32,18 @@
 * Plugin.h : Implements bin.bif. Internally hold a dictionary of training data  *
 *       identified by flow UID. Each incoming feature value is passed directly  *
 *       to its associated IntervalTraining object.                              *
+* Content :                                                                     *
+*   * RemoveConnection                                                          *
+*       Remove the connection from the dictionary and print the outputs if      *
+*       the conditions are fulfilled                                            *
+*   * add_feature                                                               *
+*       Add the data point both to individual flows and aggregate flow (ALL)    *
+*   * SetBinCount                                                               *
+*       Set the bin numbers                                                     *
+*   * SetKSDataCount                                                            *
+*       Set the data number for the normal data sizes and how many normal data  *
+*   * ChangePrefix                                                              *
+*       Change the prefix to the output file                                    *
 \*******************************************************************************/
 
 #ifndef BRO_PLUGIN_TRAINING_BIN
@@ -55,19 +67,26 @@ namespace Training_Bin {
 class Plugin : public ::plugin::Plugin
 {
 public:
-	void RemoveConnection(Val* tag);
-	void add_feature(double feature, Val* tag);
+	void RemoveConnection(StringVal* UID, Val* direction, Val* tag);
+	void add_feature(StringVal* UID, Val* direction, double feature, Val* tag_val);
     void SetBinCount(Val* bin_counts);
-    void SetKSDataCount(Val* bin_counts);
+    void SetKSDataCount(Val* bin_counts, int max_counter);
     void ChangePrefix(StringVal* prefix);
+    void ChangeThreshold(int min_KS, int min_bin);
 protected:
 	// Overridden from plugin::Plugin.
 private:
+    std::shared_ptr<IntervalTraining> getFlow(std::string UID_str, int direction, int tag);
+
 	std::unordered_map <std::string, std::shared_ptr<BiFlow> > _flow_dict;
 	virtual plugin::Configuration Configure();
 	unsigned int _tag_count;
 	std::vector<unsigned int> _bin_counts;
     std::vector<unsigned int> _ks_data_count;
+    unsigned int _ks_max_counter;
+    unsigned int _ks_counter;
+    unsigned int _ks_threshold;
+    unsigned int _bin_threshold;
     std::string _prefix;
 };
 

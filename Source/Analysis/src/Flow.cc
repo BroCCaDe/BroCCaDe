@@ -127,7 +127,6 @@ void Flow::add_feature(unsigned int tag, std::vector<unsigned int> aid, double f
 					case NULL_DATA :
 					{
 						_data[_current_set_ID][tag][type] = _config->null_data;
-							//std::shared_ptr<Null_Data> (new Null_Data());
 						break;
 					}
 				}
@@ -142,7 +141,6 @@ void Flow::add_feature(unsigned int tag, std::vector<unsigned int> aid, double f
             // actually trim the data now to reflect the correct window size
 			if (type == RAW_DATA)
                 std::static_pointer_cast<Raw_Data> (_data[_current_set_ID][tag][type])->reset_window();
-//				_reset.push_back(std::static_pointer_cast<Raw_Data> (_data[_current_set_ID][tag][type]));
 			add_analysis(tag, *it);
 		}
 	}
@@ -202,13 +200,6 @@ bool Flow::end_adding_feature()
 	{
 		_steps[_current_set_ID] = 0;
 		calculation_trigger = true;
-/*		// reset affected data structure
-		for(std::vector<std::shared_ptr<Raw_Data> >::iterator it = _reset.begin(); 
-			it != _reset.end(); it++)
-		{
-			(it->get())->reset_window();
-		}
-		_reset.clear(); */
 	}
 	_current_set_ID = -1;
 	return calculation_trigger;

@@ -47,6 +47,10 @@
 #           the input record otherwise the execution will terminate             #
 #   * class_result_event :                                                      #
 #           event raised by the plugin specifying the class of the input vector.#
+#                                                                               #
+# *) For each of the classify functions there is a variant which will send the  #
+# classification result as an event. This is for experimental purpose as we do  #
+# not really want to flood Bro with too many redundant events                   #
 #################################################################################
 
 module DecisionTree;
@@ -57,47 +61,30 @@ static plugin_t *plugin_ref = &plugin::Analysis_DecisionTree::plugin;
 %%}
 
 function LoadModel%(ID : FeatureAnalysis::set_ID, model_name : string%): bool
-	%{
-		plugin_ref->LoadModel(ID, model_name);
-		return new Val(1, TYPE_BOOL);
-	%}
+	%{ plugin_ref->LoadModel(ID, model_name); return new Val(1, TYPE_BOOL);	%}
 
 function Classify%(ID : FeatureAnalysis::set_ID, conn_ID : conn_id, 
         features: FeatureAnalysis::feature_vector%): int
-    %{
-        return new Val(plugin_ref->Classify(ID, conn_ID, features, false), TYPE_INT);
-    %}
+    %{ return new Val(plugin_ref->Classify(ID, conn_ID, features, false), TYPE_INT); %}
 
 function Classify_with_strings%(ID : FeatureAnalysis::set_ID, conn_ID : conn_id, 
         features: FeatureAnalysis::feature_vector, features_str: string_vec%): int
-	%{
-		return new Val(plugin_ref->Classify_with_strings(ID, conn_ID, features, 
-            features_str, false), TYPE_INT);
-	%}
+	%{ return new Val(plugin_ref->Classify_with_strings(ID, conn_ID, features, features_str, false), TYPE_INT);	%}
 
 function Classify_record%(ID : FeatureAnalysis::set_ID, conn_ID : conn_id, features: any%): int
-	%{
-		return new Val(plugin_ref->Classify_record(ID, conn_ID, features, false), TYPE_INT);
-	%}
+	%{ return new Val(plugin_ref->Classify_record(ID, conn_ID, features, false), TYPE_INT); %}
 
 function Classify_and_send%(ID : FeatureAnalysis::set_ID, conn_ID : conn_id, features: 
         FeatureAnalysis::feature_vector%): bool
-	%{
-		plugin_ref->Classify(ID, conn_ID, features);
-		return new Val(1, TYPE_BOOL);
-	%}
+	%{ if (plugin_ref->Classify(ID, conn_ID, features) == -1) return new Val(0, TYPE_BOOL);	
+        return new Val(1, TYPE_BOOL); %}
 
 function Classify_and_send_with_strings%(ID : FeatureAnalysis::set_ID, conn_ID : conn_id, 
         features: FeatureAnalysis::feature_vector, features_str: string_vec%): bool
-	%{
-		plugin_ref->Classify_with_strings(ID, conn_ID, features, features_str);
-		return new Val(1, TYPE_BOOL);
-	%}
+	%{ if (plugin_ref->Classify_with_strings(ID, conn_ID, features, features_str) == -1) return new Val(0, TYPE_BOOL); 
+        return new Val(1, TYPE_BOOL); %}
 
 function Classify_and_send_record%(ID : FeatureAnalysis::set_ID, conn_ID : conn_id, features: any%): bool
-	%{
-		plugin_ref->Classify_record(ID, conn_ID, features);
-		return new Val(1, TYPE_BOOL);
-	%}
+	%{ plugin_ref->Classify_record(ID, conn_ID, features); return new Val(1, TYPE_BOOL); %}
 
 event class_result_event%(ID : FeatureAnalysis::set_ID, conn_ID : conn_id, c:int%);
