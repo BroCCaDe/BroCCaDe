@@ -23,7 +23,7 @@ The result of this is a directory called ``build''
 which contains all of the required files for Bro to recognize that it is a plugin. So the
 next step is then to make Bro to actually recognize the plugin. There are two ways to do 
 this, either we point Bro to the directory containing the build files, or we can copy the 
-build files to a directory where Bro will search for available plugins. Where <Bro> is 
+build files to a directory where Bro will search for available plugins. Where <bro> is 
 the location for the installed Bro, the default location where Bro searches for plugins 
 will be in
 
