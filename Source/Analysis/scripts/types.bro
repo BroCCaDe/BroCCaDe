@@ -47,14 +47,9 @@ export
 	module FeatureAnalysis;
 
     # don't mess with the order of the existing set_ID
-	type set_ID : enum {URGENT_SET = 0, IAT_SET = 1, PTUNNEL_SET = 2, PACKET_LENGTH_SET = 3, TTL_SET = 4};
+	type set_ID : enum {URGENT_SET = 0, IAT_SET = 1, PTUNNEL_SET = 2, 
+        PACKET_LENGTH_SET = 3, TTL_SET = 4};
     type Direction : enum {FORWARD = 0, BACKWARD = 1};
-
-	type decision_tree_args : record
-	{
-		URG_flag : double;
-		URG_pointer : double;
-	};
 
 	type feature_vector : vector of double;
 }

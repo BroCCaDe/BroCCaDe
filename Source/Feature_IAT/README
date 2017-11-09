@@ -2,7 +2,7 @@
 *                        Feature Extraction : Inter Arrival Time                        *
 *****************************************************************************************
 
-V 0.1
+V0.1.
 
 This plugin extracts the inter arrival time from each incoming packet of a flow. 
 
@@ -34,7 +34,7 @@ plugin root directory, we can type
 
     cp -r build/. <bro>/lib/bro/plugins/<plugin-directory-name>
 
-, where <plugin-directory-name> is an arbitrary directory name used to distinguish the 
+where <plugin-directory-name> is an arbitrary directory name used to distinguish the 
 plugin, or alternatively set the environment
 
     export BRO_PLUGIN_PATH=<plugin-root-directory>/build
@@ -45,10 +45,10 @@ where <plugin-root-directory> is the plugin folder.
 *                                   Using the Plugin                                    *
 *****************************************************************************************
 
-Currently the script is calculating inter arrival time for each incoming packet. This is
-done by comparing the current flow's duration against the flow's duration of the last 
-packet in the direction where the packet is heading to obtain the inter arrival time 
-feature value. Note that the first packet in the flow will not trigger the calculation.
+Currently the script is calculating inter arrival time for each incoming packet. Inter
+arrival time feature value is obtained by comparing the duration with the duration of the
+flow at the last packet traveling in the same direction as the current packet. Note that 
+the first packet in the flow will not trigger the calculation.
 
 In the analysis script, we need to calculate the inter-arrival time per flow by calling
 the function
@@ -69,7 +69,7 @@ which can be analyzed by the analysis plugin. The value of interest in the event
 ``feature'', which is the inter arrival time calculated by the plugin.
 
 *****************************************************************************************
-*                               Misc and Acknowledgement                                *
+*                             Contact and Acknowledgement                               *
 *****************************************************************************************
 
 Contact

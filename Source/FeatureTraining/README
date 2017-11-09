@@ -2,7 +2,7 @@
 *                                      Training                                         *
 *****************************************************************************************
 
-V 0.1
+V0.1.
 
 This plugin prints the metrics calculated from the analysis plugin out to a file. The 
 file is in the arff format to be used as an input to Weka, a collection of machine 
@@ -37,7 +37,7 @@ plugin root directory, we can type
 
     cp -r build/. <bro>/lib/bro/plugins/<plugin-directory-name>
 
-, where <plugin-directory-name> is an arbitrary directory name used to distinguish the 
+where <plugin-directory-name> is an arbitrary directory name used to distinguish the 
 plugin, or alternatively set the environment
 
     export BRO_PLUGIN_PATH=<plugin-root-directory>/build
@@ -55,15 +55,16 @@ ping tunnel, inter arrival time, packet length, and urgent pointer. The analysis
 be extended. For each training data we will need to specify:
     * Relation name : The name of the data set. It is specified by calling 
         FeatureTraining::ChangeRelation()
-    * Attributes    : added by calling FeatureTraining::AddAttributes(). We use 
-        attributes to label the analysis metric.
+    * Attributes    : added by calling FeatureTraining::AddAttributes(). Each attribute 
+        is the label for a particular analysis metrics.
     * Class names   : these are a special attribute and always have to be present. This
-        attribute signify the possible output class from the decision tree classifier. In
-        our plugin, we always have two classes: CC and non-CC. They are appended to the 
-        training data by calling FeatureTraining::AddClass()
+        attribute signifies the possible output class from the decision tree classifier. 
+        In our plugin, we always have two classes: CC (Covert Channel) and non-CC (non-
+        covert channel / normal traffic). They are appended to the training data by 
+        calling FeatureTraining::AddClass()
     * Data          : each data row is appended to the training data by calling
-        FeatureTraining::AddDataRow(). A row is a comma delimited values corresponding to
-        the attributes and class names.
+        FeatureTraining::AddDataRow(). A row is list of comma delimited values 
+        corresponding to the attributes and class names.
 
 Here is an example of the output arff file. For a more comprehensive explanation of the
 arff format see https://www.cs.waikato.ac.nz/ml/weka/arff.html
@@ -91,7 +92,7 @@ The training data can be printed to a file anytime by calling
     FeatureTraining::print_training_data().
 
 *****************************************************************************************
-*                               Misc and Acknowledgement                                *
+*                             Contact and Acknowledgement                               *
 *****************************************************************************************
 
 Contact

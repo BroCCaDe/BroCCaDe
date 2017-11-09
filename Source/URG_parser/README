@@ -2,7 +2,7 @@
 *                          Feature Extraction : Urgent Pointer                          *
 *****************************************************************************************
 
-V 0.1
+V0.1.
 
 This plugin extracts the URG_flag and URG_ptr from each incoming TCP packet.
 
@@ -45,21 +45,21 @@ where <plugin-root-directory> is the plugin folder.
 *                                   Using the Plugin                                    *
 *****************************************************************************************
 
-This plugin is different from the other feature extraction plugins where it attaches 
+This plugin is different from the other feature extraction plugins where in that attaches 
 itself to BRO analyzer tree which is applied to every incoming packet. If the packet is 
-a TCP packet, then it will raise
+a TCP packet, then the plugin will raise
 
     FeatureExtraction::URG_feature_event(UID : string, id : conn_id, 
         dir : FeatureAnalysis::Direction, URG_flag : count, URG_ptr : count) 
 
-which can be analyzed by the analysis plugin. ``UID'' is the unique BRO identifier, 
+which can be analyzed by the analysis plugin. ``UID'' is the unique Bro identifier, 
 ``id'' is the 5-tuple connection id consisting of source and destination IP address, 
 protocol, source and destination port, ``dir'' is the direction (forward or backward with
 respect to the flow), ``URG_flag'' and ``URG_ptr'' are fields of TCP segment indicating
 the urgent flag and urgent pointer respectively.
 
 *****************************************************************************************
-*                               Misc and Acknowledgement                                *
+*                             Contact and Acknowledgement                               *
 *****************************************************************************************
 
 Contact

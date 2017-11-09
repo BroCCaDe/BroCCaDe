@@ -2,17 +2,17 @@
 *                               Training : KS and Bin                                   *
 *****************************************************************************************
 
-V 0.1
+V0.1.
 
 Each traffic has different characteristic and usually there is no way to generalize it.
 This plugin is then used to gather such characteristic in the form of normal data for 
 Kolmogorov-Smirnov test and equiprobable bins used in determining the histogram (entropy 
 and multimodal analysis) and CCE. Normal data is legitimate traffic without covert 
-channels, especially used for KS test to compare the flow in question. Equiprobable bin
-is a strategy to set the boundary of the bins according to the distribution of the data,
-i.e. each bin (roughly) have the same number of data points. The equiprobable bin 
-intervals are represented as an right open interval in the form of a pair of double 
-indicating the minimum value and maximum value respectively.
+channels, especially used for KS test to compare an observed flow to. Equiprobable 
+binning is a strategy to set the boundary of the bins according to the distribution of 
+the data, i.e. each bin (roughly) has the same number of data points. The equiprobable 
+bin intervals are represented as an right open interval in the form of a pair of double 
+values indicating the minimum value and maximum value respectively.
 
 *****************************************************************************************
 *                                   Build the Plugin                                    *
@@ -42,7 +42,7 @@ plugin root directory, we can type
 
     cp -r build/. <bro>/lib/bro/plugins/<plugin-directory-name>
 
-, where <plugin-directory-name> is an arbitrary directory name used to distinguish the 
+where <plugin-directory-name> is an arbitrary directory name used to distinguish the 
 plugin, or alternatively set the environment
 
     export BRO_PLUGIN_PATH=<plugin-root-directory>/build
@@ -61,12 +61,12 @@ output file by calling the function
 
 and then set the parameters for equiprobable binning and normal data. The prefix is used
 to automatically distinguish outputs based on its parameters, i.e. the prefix is inserted
-to the output file name. Equiprobable bin will require a list of bin numbers in the form 
-of a vector
+to the output file name. Equiprobable binning will require a list of bin numbers in the 
+form of a vector
 
     SetBinCount (bin_count : vector of int)
 
-For example, pass a vector of [8096, 16192, 65536] if you want the plugin to outputs 
+For example, pass a vector of [8096, 16192, 65536] if you want the plugin to output
 8096, 16192, 65536 equiprobable bin intervals respectively. The normal data for KS will 
 require a list of window sizes and the number of normal data to print.
 
@@ -79,7 +79,7 @@ by calling
     add_feature (UID : string, direction : FeatureAnalysis::Direction, feature: double, 
         tag: analysis_tag)
 
-where ``UID'' is the unique BRO identifier, ``direction'' is the direction (forward or 
+where ``UID'' is the unique Bro identifier, ``direction'' is the direction (forward or 
 backward with respect to the flow), ``feature'' is the feature value, and ``tag'' is the
 enumeration of feature value we are interested in, e.g. 
 
@@ -110,7 +110,7 @@ event bro_done()
 when we want to get the equiprobable bin intervals for packet length values.
 
 *****************************************************************************************
-*                               Misc and Acknowledgement                                *
+*                             Contact and Acknowledgement                               *
 *****************************************************************************************
 
 Contact

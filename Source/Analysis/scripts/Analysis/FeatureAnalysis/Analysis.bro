@@ -38,9 +38,9 @@ global aid : vector of FeatureAnalysis::Analysis_ID;
 
 event bro_init()
 {
-	DecisionTree::LoadModel(FeatureAnalysis::IAT_SET, "/home/hendra/Experiment/trace/automate_training/TreeModel-IAT_SIMPLE_ALL_250_KS_500_500_EN_MM_16192_CCE_10_10_AC_50_500_REG_500_500");
+	DecisionTree::LoadModel(FeatureAnalysis::IAT_SET, "/home/hendra/Experiment/trace/automate_training/TreeModel-RATE_ALL_250_KS_500_500_EN_MM_16192_CCE_10_10_AC_50_500_REG_500_500");
     DecisionTree::LoadModel(FeatureAnalysis::TTL_SET, "/home/hendra/Experiment/trace/automate_training/TreeModel-TTL_ALL_250_KS_500_500_EN_MM_16192_CCE_10_10_AC_50_500_REG_500_500");
-    DecisionTree::LoadModel(FeatureAnalysis::PACKET_LENGTH_SET, "/home/hendra/Experiment/trace/automate_training/TreeModel-PLEN_SIMPLE_ALL_250_KS_500_500_EN_MM_16192_CCE_10_10_AC_50_500_REG_500_500");
+    DecisionTree::LoadModel(FeatureAnalysis::PACKET_LENGTH_SET, "/home/hendra/Experiment/trace/automate_training/TreeModel-PLEN_ALL_250_KS_500_500_EN_MM_16192_CCE_10_10_AC_50_500_REG_500_500");
 
 #     aid[|aid|] = FeatureAnalysis::KS_ANALYSIS;
     aid[|aid|] = FeatureAnalysis::ENTROPY_ANALYSIS;
@@ -104,7 +104,7 @@ event new_packet (c: connection, p: pkt_hdr)
 {
     if ( p ?$ ip )
 	{
-        event PacketLength_feature_event(c$uid, c$id, FeatureAnalysis::GetDirection(c$id$orig_h, p$ip$src), p$ip$len);
+        IAT::ExtractFeature(c$uid, c$id, FeatureAnalysis::GetDirection(c$id$orig_h, p$ip$src), c$duration);
     }
 }
 
@@ -183,8 +183,8 @@ function actual_protocol(t : transport_proto) : count
 
 event bro_done()
 {
-#    local extras = open("extras_PLEN_SIMPLE_250_KS_500_500_EN_MM_16192_CCE_10_10_AC_50_500_REG_500_500");
-    local hist = open("hist_PLEN_SIMPLE_250_KS_500_500_EN_MM_16192_CCE_10_10_AC_50_500_REG_500_500");
+#    local extras = open("extras_RATE_250_KS_500_500_EN_MM_16192_CCE_10_10_AC_50_500_REG_500_500");
+    local hist = open("hist_RATE_250_KS_500_500_EN_MM_16192_CCE_10_10_AC_50_500_REG_500_500");
 #    for (conn_ID in cc_set) # don't care about direction for now
 #    {
 #        print (fmt("%s %s %d %d %d", conn_ID$orig_h, conn_ID$resp_h, actual_protocol(get_port_transport_proto(conn_ID$orig_p)), 

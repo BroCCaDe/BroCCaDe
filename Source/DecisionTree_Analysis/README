@@ -2,7 +2,7 @@
 *                                Decision Tree Classifier                               *
 *****************************************************************************************
 
-V 0.1
+V0.1.
 
 This plugin implements a C45 decision tree classifier which can be used to classify a 
 flow based on the input to the plugin.
@@ -35,7 +35,7 @@ plugin root directory, we can type
 
     cp -r build/. <bro>/lib/bro/plugins/<plugin-directory-name>
 
-, where <plugin-directory-name> is an arbitrary directory name used to distinguish the 
+where <plugin-directory-name> is an arbitrary directory name used to distinguish the 
 plugin, or alternatively set the environment
 
     export BRO_PLUGIN_PATH=<plugin-root-directory>/build
@@ -54,7 +54,7 @@ where ``name'' is the file name containing the model description as specified in
 ``id'' is the enumeration for the set of analysis, e.g. IAT_SET which in the example is 
 applying various analysis metric to analyze inter arrival time for the possibility of a
 covert channel. Since there may be a lot of covert channels that we are interested in, we
-can load corresponding model to deal with individual covert channel.
+can load different model to deal with individual covert channel.
 
 The input to the decision tree classifier is any one of the three:
     * vector of metric values (Classify), e.g. [1, 2, 3]
@@ -65,22 +65,23 @@ The input to the decision tree classifier is any one of the three:
 
 Note that there are some restrictions in place for each of the input type:
     * if the input is a vector of metric values, then the number of features and the
-        length of the vector have to match. Otherwise the plugin not further the 
-        classification process and return an error, but Bro does not terminate.
-    * if the input is a vector of metric values accompanied by vector of veature names,
+        length of the vector have to match. Otherwise the plugin will not proceed with 
+        the classification process and return an error, but Bro does not terminate.
+    * if the input is a vector of metric values accompanied by vector of feature names,
         the number of features and the length of the vector have to match. The vector of
         feature names also has to contain at least the feature names specified in the 
-        model. If at least one of the restriction is breached, the plugin not further the 
-        classification process and return an error, but Bro does not terminate.
+        model. If at least one of the restriction is violated, the plugin will not 
+        proceed with the classification process and return an error, but Bro does not 
+        terminate.
     * if the input is a record, the record has to contain at least the feature names 
         specified in the model otherwise Bro will terminate complaining that no such 
-        field exists.
+        field(s) exists.
 
 [1] Sebastian Zander and Grenville Armitage. Design of DIFFUSE v0.4 - DIstributed 
     Firewall and Flow-shaper Using Statistical Evidence
 
 *****************************************************************************************
-*                               Misc and Acknowledgement                                *
+*                             Contact and Acknowledgement                               *
 *****************************************************************************************
 
 Contact
