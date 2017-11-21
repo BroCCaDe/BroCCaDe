@@ -1,0 +1,30 @@
+*****************************************************************************************
+*                 Bro Covert Channel Detection framework (BroCCaDe)                     *
+*****************************************************************************************
+
+V0.1.
+
+This directory contains the source code and documentation for the Bro Covert
+Channel Detection framework (BroCCaDe) framework. BroCCaDe consists of several
+Bro plugin in the different sub directories. Please see the README files in the
+plugin for more information on the different plugins.
+
+Please see the file LICENSE for the information about the license BroCCaDe is
+release under.
+
+*****************************************************************************************
+*                             Contact and Acknowledgement                               *
+*****************************************************************************************
+
+Contact
+
+  Hendra Gunadi (hendra.gunadi@murdoch.edu.au)
+  Sebastian Zander (s.zander@murdoch.edu.au)
+  School of Engineering and IT
+  Murdoch University, Australia 
+  Project website : http://www.it.murdoch.edu.au/nsrg/cc_detection_ids/
+
+Acknowledgement
+
+  This work was supported by a grant from the Comcast Innovation Fund. 
+  http://innovationfund.comcast.com/  
