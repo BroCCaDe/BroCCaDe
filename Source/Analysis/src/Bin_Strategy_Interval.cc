@@ -1,5 +1,7 @@
 /*******************************************************************************\
-* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murdoch.edu.au)            *
+* Copyright (c) 2017 Murdoch University                                         *
+*                                                                               *
+* Written by Hendra Gunadi (Hendra.Gunadi@murdoch.edu.au)                       *
 *                                                                               *
 * Redistribution and use in source and binary forms, with or without            *
 * modification, are permitted provided that the following conditions are met:   *
@@ -35,6 +37,7 @@
 #include "Bin_Strategy_Interval.h"
 #include <vector>                   // vector
 #include <iostream>                 // cout
+#include <algorithm>
 
 #define EPS 1E-3
 
@@ -79,11 +82,11 @@ unsigned short Bin_Strategy_Interval::get_bin_number(double feature)
     //return search_in_interval(feature);
 }
 
-bool interval_comp(pair<double, double> i, pair<double, double> j) {return (i.first < j.first);}
+bool interval_comp(std::pair<double, double> i, std::pair<double, double> j) {return (i.first < j.first);}
 
 void Bin_Strategy_Interval::sort_intervals()
 {
-    std::sort(_intervals.begin(), intervals.end(), interval_comp);
+    std::sort(_intervals.begin(), _intervals.end(), interval_comp);
 }
 
 bool Bin_Strategy_Interval::sanity_check()

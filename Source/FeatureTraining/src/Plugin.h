@@ -1,5 +1,7 @@
 /*******************************************************************************\
-* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murdoch.edu.au)            *
+* Copyright (c) 2017 Murdoch University                                         *
+*                                                                               *
+* Written by Hendra Gunadi (Hendra.Gunadi@murdoch.edu.au)                       *
 *                                                                               *
 * Redistribution and use in source and binary forms, with or without            *
 * modification, are permitted provided that the following conditions are met:   *
@@ -35,12 +37,12 @@
 *       analysis plugin.                                                        *
 * Contents :                                                                    *
 *   * ChangeRelation        : change the relation string                        *
-*   * AddAttributes         : add an attribute with a particular name. This will*
+*   * Add_Attributes        : add an attribute with a particular name. This will*
 *                             corresponds to the feature name for Weka.         *
-*   * AddClass              : add an attribute with the class names. This will  *
+*   * Add_Class             : add an attribute with the class names. This will  *
 *                             corresponds to the class names in the classifier. *
-*   * AddDataRow            : add comma delimited data and its class            *
-*   * print_training_data   : print the training data into a file               *
+*   * Add_DataRow           : add comma delimited data and its class            *
+*   * print                 : print the training data into a file               *
 \*******************************************************************************/
 
 #ifndef BRO_PLUGIN_FEATURE_TRAINING

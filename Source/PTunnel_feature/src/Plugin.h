@@ -1,5 +1,7 @@
 /*******************************************************************************\
-* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murdoch.edu.au)            *
+* Copyright (c) 2017 Murdoch University                                         *
+*                                                                               *
+* Written by Hendra Gunadi (Hendra.Gunadi@murdoch.edu.au)                       *
 *                                                                               *
 * Redistribution and use in source and binary forms, with or without            *
 * modification, are permitted provided that the following conditions are met:   *
@@ -33,8 +35,8 @@
 *       featureextraction.bif. Currently it is limited to be up to 4 bytes since*
 *       we expects the feature to be a value, not string                        *
 * Contents :                                                                    *
-*   * ExtractHeaderFeature  : extract some bytes from the input string specified*
-*                             by the starting position and length               *
+*   * ExtractHeaderFeature  : extract some bytes from the input string          *
+*       specified by the starting position and length                           *
 \*******************************************************************************/
 
 

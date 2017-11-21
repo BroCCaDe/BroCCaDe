@@ -1,5 +1,7 @@
 /*******************************************************************************\
-* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murdoch.edu.au)            *
+* Copyright (c) 2017 Murdoch University                                         *
+*                                                                               *
+* Written by Hendra Gunadi (Hendra.Gunadi@murdoch.edu.au)                       *
 *                                                                               *
 * Redistribution and use in source and binary forms, with or without            *
 * modification, are permitted provided that the following conditions are met:   *
@@ -50,6 +52,7 @@ plugin::Configuration Plugin::Configure()
 	config.version.major = 0;
 	config.version.minor = 1;
 
+    // set up default values
     _ks_threshold = KS_TRAINING_DATA_THRESHOLD;
     _bin_threshold = BIN_TRAINING_DATA_THRESHOLD;
 	_tag_count = DEFAULT_TAG_COUNT;
@@ -62,6 +65,7 @@ plugin::Configuration Plugin::Configure()
 	return config;
 	}
 
+// print the intervals to a file
 void print_pairs(std::vector< std::pair<double, double> > pairs, std::string file_name)
 {
 	if (pairs.size() <= 0) return;
@@ -77,6 +81,7 @@ void print_pairs(std::vector< std::pair<double, double> > pairs, std::string fil
 	f.close();
 }
 
+// print KS normal data
 void print_data(std::vector<double> data, std::string file_name, unsigned int count)
 {
 	if (data.size() <= 0) return;

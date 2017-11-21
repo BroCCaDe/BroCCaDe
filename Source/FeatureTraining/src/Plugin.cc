@@ -1,5 +1,7 @@
 /*******************************************************************************\
-* Copyright (c) 2017 by Hendra Gunadi (Hendra.Gunadi@murdoch.edu.au)            *
+* Copyright (c) 2017 Murdoch University                                         *
+*                                                                               *
+* Written by Hendra Gunadi (Hendra.Gunadi@murdoch.edu.au)                       *
 *                                                                               *
 * Redistribution and use in source and binary forms, with or without            *
 * modification, are permitted provided that the following conditions are met:   *
@@ -51,6 +53,7 @@ plugin::Configuration Plugin::Configure()
 	return config;
 	}
 
+// find training data identified by the set ID, or create a new one if not found
 std::shared_ptr<FeatureTraining> plugin::Feature_Training::Plugin::find_or_create(int ID)
 {
     if (_data.size() <= ID) _data.resize(ID+1);
